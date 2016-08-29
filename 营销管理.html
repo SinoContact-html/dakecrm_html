@@ -1,0 +1,1324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script language="javascript" type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/flexigrid.pack.js"></script>
+<script language="javascript" type="text/javascript" src="js/datepicker.js"></script>
+<script language="javascript" type="text/javascript" src="js/eye.js"></script>
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" charset="utf-8" src="js/kindeditor/kindeditor-min.js"></script>
+<script language="javascript" type="text/javascript" charset="utf-8" src="js/kindeditor/zh_CN.js"></script>
+<script>
+var editor;
+KindEditor.ready(function(K) {
+	editor = K.create('textarea[name="content"]', {
+		
+	allowFileManager : true
+	});
+});
+
+ function insertAtCursor(myField, myValue) {
+            //IE support  
+            if (document.selection) {
+                myField.focus();
+                sel = document.selection.createRange();
+                sel.text = myValue;
+                sel.select();
+            }
+            else if (myField.selectionStart || myField.selectionStart == '0') {
+                var startPos = myField.selectionStart;
+                var endPos = myField.selectionEnd;
+                var restoreTop = myField.scrollTop;
+                myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+                if (restoreTop > 0) {
+                    myField.scrollTop = restoreTop;
+                }
+                myField.focus();
+                myField.selectionStart = startPos + myValue.length;
+                myField.selectionEnd = startPos + myValue.length;
+            } else {
+                myField.value += myValue;
+                myField.focus();
+            }
+            var textNmu = $('#textarea_sms_text').val().length;
+            var thisText = $('#textarea_sms_text').val();
+            var c_num = MAX_SMS_CONTENT_LENGTH - textNmu;
+            $("#T_Num").html(textNmu);
+            if (c_num < 0){
+                if(parseInt(textNmu)%MAX_SMS_CONTENT_LENGTH==0){
+                    $("#Sms_Num").html(parseInt(textNmu/MAX_SMS_CONTENT_LENGTH));
+                }
+                else{
+                    $("#Sms_Num").html(parseInt(textNmu/MAX_SMS_CONTENT_LENGTH)+1);
+                };
+            }else{
+                $("#Sms_Num").html(1);
+            }
+            $('#iphone_sms_text').html($('#textarea_sms_text').val());
+        }
+		
+		
+function chooseFileBefore(){
+    	$("#fileName").val("");
+        $("#fileName_span").html("文件上传");
+        //由于处于安全考虑，JS是不能直接设置File的value值
+        var objFile=document.getElementById('fileName');
+        objFile.outerHTML=objFile.outerHTML.replace(/(value=\").+\"/i,"$1\"");
+        $("#uploadTips").hide();
+        loadUploadFileList();
+        OpenPopbox('upload_Contact');
+    }
+    
+    function fileUploadFun(id,spanid){
+        var thisId = $('#'+id);
+        var thisSpanId = $('#'+spanid);
+        str_file = $(thisId).val();
+        str_file = str_file.replace(/\\/g, '/');
+        filename = str_file.substr(str_file.lastIndexOf("/")+1);
+        $(thisSpanId).html(filename);
+        $('#uploadFileForm').submit();
+        OpenPopbox('progress_bar');
+    }
+    
+    function uploadFileCallback(result,fileId){
+    	ClosePopbox('progress_bar');
+    	$("#fileName").val("");
+        $("#fileName_span").html("文件上传");
+    	if(result!=null&&result!=undefined&&result=='true'){
+    		loadUploadFileList();
+    	}else{
+    		alert(result);
+    	}
+    	
+    }
+    
+    function checkUploadForm(){
+       return true;
+    };
+    
+    function loadUploadFileList(){
+    	var searchFileName=$('#searchFileName').val();
+    	var searchTimeStart=$('#searchTimeStart').val();
+    	var searchTimeEnd=$('#searchTimeEnd').val();
+    	
+    	jTable.jtable('load',{
+    		"searchFileName":searchFileName,
+    		"searchTimeStart":searchTimeStart,
+    		"searchTimeEnd":searchTimeEnd});
+    }
+    
+    function confirmFile(){
+    	$("input[name='choosedFileId']").each(function(){
+    		if($(this).attr('checked')=='checked'){
+    			choosedFileId=$(this).val();
+    			choosedFileName=$(this).attr("choosedFileName");
+    			$('#choosedFileName').val(choosedFileName);
+    		}
+    	  });
+    	if(choosedFileId==undefined||choosedFileId==null||choosedFileId==0){
+    		alert("请选择上传成功的号码文件");
+    	}else{
+    		ClosePopbox('upload_Contact');
+    	}
+    }
+    
+    function cancelFile(){
+    	ClosePopbox('upload_Contact');
+    }
+    
+    function deleteGivenSendFile(fileId){
+    	if(confirm("确认删除？")){
+        	$.ajax({
+                url: '/communication/deleteGivenSendFile',
+                type: 'POST',
+                dataType: 'text',
+                data:{
+                    'fileId':fileId
+                },
+                success: function(resp){
+                	if(resp=="true"){
+                		alert("删除成功");
+                		if(fileId==choosedFileId){
+                			choosedFileId=0;
+                			choosedFileName="";
+                			$('#choosedFileName').val(choosedFileName);
+                		}
+                	}else{
+                		alert("删除失败，请稍后重试");
+                	}
+                	loadUploadFileList();
+                }
+            });
+    	}
+    }
+
+</script>
+<link href="css/common.css" rel="stylesheet" type="text/css" />
+<link href="css/sms.css" rel="stylesheet" type="text/css" />
+<link href="css/edm.css" rel="stylesheet" type="text/css" />
+<link href="css/flexigrid.pack.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" media="screen" type="text/css" href="css/datepicker.css" />
+
+<title>無標題文件</title>
+</head>
+
+<body>
+<div class="popbox_core" id="saveToGroup"><!--此处ID和colseID对应-->
+    <div class="popbox_head">
+        <span class="title">保存手工联系人到组</span>
+        <div class="popbox_head_right"><a class="popbox_close" onclick="ClosePopbox('saveToGroup')"></a></div>
+    </div>
+    <div class="popbox_workspace">
+        <!--Tab内容切换Start-->
+        <div>
+            <div class="popbox_frombox clearfix">
+                <dl>
+                    <dt>加入已有组：</dt><dd><label>是&nbsp;<input onclick="s_cutover('fenzu1')" name="isNewGroup" type="radio" checked="checked" value="oldGroup"></label>&nbsp;&nbsp;&nbsp;<label>否&nbsp;<input onclick="s_cutover('fenzu2')" name="isNewGroup" type="radio" value="newGroup"></label></dd>
+                </dl>
+                <dl id="fenzu1">
+                    <dt>选择分组：</dt><dd>
+                    <select name="save_recipients_group_list" id="save_recipients_group_list">
+                        <option value="-1" selected="">所有人</option>
+
+                        
+                    <option value="10034">20160701</option><option value="10033">20160622</option><option value="10032">20160622</option><option value="10031">测试20160412</option><option value="10028">zerotest</option><option value="10025">测试</option><option value="10024">ggvv</option><option value="10023">ccss</option><option value="10022">aaa</option><option value="10021">zerotest1222</option><option value="10020">old</option><option value="10019">new</option><option value="10017">所有人</option><option value="10016">zero_test_temp_08181504</option><option value="10015">201505</option><option value="10014">ces</option><option value="10013">0717test</option><option value="10012">0715test22</option><option value="10011">111112222qqq</option><option value="10009">测测</option><option value="10008">QQ测试组</option><option value="10007">7.6</option><option value="10005">2015020202</option><option value="1128">10年一月到15年6只购买过一次的客户里找出14年4月1日到8月30日这段时间之内买过一次</option><option value="1127">20150625</option><option value="1126">20160610</option><option value="1125">birthday_test</option><option value="1122">11112333</option><option value="1120">20150423</option><option value="1119">20150407</option><option value="1118">EDM测试组</option><option value="1117">EDM测试组</option><option value="1116">北边</option><option value="1113">0310</option><option value="1112">temp201503092149</option><option value="1111">temp201503092140</option><option value="1110">temp201503092134</option><option value="1109">zero_test_temp_1448</option><option value="1108">zero_test_temp_1629</option><option value="1107">zero_test_temp_1556</option><option value="1105">0306组</option><option value="1102">zero_test_temp_3232</option><option value="1096">focussend</option><option value="1078">1211组</option><option value="1041">试用-过期</option><option value="1040">付费-过期</option><option value="1039">付费-使用中</option><option value="1038">试用未过期</option><option value="1032">浙江</option><option value="1028">客户沟通测试组</option><option value="1016">测试组</option><option value="1015">达客用户</option></select>
+                </dd>
+                </dl>
+                <dl id="fenzu2" style="display:none;">
+                    <dt>新建组名：</dt><dd><input class="text" type="text" style="width:200px" name="save_recipients_group_name" id="save_recipients_group_name" maxlength="50"></dd>
+                </dl>
+            </div>
+        </div>
+        <script language="javascript" type="text/javascript">
+            var oldcutoverid = $('#fenzu1');
+            function s_cutover(id){
+                var cutoverid = $('#'+id);
+                $(cutoverid).show();
+                $(oldcutoverid).hide();
+                oldcutoverid = cutoverid;
+            }
+        </script>
+        <!--Tab内容切换End-->
+        <div class="submitbox">
+            <input id="btn1" class="submit saveRecipientsToGroupBtn" type="submit" value="保存">
+        </div>
+    </div>
+</div>
+
+
+<div class="popbox_core" id="upload_Contact"><!--此处ID和colseID对应-->
+    <div class="popbox_head">
+        <span class="title">上传/选择 文件</span>
+        <div class="popbox_head_right"><a class="popbox_close" onclick="ClosePopbox('upload_Contact')"></a></div>
+    </div>
+    <div class="popbox_workspace">
+        <!--Tab内容切换Start-->
+            <div>
+                <div class="popbox_frombox clearfix">
+                    <dl>
+                    	<form id="uploadFileForm" action="/communication/uploadGivensendContactFile" enctype="multipart/form-data" method="post" target="upload_contact_iframe" onsubmit="return checkUploadForm();">
+                        <dt></dt><dd><span class="input_file"><em></em><span id="fileName_span">文件上传</span><input id="fileName" name="file" onchange="fileUploadFun('fileName','fileName_span')" class="file" type="file" /></span>&nbsp;&nbsp;(支持 txt、xls、xlsx格式，大小限制在10M内)</dd>
+                    	</form>
+                    </dl>
+                    <div class="note">
+                    	文件名：&nbsp;<input type="text"  id="searchFileName" maxlength="100"/>&nbsp;&nbsp;
+                    	上传时间：&nbsp;
+                    	<input type="text" onclick="WdatePicker({minDate:'{%y-1}-%M-%d',maxDate:'%y-%M-%d'})" value="" class="radius" id="searchTimeStart" />
+                    	&nbsp;-&nbsp;
+                    	<input type="text" onclick="WdatePicker({maxDate:'%y-%M-{%d+1}'})" value="" id="searchTimeEnd" />
+                    	&nbsp;&nbsp;&nbsp;&nbsp;
+                    	<a class="options"  onclick="loadUploadFileList();">查询</a>
+                    </div>
+                    <!--表格组件调用start-->
+                    <div id="uploadlist_tablebox" style="min-height: 150px;"><!--高度值请根据实际情况修改-->
+                    </div>
+                    <div class="submitbox">
+                    	<input  class="submit"  type="submit"  onclick="confirmFile();" value="确认"/>
+                    	<input  class="submit can"  type="submit"  onclick="cancelFile();" value="取消"/>
+                    </div>
+                    <!--表格组件调用end-->
+                </div>
+            </div>
+        <iframe name="upload_contact_iframe" id="upload_contact_iframe" style="display:none"></iframe>
+    </div>
+</div>
+
+
+
+
+<div class="popbox_core" id="add_dzz" style="width:550px;">
+    <div class="popbox_workspace" style="width:550px; line-height:30px;">
+        通过条件筛选，当前发送人数为：  <span class="compare_total real_num">0</span>  人<br/>
+        调整对照组发送人数：&nbsp;&nbsp;<input type="text" style="margin-right:10px;" name="compare_total" id = "compare_total"   onblur="getCompareRate()" onkeyup="value=value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"  />
+        
+        调整后对照组发送人数占比为：<span class="compare_total_rate">0</span> %<br/>
+        <span class="red compare_notice">注：剩余人数将自动创建到本次营销任务的发送组中！请留意观察（短信）发送效果。</span>
+        <div class="submitbox">
+            <input class="submit" value="确认" id="con_dzz" type="submit" >
+            <input class="submit can" value="取消"  type="submit" onclick="ClosePopbox('add_dzz')">
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="popbox_core popbox_remind" id="addSourceUrl"><!--此处ID和colseID对应-->
+    <div class="popbox_head">
+        <span class="title">生成短链接</span>
+        <div class="popbox_head_right"><a class="popbox_close" onclick="ClosePopbox('addSourceUrl')"></a></div>
+    </div>
+    <div class="popbox_workspace">
+    
+        <!--Tab内容切换Start-->
+        <div>
+            <div class="popbox_frombox clearfix">
+                <div class="RecipientTableContainer" id = "addUrl" >
+					请输入您要生成短链接的网址：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="text" class="urlText" name="sourceUrl" id="sourceUrl" size="60" value=""/>
+                </div>
+                <br/>
+                <div class="RecipientTableContainer" id = "createUrl" >
+                	请复制生成的短链接到短信内容中：
+                	<input type="text" class="urlText"  name="shortUrl" id="shortUrl" size="60" value="" readonly="readonly"/>
+                </div>
+                <div><span style="color: red" class="msg_span"></span></div>
+            </div>
+        </div>
+        <!--Tab内容切换End-->
+        <div class="submitbox">
+        	<input class="submit copyShortUrl" type="submit" id="copy" onclick="copyShortUrl();" value="复制" style="display: none;"/>	
+        	<input class="submit createShortUrl" id="submit" type="submit" onclick="createShortUrl()" value="提交"/>
+        	&nbsp;&nbsp;&nbsp;&nbsp;
+            <input class="submit" type="submit" onclick="ClosePopbox('addSourceUrl');" value="返回"/>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	function showShortUrlBox(){
+        	clearText();
+        	$("#createUrl").hide();
+        	OpenPopbox('addSourceUrl');
+        	$("#submit").show();
+    		$("#copy").hide();
+			$('#tips').html("<font color=\"red\">亲，请记得在生成的短链接后面 加上一个空格 哦！</font>");
+        }
+       function createShortUrl(){
+        	if($("#sourceUrl").val()==''){
+                $(".msg_span").text("请输入需要生成短连接的网址，例如：http://tb.easycontact.cn");
+        		return;
+        	}
+			
+             $.ajax({
+                url: '/communication/createShortUrl',
+                type: 'POST',
+                data:{
+                    sourceUrl:$("#sourceUrl").val()
+                },
+                dataType: 'text',
+                success: function(resp){
+                    console.log(resp);
+                    if(resp !=null && resp !='' ){
+                    	OpenPopbox('createUrl');
+                        $(".msg_span").text("");
+                        $("#shortUrl").val(resp);
+                        $("#copy").show();
+        				$("#submit").hide();
+                    }else{
+                    	clearText();
+                        $(".msg_span").text("生成短链接失败！请输入正确格式的网址，例如：http://tb.easycontact.cn");
+//                    	alert("生成短链接失败！请输入正确格式的网址，例如：http://tb.easycontact.cn");
+                    	$("#submit").show();
+        				$("#copy").hide();
+                    }
+                }
+            });
+        }
+
+    /*function createShortUrl(){
+        window.open("http://www.taobao.cz/");
+        $('#tips').html("<font color=\"red\">亲，请记得在生成的短链接后面 加上一个空格 哦！</font>");
+    }*/
+       function clearText(){
+       		$(".urlText").each(
+       			function (){
+       				$(this).val("");
+       			}
+       		);
+       }
+       function copyShortUrl(){
+       		buttonCopyCode($("#shortUrl").val())
+       }
+      function buttonCopyCode(txt ){  
+      	if(window.clipboardData) {  
+        	window.clipboardData.clearData();  
+        	window.clipboardData.setData("Text", txt);  
+    		} else if (navigator.userAgent.indexOf("Opera") != -1) {  
+        		window.location = txt;  
+    			} else if (window.netscape) {  
+        			try {  
+            			netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");  
+            			} catch (e) {  
+            				alert("您的复制功能被浏览器拒绝，请手动复制文本框中的短链接！");  
+            				return;  
+        				}  
+       				 var clip = Components.classes['@mozilla.org/widget/clipboard;1'].createInstance(Components.interfaces.nsIClipboard);  
+        			 if (!clip)  
+            			return;  
+        			var trans = Components.classes['@mozilla.org/widget/transferable;1'].createInstance(Components.interfaces.nsITransferable);  
+        			if (!trans)  
+            			return;  
+        			trans.addDataFlavor('text/unicode');  
+        			var str = new Object();  
+        			var len = new Object();  
+        			var str = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);  
+        			var copytext = txt;  
+        			str.data = copytext;  
+        			trans.setTransferData("text/unicode", str, copytext.length * 2);  
+       				var clipid = Components.interfaces.nsIClipboard;  
+        			if (!clip)  
+            			return false;  
+        				clip.setData(trans, null, clipid.kGlobalClipboard);  
+    			} else{  
+        			alert("您的复制功能被浏览器拒绝，请手动复制文本框中的短链接！"); 
+        			return;  
+        			}  
+    			alert("复制成功");
+    			ClosePopbox('addSourceUrl');
+    			} 
+</script>
+
+
+<div class="popbox_core popbox_remind popbox_new" id="space_Next"><!--此处ID和colseID对应-->
+  <div class="popbox_workspace">
+  <div class="popbox_textbox">
+	为确保买家收到您的消息！<br />
+	系统可以自动同时发一封内容相同的邮件给买家。
+  </div>
+<div class="submitbox">
+    		<input class="submit next_step_btn_true" value="好，同时发邮件" type="submit" onclick="ClosePopbox('space_Next')" />
+    		<input class="submit next_step_btn_false" value="不了，还是只发短信" type="submit" style="margin-left:50px;" onclick="ClosePopbox('space_Next')" />
+    	</div>
+        
+  </div>
+</div>
+
+<div class="popbox_core popbox_remind popbox_new" id="uploadPicDiv"><!--此处ID和colseID对应-->
+  <div class="popbox_workspace">
+  <div class="popbox_textbox">
+	为保证插入的短链接生效，请务必保留前后空格
+  </div>
+<div class="submitbox">
+    		<input class="submit" value="知道了" type="submit" onclick="ClosePopbox('uploadPicDiv')" />
+    	</div>
+        
+  </div>
+</div>
+
+
+<div class="popbox_core popbox_remind popbox_new" id="containKeys"><!--此处ID和colseID对应-->
+  <div class="popbox_workspace">
+  <div class="popbox_textbox">
+	<span  style="color:red;">提示：您输入的内容包含敏感词汇 “ <span id="keyWords"></span> ” ,请斟酌修改后再发送。</span>
+  </div>
+<div class="submitbox">
+    		<input class="submit" value="知道了" type="submit" onclick="ClosePopbox('containKeys')" />
+    	</div>
+        
+  </div>
+</div>
+
+<div class="popbox_core  popbox_remind" id="tbSourceUrl" style="width:500px;"><!--此处ID和colseID对应-->
+  <div class="popbox_workspace">
+  	<p style="line-height:20px;"><strong>淘宝短链说明：</strong>网址必须是 taobao.com、tmall.com、jaeapp.com 这三个域名下的。<br>
+  	<strong>跟踪点击效果：</strong>需在淘宝后台 ECRM 中查看 &nbsp;&nbsp;<a href="https://ecrm.taobao.com/channel/short_link_manager.htm" target="_blank" style="color: blue">点击查看</a></p>
+    <div style="margin:10px 0px;">
+    	链接类型：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input id="dpy" type="radio" name="linkType" value="LT_SHOP">&nbsp;店铺页</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    	<label><input id="bby" type="radio" name="linkType" value="LT_ITEM">&nbsp;宝贝页</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    	<label><input id="hdy" type="radio" name="linkType" value="LT_ACTIVITY">&nbsp;活动页</label>
+    </div>
+    <div id="add_text" style="margin-top:20px;">&nbsp;</div>
+    <div class="submitbox">
+    		<input class="submit" value="生成并插入短链接" type="submit" onclick="getTBShortLink();">
+    		<input class="submit can" value="关闭" type="submit" style="margin-left:50px;" onclick="ClosePopbox('tbSourceUrl')">
+    	</div>
+  </div>
+</div>
+
+<script type="text/javascript">
+var isdpy = false;
+    		var isbby = false;
+    		var ishdy = false;
+    		
+    		$('#dpy').click(function(e) {
+    			if (isdpy) return;
+    			$('#add_text').html('&nbsp;');
+                //$('#add_text').append('<strong>店铺首页：c.tb.cn/c.KF5K</strong>');
+    			isbby = false;
+    			ishdy = false;
+    			isdpy = true;
+            });
+    		
+    		$('#bby').click(function(e) {
+                if (isbby) return;
+    			$('#add_text').html('&nbsp;');
+    			$('#add_text').append('<strong>宝贝页/宝贝ID：</strong><input type="text" style="width: 300px;" id=\"itemText\"/>');
+    			isdpy = false;
+    			ishdy = false;
+    			isbby = true;
+            });
+    		
+    		$('#hdy').click(function(e) {
+                if (ishdy) return;
+    			$('#add_text').html('&nbsp;');
+    			$('#add_text').append('<strong>活动页：</strong><input type="text"  style="width: 300px;" id=\"activityUrl\"/>');
+    			isdpy = false;
+    			isbby = false;
+    			ishdy = true;
+            });
+</script>
+
+<div class="popbox_core rem" id="add_moban" style="width:500px;">
+    <div class="popbox_workspace" style="width:450px;">
+        <div style="text-align:center; margin:30px 0px;">请为保存的模板命名：<input type="text" id="templateName" name="templateName"/></div>
+        <div class="submitbox">
+            <input class="submit" value="保存" type="submit" onclick="saveTemplate()" />
+            <input class="submit can" value="取消" type="submit" style="margin-left:50px;" onclick="CloseRemind('add_moban')" />
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="soft_top">
+ <div class="top_line_a">
+    <span onClick="window.location='充值中心-购买流量包.html'" class="infoShowBox">
+      <span>短信余额：<span>431</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮件余额：<span>732</span></span>
+    </span>
+    <a class="infoShowBox" style="margin-right:20px;" href="充值中心-购买流量包.html"><img src="images/icon_bg.png" />充值</a>
+    <span class="infoShowBox">
+      <span>&nbsp;&nbsp;旗舰版&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    </span>
+    <span onClick="window.location='充值中心-购买流量包.html'" class="infoShowBox">
+      <span>软件有效期至：<span>2016-8-30</span></span>
+    </span>
+    <a class="infoShowBox" style="margin-right:20px;" href="充值中心-购买流量包.html"><img src="images/icon_bg.png" />续费</a>  
+    
+        <div class="soft_top_left right">
+  	<span class="refresh refresh_noClick importRefresh" style="display: none;">
+          <span>
+          数据导入进度
+            <div class="percentage_box" style="padding:2px;">
+                <div class="percentage_bg">
+                    <div style="width:0%" class="percentage"></div>
+                </div>
+            </div>
+          </span>
+        已导入<span class="percentage_tips">0</span>%
+        </span>
+        <span class="infoShowBox info">
+        	<span>选择背景色：</span><em class="color"></em>
+        </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="infoShowBox info" id="info2">
+          新消息&nbsp;<!--<span class="icon"></span>--><span class="num">3</span>
+        </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <label id="subAccount" style="color:#cdcdcd; position:relative; height:25px; line-height:25px;">切换子店铺：<select id="subAccountSe" onchange="switchUser();" style="margin-top:-3px;"><option value="">请选择子店铺</option><option value="424">d[s103896799...</option><option value="-1">转流量到子店铺</option></select></label>
+        <a href="#" class="infoShowBox special" style="color:#FFF; position:relative; margin-left:20px; padding-right:5px;">切回主账户</a>
+    </div>
+  </div>
+  <div class="top_line_b">
+  		 <div class="logoBox"><a href="首页.html"><img src="images/logo.png" /></a></div>
+      <div class="soft_top_left">                                                               
+        <a class="fastintobox onthis" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_home.png" /><br />首页</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_clock.png" /><br />交易提醒</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_auto_l.png" /><br />自动营销</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_yx.png" /><br />营销管理</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_mumber.png" /><br />会员管理</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_sj.png" /><br />数据分析</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_my.png" /><br />我的达客</div>
+        </a>
+        <a class="fastintobox last" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_help.png" /><br />使用教程</div>
+        </a>
+      </div>
+      <div class="soft_top_right">
+        <div class="username">
+        	<em class="before"></em>达客CRM店铺名<br/>
+        	<a class="loginout">[ 退出登录 ]</a>
+        </div>
+      </div>
+      <div class="info_box_text">
+        <div class="title">消息提醒</div>
+        <div class="info_box_main info_blue">
+          <div class="box_top">放假通知</div>
+          <div class="box_worker">123123</div>
+          <div class="box_footer"><a href="#">删除消息</a></div>
+        </div>
+        <div class="info_box_main info_green">
+          <div class="box_top">余额不足提醒</div>
+          <div class="box_worker">123123</div>
+          <div class="box_footer"><a href="#">删除消息</a></div>
+        </div>
+        <div class="info_box_main info_gray">
+          <div class="box_top">立刻升级</div>
+          <div class="box_worker">123123</div>
+          <div class="box_footer"><a href="#">删除消息</a></div>
+        </div>
+        <span class="adm-informer-arrow"></span>
+      </div>
+  </div>
+</div>
+<div class="page">
+<div class="slide_box"></div>
+  <table class="soft_body" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr class="soft_body_td">
+      <td class="soft_body_left">
+        <div class="soft_left_side">
+          <div class="search_box">
+            	<img src="images/icon_search.png" />
+                <input type="text" placeholder="功能搜索" />
+            </div>
+          <div class="soft_left_side_menu">
+            <a class="menu_home onthis" href="首页.html"><em></em>短信营销</a>
+            <a class="menu_home zdhm" href="帮助中心.html"><em></em>指定号码发送</a>
+            <a class="menu_home mail" href="帮助中心.html"><em></em>邮件营销</a>
+            <a class="menu_home hb" href="帮助中心.html"><em></em>发放红包</a>
+            <a class="menu_home sd" href="帮助中心.html"><em></em>手动订单提醒</a>
+            <a class="menu_home jjr" href="帮助中心.html"><em></em>节假日关怀</a>
+            <a class="menu_home yx" href="帮助中心.html"><em></em>营销建议</a>
+          </div>
+        </div>
+      </td>
+      <td class="soft_body_right">
+        <div class="soft_workspace_title">
+          <ul class="bread_crumbs">
+            <li class="first"><a href="#">营销管理</a></li><li><a href="#">短信营销</a></li>
+          </ul>
+          <h3><span class="autosms_1"></span>创建短信营销</h3>
+        </div>
+        <div class="soft_workspace">
+        	<div class="menu_title">短信内容</div>
+          <div class="tab_box_main">
+              <!--图表及高亮字段显示区Start-->
+              <div class="table_workspace clearfix border-bottom mb20 padding-top20">
+                <div class="table_workspace_iphone_sms" style="margin-bottom:20px;">
+                	<div class="sms_title_box">
+                        <div class="sms_title">短信内容设置</div>
+                        <a class="change_btn hh"><input class="setup" type="button" value="修改"></a>
+                      </div>
+                	<div class="show_box" id="sms_text_show">
+                        <div class="popbox_frombox clearfix padding-left0">
+                            <div class="iphone_sms_frombox">
+                                <dl class="fleft">
+                                  <dt>短信内容：</dt>
+                                  <dd>如果你是女生,来锦城吧亲~男女生比例一比一哟,保证你有哥哥照顾,分配均匀哟~ 如果你是男生,来锦城吧亲~锦城的妹纸很有爱超级温柔...</dd>
+                                </dl>
+                                <div class="text_num">当前短信内容<strong>65</strong>个字符，将按<strong>1</strong>条短信收费！</div>
+                            </div>
+                        </div>
+                	</div>
+                    <div class="change_box" id="sms_text_change">
+                    <div class="popbox_frombox clearfix" style="padding-bottom:0px;">
+                      <div class="iphone_sms">
+                        <div class="smsBox">
+                          <div class="smsBox_text" id="iphone_sms_text">你好！您在本店购买的#商品#还未付款，付款后我们将以最快的速度发货哦！【小资生活】</div>
+                        </div>
+                        <div class="smsBox_bottom"></div>
+                      </div>
+                      <div class="iphone_sms_frombox" style="width:700px; margin-left:20px;">
+                      	<dl class="fleft">
+                            <dt>上传文件：</dt>
+                            <dd>
+                                <div class="table_top" style="background:none; padding:0px; border:none;">
+                                			<div class="table_left">
+                                				<div class="widgetField">
+                                					<input type="text" style="width: 200px;" class="radius" value="" id="choosedFileName" disabled="disabled" placeholder="请选择您要上传的号码文件">
+                                				</div>
+                                				<a class="options" style="margin:0px 0px 3px 10px;" onclick="chooseFileBefore();">上传/选择 文件</a>(支持 txt、xls、xlsx格式，大小限制在10M内)
+                                			</div>
+                                		</div>
+                            </dd>
+                        </dl>
+                      	<dl class="fleft">
+                            <dt>短信标题：</dt>
+                            <dd>
+                                <input style="width: 250px;" class="text" type="text" id="push_subject" value="1111" maxlength="50">
+                                <span style="color: red;">*</span>
+                            </dd>
+                        </dl>
+                        <dl class="fleft">
+                        	<dt>插入短信模板：</dt>
+                            <dd>
+                            	<div class="options_box">
+                                    <select id="template_content" class="float_none" name="total_duration" onchange="if($(this).val() != '') {insertSmsTemplateContent($(this).val());clearRecommend();}">
+                                        <option value="" selected="">更多模板选择</option>
+                                        <option value="" selected="">短信模板</option>
+                                        <option value="" selected="">短信模板</option>
+                                        <option value="" selected="">短信模板</option>
+                                     </select>
+                                </div>
+                        	</dd>
+                        </dl>
+                        <dl class="fleft">
+                        	<dt>高ROI短信模板推荐：</dt>
+                            <dd>
+                            	<div class="options_box">
+                                	<select id="recommend_template_content" class="float_none" name="total_duration" onchange="if($(this).val() != '') insertSmsTemplateContent($(this).val())">
+                                    	<option value="" selected="">请选择</option>
+                                    </select>
+                                    <span>别家短信营销ROI为什么这么高？借鉴一下呗</span>
+                            	</div>
+                             </dd>
+                      	 </dl>
+                         <dl class="fleft">
+                         	<dt>
+                                短信内容：&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="#" class="red">短信内容特别说明<img src="images/wenhao.gif" style="margin-left:5px; margin-bottom:3px;" /></a>
+                                <a class="options" href="javascript:void(0)" style="position:absolute; margin-top:-30px; right:400px;">插入店铺名</a>
+                            </dt>
+                            <dd style="width: 680px;">
+                                <textarea id="textarea_sms_text" style="float:left" class="phoneNum" onblur="value=value.replace(/\s+/g, ' ')"></textarea>
+                                <input style="margin-left: 20px; float: left;" type="button" value="另保存为模板" onclick="OpenRemind_noMove('add_moban')">
+                                <br>
+                                <span id="tips"></span>
+                                <div class="note" style="margin-bottom:0px;">
+                                您当前已输入<span id="T_Num" class="num">9</span>个字符，将按照<span id="Sms_Num" class="num" style="color:red;">1</span>条短信计费。
+                                <a href="#" class="red">计费规则<img src="images/wenhao.gif" style="margin-left:5px; margin-bottom:3px;" /></a></div>
+                            </dd>
+                         </dl>
+                         <dl class="fleft">
+                             <dt>淘宝短链：</dt>
+                             <dd>
+                                 <div class="options_box">
+                                     <a class="options" href="javascript:void(0)" onclick="OpenPopbox_noMove('tbSourceUrl')">插入淘宝短链接</a>
+                                 </div>
+                             </dd>
+                         </dl>
+                         <dl class="fleft">
+                             <dt>达客短链：</dt>
+                             <dd>
+                                 <div class="options_box">
+                                     <a class="options" href="javascript:void(0)">生成短链插入</a>
+                                     <input type="text" id="text_dlj" placeholder="将短链接填写至此输入框内" style="width:200px; margin-top:-5px;">
+                                 </div>
+                             </dd>
+                         </dl>
+                         <dl class="fleft">
+                             <dd>
+                             短信测试：
+                             <input type="text" style="width:400px;" placeholder="请输入测试手机号，多个号码，请以 &quot;，&quot; 分隔" />
+                             <a class="options" style="margin-bottom:0px;">立即测试</a>
+                             </dd>
+                         </dl>
+                         <dl class="fleft">
+                             <dd>
+                             卖家签名：
+                             <span class="seller_sign">【达客】</span>
+                             <a class="options" href="/usercenter/getBasicInfo?moduleId=37">修改签名</a>
+                             </dd>
+                         </dl>
+                         <dl>
+                             <dt></dt>
+                             <dd>
+                             	<input type="checkbox" id="isRelatePush">发送同样内容的邮件给买家
+                             </dd>
+                         </dl>
+                      </div>
+                      <div class="submitbox np">
+                      	<input type="submit" class="submit" value="保存">
+                      	<input type="submit" class="submit can" value="取消">
+                      </div>
+                    </div>
+                  </div>
+            	</div>
+          	</div>
+          </div>
+          <script type="text/javascript">
+          function showShortUrl(){
+              $("#text_dlj").show();
+              $("#add_dlj").css('display','inline-block');
+              $("#text_dlj").val('');
+              $("#shortLinkBR").show();
+          }
+      	  </script>
+          <div class="menu_title">筛选会员</div>
+          <div class="tab_box_main" id="add_sms_setup">
+              <!--SMS设置Start-->
+              <div class="table_workspace clearfix border-bottom padding-top20 margin-bottom20">
+              	
+                <div class="table_workspace_iphone_sms" style="margin-bottom:0px;">
+                <!----->
+                	<div class="sms_title_box">
+                		<div class="sms_title">指定分组</div>
+                        <a class="change_btn hh"><input class="setup" type="button" value="修改"></a>
+                    </div>
+                <div class="show_box">
+                	<div class="popbox_frombox clearfix padding-left0">
+                        <div class="iphone_sms_frombox">
+                            <dl style="margin-bottom:0px;">
+                                <dd>
+                                    <div class="options_box" id="groupBox"><a class="options_news">暂无</a></div>
+                                </dd>
+                            </dl>
+                        </div>
+                	</div>
+                </div>
+                <div class="change_box">
+                    <div class="popbox_frombox clearfix" style="padding:0px;">
+                      <div class="iphone_sms_frombox">
+                        <div id="add_sms_event_step2_1" style="">
+                            <div class="adm-detail-title adm-detail-title_pd0" style="display: block; line-height:24px;">
+                            选择组（可多选）
+                             <input type="button" value="清除选择" class="submit" style="float:right; margin-top:0px; margin-bottom:5px;" onclick="removeChecked()"></div>
+                            <div class="table_workspace_infoBox mb20">
+                                <div class="adm-detail-title adm-detail-title_pd0 mb10" style="display: block;">常用分组（通过店铺交易数据筛选）</div>
+                                <div class="newGroupList mb20">
+                                    <label title=""><input type="checkbox" name="allCB11" class="allCB" id="allCB" value="-1" onclick="removeOtherGroupChecked();"><span>&nbsp;所有人</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10025" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;测试</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10020" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;old</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10019" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;new</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10017" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;所有人</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10014" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;ces</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1128" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;10年一月到15年6只购买过一次的客户里找出14年4月1日到8月30日这段时间之内买过一次</span></label>
+                                            <label title="最近交易时间距离今天不超过3个月且购买次数大于2次的客户"><input name="allCB11" class="groupCB" type="checkbox" value="1025" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;近3个月活跃会员</span></label>
+                                            <label title="最近交易时间距离今天超过3个月的客户"><input name="allCB11" class="groupCB" type="checkbox" value="1024" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;近3个月沉睡会员</span></label>
+                                            <label title="最近交易时间距离今天不超过2个月且购买次数大于2次的客户"><input name="allCB11" class="groupCB" type="checkbox" value="1023" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;近2个月活跃会员</span></label>
+                                            <label title="最近交易时间距离今天超过2个月的客户"><input name="allCB11" class="groupCB" type="checkbox" value="1022" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;近2个月沉睡会员</span></label>
+                                            <label title="首次交易时间在一个月内的客户(不包含7天内客户)"><input name="allCB11" class="groupCB" type="checkbox" value="1021" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;近1月新增会员</span></label>
+                                            <label title="首次交易时间在7天内的客户"><input name="allCB11" class="groupCB" type="checkbox" value="1020" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;近7天新增会员</span></label>
+                                </div>
+                                <div class="adm-detail-title adm-detail-title_pd0 mb10" style="display: block;">外部导入用户分组</div>
+                                <div class="newGroupList mb20">
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10031" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;测试20160412</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10028" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zerotest</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10024" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;ggvv</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10023" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;ccss</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10022" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;aaa</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10021" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zerotest1222</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10016" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zero_test_temp_08181504</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10015" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;201505</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10013" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;0717test</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10012" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;0715test22</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10011" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;111112222qqq</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10009" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;测测</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10008" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;QQ测试组</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10007" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;7.6</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10005" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;2015020202</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1127" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;20150625</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1126" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;20160610</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1125" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;birthday_test</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1122" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;11112333</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1120" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;20150423</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1119" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;20150407</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1118" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;EDM测试组</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1117" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;EDM测试组</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1116" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;北边</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1113" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;0310</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1112" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;temp201503092149</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1111" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;temp201503092140</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1110" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;temp201503092134</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1109" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zero_test_temp_1448</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1108" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zero_test_temp_1629</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1107" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zero_test_temp_1556</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1105" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;0306组</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1102" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zero_test_temp_3232</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1096" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;focussend</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1078" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;1211组</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1041" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;试用-过期</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1040" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;付费-过期</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1039" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;付费-使用中</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1038" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;试用未过期</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1032" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;浙江</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1028" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;客户沟通测试组</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1016" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;测试组</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1015" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;达客用户</span></label>
+                                </div>
+                                <div class="adm-detail-title adm-detail-title_pd0 mb10" style="display: block;">智能分组</div>
+                                <div class="newGroupList mb20">
+                                    <label title="一般会员"><input name="allCB11" class="groupCB" type="checkbox" value="4" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;一般会员</span></label>
+                                    <label title="黄金会员"><input name="allCB11" class="groupCB" type="checkbox" value="3" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;黄金会员</span></label>
+                                    <label title="白金会员"><input name="allCB11" class="groupCB" type="checkbox" value="2" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;白金会员</span></label>
+                                    <label title="钻石会员"><input name="allCB11" class="groupCB" type="checkbox" value="1" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;钻石会员</span></label>
+                                </div>
+                                <div class="adm-detail-title adm-detail-title_pd0 mb10" style="display: block;">会员等级分组</div>
+                                <div class="newGroupList mb20">
+                                    <label title="普通"><input name="allCB11" class="groupCB" type="checkbox" groupname="普通" value="10001" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;普通</span></label>
+                                    <label title="高级"><input name="allCB11" class="groupCB" type="checkbox" groupname="高级" value="10002" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;高级</span></label>
+                                    <label title="VIP"><input name="allCB11" class="groupCB" type="checkbox" groupname="VIP" value="10003" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;VIP</span></label>
+                                    <label title="至尊VIP"><input name="allCB11" class="groupCB" type="checkbox" groupname="至尊VIP" value="10004" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;至尊VIP</span></label>
+                                </div>
+                            </div>
+                            <div class="submitbox np">
+                            <input type="submit" class="submit" value="保存">
+                            <input type="submit" class="submit can" value="取消">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="fenzu_tips">
+                	<img src="images/icon_tips.png" style="margin-right:5px;" />如果您还需要对选定的组，做进一步筛选，请设置下列“按指定条件筛选”栏。
+                </div>
+                <div class="table_workspace_iphone_sms" style="margin-bottom:0px;">
+                	<div class="sms_title_box">
+                		<div class="sms_title">指定条件</div>
+                		<a class="change_btn hh"><input class="setup" type="button" value="修改"></a>
+                    </div>
+                    <div class="show_box">
+                    	<div class="popbox_frombox clearfix padding-left0">
+                			<div class="iphone_sms_frombox" style="width:500px;">
+                            	<dl class="fleft">
+                          			<dt>订单创建时间：</dt>
+                          			<dd>2016-04-03 14:23  ~  2016-07-03 14:23</dd>
+                        		</dl>
+                                <dl class="fleft">
+                          			<dt>最后交易时间：</dt>
+                          			<dd>2016-04-03 14:23  ~  2016-07-03 14:23</dd>
+                        		</dl>
+                                <dl class="fleft">
+                          			<dt>累计交易金额：</dt>
+                          			<dd>100 ~ 500 元</dd>
+                        		</dl>
+                                <dl class="fleft">
+                                    <dt>成交笔数：</dt>
+                                    <dd>1 ~ 3 笔</dd>
+                                </dl>
+                                <dl class="fleft">
+                                    <dt>客单价：</dt>
+                                    <dd>100 ~ 200 元</dd>
+                                </dl>
+                                <dl class="fleft" style="margin-bottom:0px;">
+                          			<dt>购买过的宝贝：</dt>
+                          			<dd>已指定宝贝 ( 6 )</dd>
+                        		</dl>
+                            </div>
+                            <div class="iphone_sms_frombox" style="width:500px;">
+                            	<dl class="fleft">
+                          			<dt>交易来源：</dt>
+                          			<dd>PC端</dd>
+                        		</dl>
+                                <dl class="fleft">
+                          			<dt>所在地区：</dt>
+                          			<dd>上海、河北、湖南、云南、浙江</dd>
+                        		</dl>
+                                <dl class="fleft">
+                          			<dt>营销历史：</dt>
+                          			<dd>发送后未购买</dd>
+                        		</dl>
+                                <dl class="fleft">
+                                    <dt>标旗订单会员：</dt>
+                                    <dd>
+                                    	<img src="images/cq/op_memo_1.png" width="11">
+                                        <img src="images/cq/op_memo_2.png" width="11">
+                                        <img src="images/cq/op_memo_3.png" width="11">
+                                        <img src="images/cq/op_memo_4.png" width="11">
+                                        <img src="images/cq/op_memo_5.png" width="11">
+                                        ( 指定 )
+                                	</dd>
+                                </dl>
+                                <dl class="fleft">
+                                    <dt>屏蔽勾选会员：</dt>
+                                    <dd>给过中差评、有过退款</dd>
+                                </dl>
+                                <dl class="fleft" style="margin-bottom:0px;">
+                          			<dt>过滤已发送用户：</dt>
+                          			<dd>近 3 天</dd>
+                        		</dl>
+                            </div>
+                       </div>
+                    </div>
+                    <div class="change_box">
+                    	<div class="popbox_frombox clearfix padding-left0">
+                			<div class="iphone_sms_frombox">
+                            	<div id="add_sms_event_step2_0">
+                                    <div class="adm-detail-title adm-detail-title_pd0" style="display: block;">快速筛选（选择保存过的筛选条件）</div>
+                                    <div class="table_workspace_infoBox mb20">
+                                        <div class="popbox_frombox clearfix" style="padding:0px;">
+                                            <dl style="margin-bottom:0px;">
+                                                <dd>
+                                                <div class="options_box">
+                                                    <div class="options_box" id="add_sms_event_step2_group_default">
+                                                        <a class="options" href="javascript:void(0)" onclick="defaultGroup(1);">所有交易客户</a>
+                                                        <a class="options" title="180-7天内，购买2次及以上的客户" href="javascript:void(0)" onclick="defaultGroup(2);">忠诚客户</a>
+                                                        <a class="options" title="180-7天内，购买过1次的客户" href="javascript:void(0)" onclick="defaultGroup(3);">活跃客户</a>
+                                                        <a class="options" title="180天以前，购买过的客户" href="javascript:void(0)" onclick="defaultGroup(4);">沉睡客户</a>
+                                                    </div>
+                                                    <div class="options_box" id="add_sms_event_step2_group"><a id="adv_22" class="options" onclick="preChooseAdvanced('22')" title="成交笔数：大于等于 1 | 交易金额：大于等于1 小于等于100 | 客单价：大于等于100 | 交易来源：PC端  | 营销历史：从未发送过  | 所在区域：江浙沪 | 最后交易时间：3个月内 | 会员过滤： 屏蔽 标旗订单 |  过滤最近3天有过发送短信的客户 | " href="javascript:void(0)">Jerry的指定客户（测试案例Bourne）<em title="删除" class="options_del" onclick="deleteAdvancedFilter('22')">del</em></a><a id="adv_23" class="options" onclick="preChooseAdvanced('23')" title="交易金额：大于等于1 小于等于100 | 客单价：大于等于1 小于等于100 | 交易来源：PC端  | 所在区域：江浙沪 | 会员过滤：" href="javascript:void(0)">1<em title="删除" class="options_del" onclick="deleteAdvancedFilter('23')">del</em></a></div>
+                                                    <script language="javascript" type="text/javascript">
+                                                    var groupClickAddBoxDefault = $('#add_sms_event_step2_group_default> a');
+                                                    $(groupClickAddBoxDefault).click(function(){
+                                                        $(groupClickAddBoxDefault).removeClass('onthis');
+                                                        $('#add_sms_event_step2_group').children('a').removeClass('onthis');
+                                                        $(this).addClass('onthis');
+                                                    })
+                                                    </script>
+                                                </div>
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                    <div class="adm-detail-title adm-detail-title_pd0" style="display: block;">筛选条件（基于店铺交易数据的筛选）<input type="button" value="清除选择" class="submit" style="float:right; margin-bottom:5px;" onclick="removeChoosedFilter()">
+                                        <div class="clear"></div></div>
+                                    <div class="table_workspace_infoBox mb20">
+                                        <div class="popbox_frombox clearfix" style="padding:0px;">
+                                            <dl class="fleft">
+                                                <dt>购买过的宝贝：</dt>
+                                                <dd>
+                                                    <label class="mr20"><input type="radio" name="item" value="" onclick="javascript:$('#chooseItemDiv').hide();$('#chooseItemTitleDiv').hide();$('#searchSelect').hide();$('#chooseTitleDiv').hide();">
+                                                    <span title="所有宝贝成交记录的会员">全部</span></label>
+                                                    <label class="mr20"><input type="radio" name="item" value="-1" onclick="javascript:$('#chooseItemTitleDiv').hide();$('#chooseItemDiv').show();$('#searchSelect').show();$('#chooseTitleDiv').hide();">
+                                                    <span title="输入宝贝ID或宝贝详情页链接，显示在售以及仓库的宝贝">指定宝贝（在售及仓库）</span></label>
+                                                    <label class="mr20"><input type="radio" name="item" value="-2" onclick="javascript:$('#chooseItemDiv').hide();$('#chooseItemTitleDiv').show();$('#searchSelect').show();$('#chooseTitleDiv').hide();">
+                                                    <span title="输入关键词搜索，显示当前店铺在售的宝贝">关键词搜索宝贝（在售）</span></label>
+                                                    <label class="mr20"><input type="radio" name="item" value="-3" onclick="javascript:$('#chooseItemDiv').hide();$('#chooseItemTitleDiv').hide();$('#searchSelect').hide();$('#chooseTitleDiv').show();">
+                                                    <span title="输入关键词，搜索成交记录中带有宝贝关键词的交易记录">包含关键词（在售、仓库、下架）</span></label>
+                                                    <div class="areaList areaList_p10" id="chooseItemDiv" style="display: none;">
+                                                        <ul class="producr_list new_add_item_ul">
+                                                        </ul>
+                                                        <input class="text search_item" type="text" size="100">&nbsp;<input class="add_item_btn" value="添加" type="submit">
+                                                        <p class="noteText">在此输入宝贝的连接地址，或者是宝贝的ID号</p>
+                                                    </div>
+                                                    <div class="areaList areaList_p10" id="chooseItemTitleDiv" style="display: none;">
+                                                        <ul class="producr_list new_search_item_ul">
+                                                        </ul>
+                                                        <div class="pagefen" style="display: none"></div>
+                                                        <div id="pageSizeDiv" style="float:right; margin-top:-50px; position:relative; z-index:99;display: none">
+                                                            显示条数：&nbsp;
+                                                            <select id="pageSizeSel" style="float:none;" onchange="searchKey();">
+                                                                <option value="5" selected="selected">5</option>
+                                                                <option value="10">10</option>
+                                                                <option value="20">20</option>
+                                                                <option value="50">50</option>
+                                                            </select>
+                                                        </div>
+                                                        <input class="text search_item_title" id="search_item_title" type="text" size="100" maxlength="50">&nbsp;
+                                                        <input class="submit" type="submit" onclick="searchKey();" value="搜索">
+                                                        <p class="noteText">在此输入宝贝的关键词（多个关键词用空格隔开）</p>
+                                                    </div>
+                                                    <div class="areaList areaList_p10" id="chooseTitleDiv" style="display: none;">
+                                                        <ul class="producr_list search_title_item_ul">
+                                                        </ul>
+                                                        <div class="pagefen_title" id="titleItemPage" style="display: none"></div>
+                                                        <input class="text search_title" id="search_item_title_text" type="text" size="100" maxlength="50">&nbsp;
+                                                        <p class="noteText">在此输入宝贝的关键词（多个关键词用空格隔开）</p>
+                                                    </div>
+                                                </dd>
+                                            </dl>
+                                            <dl class="fleft" id="searchSelect" style="display: none">
+                                                <dt>购买过滤：</dt>
+                                                <dd>
+                                                    <label><input type="radio" name="itType" value="1" checked="">购买过以上宝贝</label>
+                                                    <label><input type="radio" name="itType" value="0">未购买过以上宝贝</label>
+                                                </dd>
+                                            </dl>
+                                            <dl class="fleft">
+                                                <dt>最后交易时间：</dt>
+                                                <dd>
+                                                <label class="mr20"><input type="radio" name="last_trade_time" value="" onclick="javascript:$('#defined_trade_time').hide();"><span>全部</span></label>
+                                                <label class="mr20"><input type="radio" name="last_trade_time" value="1" onclick="javascript:$('#defined_trade_time').hide();"><span>1个月内</span></label>
+                                                <label class="mr20"><input type="radio" name="last_trade_time" value="3" onclick="javascript:$('#defined_trade_time').hide();"><span>3个月内</span></label>
+                                                <label class="mr20"><input type="radio" name="last_trade_time" value="6" onclick="javascript:$('#defined_trade_time').hide();"><span>6个月内</span></label>
+                                                <label>
+                                                <input type="radio" name="last_trade_time" value="0" onclick="javascript:$('#defined_trade_time').show();">
+                                                <span>自定义&nbsp;</span>
+                                                </label>
+                                                <span id="defined_trade_time" style="display: none;">
+                                                <input type="text" name="last_trade_time_start" id="last_trade_time_start" value="" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',startDate:'%y-%M-01 %H:%m',maxDate:'%y-%M-%d %H:%m'})">
+                                                &nbsp;至2&nbsp;
+                                                <input type="text" name="last_trade_time_end" id="last_trade_time_end" value="" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',startDate:'%y-%M-01 %H:%m',maxDate:'%y-%M-%d %H:%m'})">
+                                                </span>
+                                                </dd>
+                                            </dl>
+                                            <dl class="fleft">
+                                                <dt>订单创建时间：</dt>
+                                                <dd>
+                                                    <input type="text" name="create_time_start" id="create_time_start" value="" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',startDate:'%y-%M-01 %H:%m',maxDate:'%y-%M-%d %H:%m'})">
+                                                    &nbsp;至&nbsp;
+                                                    <input type="text" name="create_time_end" id="create_time_end" value="" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',startDate:'%y-%M-01 %H:%m',maxDate:'%y-%M-%d %H:%m'})">
+                                                    
+                                                </dd>
+                                            </dl>
+                                            <dl class="fleft">
+                                                <dt>交易金额：</dt>
+                                                <dd>
+                                                <label class="mr20"><input type="radio" name="buy_amount" value="" onclick="javascript:$('#defined_amount').hide();"><span>全部</span></label>
+                                                <label class="mr20"><input type="radio" name="buy_amount" value="1-100" onclick="javascript:$('#defined_amount').hide();"><span>1-100元</span></label>
+                                                <label class="mr20"><input type="radio" name="buy_amount" value="100-" onclick="javascript:$('#defined_amount').hide();"><span>100元及以上</span></label>
+                                                <label>
+                                                <input type="radio" name="buy_amount" value="-1" onclick="javascript:$('#defined_amount').show();">
+                                                <span>自定义&nbsp;</span>
+                                                </label>
+                                                <span id="defined_amount" style="display: none;">
+                                                <input type="text" name="buy_amount_start" id="buy_amount_start" onkeyup="value=value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+                                                &nbsp;至&nbsp;
+                                                <input type="text" name="buy_amount_end" id="buy_amount_end" onkeyup="value=value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">&nbsp;元
+                                                </span>
+                                                </dd>
+                                            </dl>
+                                            <dl class="fleft">
+                                                <dt>成交笔数：</dt>
+                                                <dd>
+                                                <label class="mr20"><input type="radio" name="buy_count" value="" onclick="javascript:$('#defined_count').hide();"><span>全部</span></label>
+                                                <label class="mr20"><input type="radio" name="buy_count" value="0" onclick="javascript:$('#defined_count').hide();"><span>0笔</span></label>
+                                                <label class="mr20"><input type="radio" name="buy_count" value="1-" onclick="javascript:$('#defined_count').hide();"><span>1笔及以上</span></label>
+                                                <label>
+                                                <input type="radio" name="buy_count" value="-1" onclick="javascript:$('#defined_count').show();">
+                                                <span>自定义&nbsp;</span>
+                                                </label>
+                                                <span id="defined_count" style="display: none;">
+                                                <input type="text" name="buy_count_start" id="buy_count_start" onkeyup="value=value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+                                                &nbsp;至&nbsp;
+                                                <input type="text" name="buy_count_end" id="buy_count_end" onkeyup="value=value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">&nbsp;笔
+                                                </span>
+                                                </dd>
+                                            </dl>
+                                            <dl class="fleft">
+                                                <dt>客单价：</dt>
+                                                <dd>
+                                                <label class="mr20"><input type="radio" name="unit_price" value="" onclick="javascript:$('#defined_price').hide();"><span>全部</span></label>
+                                                <label class="mr20"><input type="radio" name="unit_price" value="1-100" onclick="javascript:$('#defined_price').hide();"><span>1-100元</span></label>
+                                                <label class="mr20"><input type="radio" name="unit_price" value="100-" onclick="javascript:$('#defined_price').hide();"><span>100元及以上</span></label>
+                                                <label>
+                                                <input type="radio" name="unit_price" value="-1" onclick="javascript:$('#defined_price').show();">
+                                                <span>自定义&nbsp;</span>
+                                                </label>
+                                                <span id="defined_price" style="display: none;">
+                                                <input type="text" name="unit_price_start" id="unit_price_start" onkeyup="value=value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+                                                &nbsp;至&nbsp;
+                                                <input type="text" name="unit_price_end" id="unit_price_end" onkeyup="value=value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">&nbsp;元
+                                                </span>
+                                                </dd>
+                                            </dl>
+                                            <dl class="fleft">
+                                                <dt>交易来源：</dt>
+                                                <dd>
+                                                    <label class="mr20"><input type="radio" name="trade_from" value=""><span>全部</span></label>
+                                                    <label class="mr20"><input type="radio" name="trade_from" value="1"><span>PC端</span></label>
+                                                    <label class="mr20"><input type="radio" name="trade_from" value="2"><span>手机端</span></label>
+                                                </dd>
+                                            </dl>
+                                            <dl class="fleft">
+                                            <dt>所在地区：</dt>
+                                            <dd>
+                                            <label class="mr20"><input type="radio" name="buyer_area" value="" onclick="javascript:$('#areaList').hide();"><span>全部</span></label>
+                                            <label class="mr20"><input type="radio" name="buyer_area" value="1" onclick="javascript:$('#areaList').hide();"><span>江浙沪</span></label>
+                                            <label class="mr20"><input type="radio" name="buyer_area" value="-1" onclick="javascript:$('#areaList').show();"><span>自定义</span></label>
+                                            <div class="areaList" id="areaList" style="display: none;">
+                                                <label><input type="checkbox" name="buyer_cities" value="上海"><span>&nbsp;上海</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="北京"><span>&nbsp;北京</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="天津"><span>&nbsp;天津</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="重庆"><span>&nbsp;重庆</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="山东"><span>&nbsp;山东</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="山西"><span>&nbsp;山西</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="河南"><span>&nbsp;河南</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="河北"><span>&nbsp;河北</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="湖南"><span>&nbsp;湖南</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="湖北"><span>&nbsp;湖北</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="广东"><span>&nbsp;广东</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="广西"><span>&nbsp;广西</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="黑龙江"><span>&nbsp;黑龙江</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="辽宁"><span>&nbsp;辽宁</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="浙江"><span>&nbsp;浙江</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="安徽"><span>&nbsp;安徽</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="江苏"><span>&nbsp;江苏</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="福建"><span>&nbsp;福建</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="甘肃"><span>&nbsp;甘肃</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="江西"><span>&nbsp;江西</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="云南"><span>&nbsp;云南</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="贵州"><span>&nbsp;贵州</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="四川"><span>&nbsp;四川</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="青海"><span>&nbsp;青海</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="陕西"><span>&nbsp;陕西</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="吉林"><span>&nbsp;吉林</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="宁夏"><span>&nbsp;宁夏</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="海南"><span>&nbsp;海南</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="西藏"><span>&nbsp;西藏</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="内蒙古"><span>&nbsp;内蒙古</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="新疆"><span>&nbsp;新疆</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="香港"><span>&nbsp;香港</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="澳门"><span>&nbsp;澳门</span></label>
+                                                <label><input type="checkbox" name="buyer_cities" value="台湾"><span>&nbsp;台湾</span></label>
+                                            </div>
+                                            </dd>
+                                            </dl>
+                                            <dl class="fleft">
+                                            <dt>屏蔽勾选会员：</dt>
+                                            <dd>
+                                            <label class="mr20"><input type="checkbox" class="condition_filter" id="comment_filter" value="1"><span>&nbsp;给过中差评</span></label>
+                                            <label class="mr20"><input type="checkbox" class="condition_filter" id="refund_filter" value="2"><span>&nbsp;有过退款</span></label>
+                                            </dd>
+                                            </dl>
+                                            <dl class="fleft">
+                                                <dt>标旗订单会员：</dt>
+                                                <dd>
+                                                    <select id="seller_flag_type" style="margin-right:10px;">
+                                                        <option value="1">屏蔽</option>
+                                                        <option value="2">指定</option>
+                                                    </select>
+                                                    &nbsp;&nbsp;
+                                                    <label style="margin-right:10px;"><input type="checkbox" class="seller_flag" name="seller_flag" value="1">&nbsp;&nbsp;<img src="images/cq/op_memo_1.png" width="12"></label>
+                                                    <label style="margin-right:10px;"><input type="checkbox" class="seller_flag" name="seller_flag" value="2">&nbsp;&nbsp;<img src="images/cq/op_memo_2.png" width="12"></label>
+                                                    <label style="margin-right:10px;"><input type="checkbox" class="seller_flag" name="seller_flag" value="3">&nbsp;&nbsp;<img src="images/cq/op_memo_3.png" width="12"></label>
+                                                    <label style="margin-right:10px;"><input type="checkbox" class="seller_flag" name="seller_flag" value="4">&nbsp;&nbsp;<img src="images/cq/op_memo_4.png" width="12"></label>
+                                                    <label style="margin-right:10px;"><input type="checkbox" class="seller_flag" name="seller_flag" value="5">&nbsp;&nbsp;<img src="images/cq/op_memo_5.png" width="12"></label>
+                                                </dd>
+                                            </dl>
+                                            <dl class="fleft" style="margin-bottom:0px;">
+                                                <dt>过滤已发送用户：</dt>
+                                                <dd>
+                                                    <label><input type="radio" name="fatigueType" value="0" checked="checked">不过滤&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                    <label><input type="radio" name="fatigueType" value="1">今天&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                    <label><input type="radio" name="fatigueType" value="2">近3天&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                    <label><input type="radio" name="fatigueType" value="3">近7天&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                    <label><input type="radio" name="fatigueType" value="4">近15天&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                    <div class="adm-detail-title adm-detail-title_pd0" style="display: block;">保存筛选条件</div>
+                                    <div class="table_workspace_infoBox mb20">
+                                        <div class="popbox_frombox clearfix" style="padding:0px;">
+                                            <input type="text" class="text filter_name" size="100" maxlength="50">&nbsp;<input value="保存" type="submit" onclick="saveAdvanced()">
+                                            <p class="noteText" style="padding-left: 0px;">如果您需要多次使用此筛选条件，你可以保存此筛选条件（非必填项）</p>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="submitbox np">
+                                    <input type="submit" class="submit" value="保存">
+                                    <input type="submit" class="submit can" value="取消">
+                                  </div>
+                                </div>
+                            </div>
+                       </div>
+                </div>
+                <div class="sxjg">
+                	<p style="margin-bottom:10px;"><strong>筛选会员：</strong>根据您当前所指定的条件，筛选目标客户；由于执行筛选条件涉及的数据量过大，可能会导致筛选结果变慢，请耐心等待。</p>
+                	<input type="button" value="立即筛选" style="margin-right:10px;">
+                    筛选结果：本次筛选，有效会员(有手机号)共计 <storng>158657</storng> 人，<span>已去重并过滤短信黑名单。</span>
+                </div>
+                <div class="table_workspace_iphone_sms" style="margin-bottom:0px;">
+                	<div class="sms_title_box">
+                		<div class="sms_title" style="width:170px;">手动添加发送对象</div>
+                		<a class="change_btn hh"><input class="setup" type="button" value="修改"></a>
+                    </div>
+                    <div class="show_box">
+                        <div class="popbox_frombox clearfix padding-left0">
+                            <div class="iphone_sms_frombox">
+                                <dl class="fleft" style="margin-bottom:0px;">
+                                  <dt>暂无指定发送对象</dt>
+                                </dl>
+                            </div>
+                        </div>
+                	</div>
+                    <div class="change_box">
+                    <div class="popbox_frombox clearfix" style="padding-bottom:0px; padding:0px;">
+                      <div class="table_workspace_infoBox mb20">
+                        <p class="noteText">温馨提示：多个号码以英文逗号 “<font color="red">,</font>”或者“换行” 隔开</p>
+                        <textarea id="indivdualRecipients" class="phoneNum recipients" cols="130" rows="8"></textarea><br><br><input value="清空" class="submit" type="button" onclick="$('.recipients').val('');$('.recipients').focus();">&nbsp;&nbsp;&nbsp;<input value="保存为组" class="submit" type="button" onclick="OpenPopbox('saveToGroup')"> <br>
+                    </div>
+                      <div class="submitbox np">
+                      	<input type="submit" class="submit" value="保存">
+                      	<input type="submit" class="submit can" value="取消">
+                      </div>
+                    </div>
+                  </div>
+              	</div>
+                <div style="margin-bottom:20px; color:#F00; padding-left:20px; padding-top:10px;">注：手工输入号码不要超过10万个</div>
+              </div>
+              <!--SMS设置End-->
+          </div>
+          <div class="tab_box_main">
+              <!--图表及高亮字段显示区Start-->
+              <div class="table_workspace clearfix border-bottom mb20" style="margin-top:40px;">
+                <div class="table_workspace_iphone_sms" style="margin:0px; border:none;">
+                	<div class="sms_title_box">
+                		<a href="#"><div class="sms_title"><img src="images/wenhao.gif" style="margin-right:5px; margin-bottom:5px;" />创建对照组</div></a>
+                        <input class="setup" type="button" value="编辑" onclick="OpenPopbox_noMove('add_dzz')">
+                    </div>
+                        <div class="popbox_frombox clearfix padding-left0">
+                            <div class="iphone_sms_frombox">
+                                <p style="margin-bottom:10px;">未创建<span class="red">（通过数据对比，帮助客户更好的了解营销活动的效果）</span></p>
+                                <div class="table_workspace_infoBox table_workspace_infoBox_mg0 compare" style="line-height:35px; margin-bottom:0px;" id="qrdzz">
+                                <strong>发送组人数为：</strong>  <apan class="compare_total">273061</apan>  人  （已保存到发送组）<br>
+                                <strong>对照组人数为：</strong>   <apan class="compare_comTotal">100000</apan>   人  （已保存到对照组）
+                            </div>
+                            </div>
+                        </div>
+            	</div>
+          	</div>
+          </div>
+          <div class="menu_title">发送时间</div>
+          <div class="tab_box_main">
+              <!--图表及高亮字段显示区Start-->
+              <div class="table_workspace clearfix border-bottom mb20 padding-top20">
+                <div class="table_workspace_iphone_sms" style="margin-bottom:20px;">
+                	<div class="sms_title_box">
+                		<div class="sms_title">发送时间设置</div>
+                        <a class="change_btn hh"><input class="setup" type="button" value="修改"></a>
+                    </div>
+                	<div class="show_box">
+                        <div class="popbox_frombox clearfix padding-left0">
+                            <div class="iphone_sms_frombox">
+                                <dl class="fleft" style="margin-bottom:0px;">
+                                  <dt>发送时间：</dt>
+                                  <dd>2016-04-07 17:33:12</dd>
+                                </dl>
+                            </div>
+                        </div>
+                	</div>
+                    <div class="change_box">
+                    <div class="popbox_frombox clearfix" style="padding-bottom:0px; padding:0px;">
+                      <div class="iphone_sms_frombox">
+                      	<dl class="fleft">
+                            <dt>发送时间：</dt>
+                            <dd>
+                                <label><input type="radio" checked="checked" name="sendType" value="1" id="RadioGroup1_0" onclick="$('#push_time').hide();javascript:$('.send_btn').val('立即发送');">&nbsp;立即发送</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="radio" name="sendType" value="2" id="RadioGroup1_1" onclick="$('#push_time').show();javascript:$('.send_btn').val('定时发送');">&nbsp;定时发送</label>
+                            </dd>
+                        </dl>
+                        <dl id="push_time" class="fleft" style="display:none;">
+                        	<dt>定时发送时间：</dt>
+                        	<dd>
+                        		<input name="sendTime" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'%y-%M-%d %H:%m:%s'})" class="text sendTime">
+                        	</dd>
+                        </dl>
+                      </div>
+                      <div class="submitbox np">
+                      	<input type="submit" class="submit" value="保存">
+                      	<input type="submit" class="submit can" value="取消">
+                      </div>
+                    </div>
+                  </div>
+            	</div>
+          	</div>
+          </div>
+          <div class="submitbox"><input type="submit" value="确认发送" /></div>
+      </div>
+        <div class="soft_workspace_footer">
+          <div class="footer_left">Powered by <a href="http://www.easycontact.cn" target="_blank">EasyContact</a>  Copyright &copy; 2013-2011 SinoContact,Inc</div>
+          <div class="footer_right"><a href="http://www.easycontact.cn" target="_blank">www.EasyContact.cn</a>&nbsp;｜&nbsp;<a href="#"><em class="setting"></em>账户设置</a></div>
+        </div>
+        
+      </td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>

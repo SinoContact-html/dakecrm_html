@@ -1,0 +1,530 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script language="javascript" type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/flexigrid.pack.js"></script>
+<script language="javascript" type="text/javascript" src="js/datepicker.js"></script>
+<script language="javascript" type="text/javascript" src="js/eye.js"></script>
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+
+<link href="css/common_new.css" rel="stylesheet" type="text/css" />
+<!--<link href="css/common_new_pink.css" rel="stylesheet" type="text/css" />-->
+
+<link href="css/sms_new.css" rel="stylesheet" type="text/css" />
+<!--<link href="css/sms_new_pink.css" rel="stylesheet" type="text/css" />-->
+
+<link href="css/flexigrid.pack.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" media="screen" type="text/css" href="css/datepicker.css" />
+<script language="javascript" type="text/javascript">
+jQuery(document).ready(function($) {
+	var GuideOpen = false;//程u序输出参数，判断是否打开引导界面
+	if(GuideOpen)OpenPopbox('index_Guide');
+	//OpenPopbox_noMove('loading');
+	
+	//setTimeout(function(){ClosePopbox('loading')},3000);
+});
+var isIndex = true;
+
+
+</script>
+<title>無標題文件</title>
+</head>
+
+<body>
+<div class="popbox_core" style="width:350px; height:15px; padding:30px;" id="loading">
+	<div class="percentage_box" style="padding:2px; float:left;">
+    	<div class="percentage_bg">
+        	<div style="width:20%"></div>
+        </div>
+    </div>
+    <div style="float:left; margin-left:10px;">系统正在处理，请稍等。。。</div>
+</div>
+
+<div class="popbox_core" id="index_first" style="width:600px;"><!--此处ID和colseID对应-->
+  <div class="popbox_head">
+  	<span class="title">亲，您好！感谢您首次访问达客CRM</span>
+    <div class="popbox_head_right"><a class="popbox_close" onclick="ClosePopbox('index_first')"></a></div>
+  </div>
+  <div class="popbox_workspace" style="width:auto; margin:20px; text-align:center;">
+  	<h1 style="margin-bottom:10px;">为确保您能够正常使用达客CRM，请留下主要负责人的有效联系方式，谢谢！</h1>
+    <div style="width:500px; display:inline-block; line-height:40px;">
+    	<p>手机号码：<input type="text" style="width:250px" />&nbsp;<span class="red">*</span></p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;QQ号：<input type="text" style="width:250px" />&nbsp;<span class="red">*</span></p>
+        <p>邮箱地址：<input type="text" style="width:250px" />&nbsp;&nbsp;</p>
+        <p>尊姓大名：<input type="text" style="width:250px" />&nbsp;&nbsp;</p>
+    </div>
+    <div class="submitbox"><input class="submit" type="submit" value="提交" /></div>
+  </div>
+</div>
+
+<!--弹出窗口层放置区Start-->
+<div class="popbox_core" id="index_Guide"><!--此处ID和colseID对应-->
+  <div class="popbox_head">
+    <span class="title">首次使用引导</span><span class="step" id="add_sms_event_StepName">欢迎使用达客CRM</span>
+    <div class="popbox_head_right"><a class="popbox_close" onclick="ClosePopbox('index_Guide')"></a></div>
+  </div>
+  <div class="popbox_workspace">
+  <ul class="step_ul clearfix" id="add_sms_event"><!--Step切换时才会用到Ul li-->
+    <li class="step_li clearfix">
+      <div class="popbox_frombox clearfix">
+        <strong class="bigtitle">欢迎使用达客CRM</strong><br /><br />
+        <div class="index_Guide_welcome">
+          <div class="icon"></div>
+          <span>立即导入店铺数据，让达客为您做全面、精确、智能的数据分析吧！</span>
+        </div>
+        <div class="submitbox"><input class="submit" type="submit" value="导入淘宝数据" onclick="/*OpenRemind('import_Contact');*/step1();"></div>
+      </div>
+    </li>
+    <li class="step_li clearfix">
+      <div class="popbox_frombox clearfix">
+        <strong class="bigtitle">您近一周订单情况如下</strong><br /><br />
+        <div class="index_Guide_welcome">
+          <div class="icon icon2"></div>
+          最近一周交易总额为3188元，交易笔数73，客单价35元<br />
+          最近一周完成订单1288元，交易笔数 58笔，客单价38元<br />
+          最近一周拍下未付款订单1000元，交易笔数 21笔，客单价33元<br />
+          快来试试达客智能分组功能吧
+        </div>
+        <div class="submitbox"><input class="submit" type="submit" value="下一步 - 智能分组" onclick="step2()"></div>
+      </div>
+    </li>
+    <li class="step_li clearfix">
+      <div class="popbox_frombox clearfix">
+        <!--图表及高亮字段显示区Start-->
+              <div class="CustomTableBox">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <thead>
+                      <tr>
+                        <td><div>会员分类</div></td>
+                        <td><div>会员人数</div></td>
+                        <td><div>交易总额</div></td>
+                        <td><div>交易笔数</div></td>
+                        <td><div>客单价</div></td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>砖石会员</td>
+                        <td>50人</td>
+                        <td>500元</td>
+                        <td>22笔</td>
+                        <td>55元</td>
+                      </tr>
+                      <tr>
+                        <td>白金会员</td>
+                        <td>50人</td>
+                        <td>500元</td>
+                        <td>22笔</td>
+                        <td>55元</td>
+                      </tr>
+                      <tr>
+                        <td>黄金会员</td>
+                        <td>50人</td>
+                        <td>500元</td>
+                        <td>22笔</td>
+                        <td>55元</td>
+                      </tr>
+                      <tr>
+                        <td>普通会员</td>
+                        <td>50人</td>
+                        <td>500元</td>
+                        <td>22笔</td>
+                        <td>55元</td>
+                      </tr>
+                      <tr>
+                        <td>拍下未付款会员</td>
+                        <td>50人</td>
+                        <td>500元</td>
+                        <td>22笔</td>
+                        <td>55元</td>
+                      </tr>
+                    </tbody>
+                </table>
+              </div>
+              <!--图表及高亮字段显示区End-->
+        <div class="submitbox"><input class="submit" type="submit" value="短信活动" onclick="window.location.href='短信营销-活动列表.html?openAddEvent=open';">&nbsp;&nbsp;&nbsp;<input class="submit" type="submit" value="邮件活动" onclick="window.location.href='邮件营销-活动列表.html?openAddEvent=open';">&nbsp;&nbsp;&nbsp;<input class="submit" type="submit" value="彩信活动" onclick="window.location.href='彩信营销-活动列表.html?openAddEvent=open';"></div>
+      </div>
+    </li>
+  </ul>
+  <script language="javascript" type="text/javascript">
+  var stepBoxName = $('#add_sms_event')
+  var stepBoxNameLi = $('#add_sms_event > li');
+  var stepTitleName = $('#add_sms_event_StepName');
+  $(stepBoxName).width($(stepBoxNameLi).length * 726);
+  
+  function step1(){
+	  $(stepBoxName).animate({'margin-left': "-726px"}, 300 );
+	  $(stepTitleName).html('订单情况');
+	  return false;
+  }
+  function step2(){
+	  $(stepBoxName).animate({'margin-left': "-1452px"}, 300 );
+	  $(stepTitleName).html('智能分组');
+	  return false;
+  }
+  </script>
+  </div>
+</div>
+
+<div class="popbox_core popbox_remind" id="import_Contact"><!--此处ID和colseID对应-->
+  <div class="popbox_head">
+    <span class="title">导入淘宝数据</span>
+    <!--<div class="popbox_head_right"><a class="popbox_close" onclick="ClosePopbox('import_Contact')"></a></div>-->
+  </div>
+  <div class="popbox_workspace">
+    <div class="percentage_box">
+      <div class="percentage_bg">
+        <div style="width:60%;"></div>
+      </div>
+      <div class="percentage_text">
+        正在导入数据，当前进度：60%
+      </div>
+    </div>
+  </div>
+</div>
+<!--弹出窗口层放置区End-->
+
+<div class="soft_top">
+  <div class="top_line_a">
+    <span onClick="window.location='充值中心-购买流量包.html'" class="infoShowBox">
+      <span>短信余额：<span>431</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮件余额：<span>732</span></span>
+    </span>
+    <a class="infoShowBox" style="margin-right:20px; margin-left:20px;" href="充值中心-购买流量包.html"><img src="images/icon_bg.png" />充值</a>
+    <span class="infoShowBox">
+      <span>&nbsp;&nbsp;旗舰版&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    </span>
+    <span onClick="window.location='充值中心-购买流量包.html'" class="infoShowBox">
+      <span>软件有效期至：<span>2016-8-30</span></span>
+    </span>
+    <a class="infoShowBox" style="margin-right:20px; margin-left:20px;" href="充值中心-购买流量包.html"><img src="images/icon_bg.png" />续费</a>  
+    
+        <div class="soft_top_left right">
+  	<span class="refresh refresh_noClick importRefresh" style="display: none;">
+          <span>
+          数据导入进度
+            <div class="percentage_box" style="padding:2px;">
+                <div class="percentage_bg">
+                    <div style="width:0%" class="percentage"></div>
+                </div>
+            </div>
+          </span>
+        已导入<span class="percentage_tips">0</span>%
+        </span>
+        <span class="infoShowBox info">
+        	<span>选择背景色：</span><em class="color blue"></em>
+        </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="infoShowBox info" id="info2">
+          新消息&nbsp;<!--<span class="icon"></span>--><span class="num">3</span>
+        </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <label id="subAccount" style="color:#cdcdcd; position:relative; height:25px; line-height:25px;">切换子店铺：<select id="subAccountSe" onchange="switchUser();" style="margin-top:-3px;"><option value="">请选择子店铺</option><option value="424">d[s103896799...</option><option value="-1">转流量到子店铺</option></select></label>
+        <a href="#" class="infoShowBox special" style="color:#FFF; position:relative; margin-left:20px; padding-right:5px;">切回主账户</a>
+    </div>
+  </div>
+  
+  <div class="top_line_b">
+  		 <div class="logoBox"><a href="首页.html"><img src="images/logo.png" /></a></div>
+      <div class="soft_top_left">
+        <!--<a class="top_nav hover" href="首页.html">首页</a>
+        <a class="top_nav default" href="CRM管理中心.html">CRM管理中心</a>
+        <span onClick="window.location='充值中心-购买流量包.html'" class="refresh">
+          <span>充值中心</span>
+        </span>-->                                                                
+        <a class="fastintobox onthis" href="充值中心-购买流量包.html">
+        	<div class="fib">首页</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib">交易提醒</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib">自动营销</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib">营销管理</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib">会员管理</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib">数据分析</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib">我的达客</div>
+        </a>
+        <a class="fastintobox last" href="充值中心-购买流量包.html">
+        	<div class="fib">使用教程</div>
+        </a>
+        
+        
+        </span>
+        <!--<span onClick="window.location='充值中心-购买流量包.html'" class="refresh">
+          <span>创建营销活动</span>
+        </span>
+        <span onClick="window.location='充值中心-购买流量包.html'" class="refresh">
+          <span>自动催付</span>
+        </span>
+        <span class="refresh">
+          <span class="icon"></span><span>刷新数据</span>
+        </span>-->
+        
+      </div>
+      <div class="soft_top_right">
+        <div class="username">
+        	<em class="before"></em>达客CRM店铺名<br/>
+        	<a class="loginout">[ 退出登录 ]</a>
+        </div>
+      </div>
+      
+      <div class="info_box_text">
+        <div class="title">消息提醒</div>
+        <div class="info_box_main info_blue">
+          <div class="box_top">放假通知</div>
+          <div class="box_worker">123123</div>
+          <div class="box_footer"><a href="#">删除消息</a></div>
+        </div>
+        <div class="info_box_main info_green">
+          <div class="box_top">余额不足提醒</div>
+          <div class="box_worker">123123</div>
+          <div class="box_footer"><a href="#">删除消息</a></div>
+        </div>
+        <div class="info_box_main info_gray">
+          <div class="box_top">立刻升级</div>
+          <div class="box_worker">123123</div>
+          <div class="box_footer"><a href="#">删除消息</a></div>
+        </div>
+        <span class="adm-informer-arrow"></span>
+      </div>
+      <div class="contact_box new" style="display: block;" id="box_open">
+              <div class="con_box_title">
+                  <strong style="font-size:12px;">联系客服</strong>
+              </div>
+              <div class="kfzk"><img src="images/pink_arr.png"></div>
+          </div>
+          <div class="contact_box" id="box_close" style="display: none;">
+              <div class="con_box_title"><strong style="font-size:14px;">客服热线：02161910347</strong>
+                  <br><br><strong style="font-size:14px;">手机联系：13162888912</strong></div>
+              <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=1192948838&amp;site=qq&amp;menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:1192948838:51" alt="点击这里给我发消息" title="点击这里给我发消息"></a>
+              <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=481730089&amp;site=qq&amp;menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:481730089:51" alt="点击这里给我发消息" title="点击这里给我发消息"></a>
+              <br><br>
+              <a target="_blank" href="http://amos.alicdn.com/msg.aw?v=2&amp;uid=达客营销管理平台:abby&amp;site=cntaobao&amp;s=2&amp;charset=utf-8"><img border="0" src="http://amos.alicdn.com/online.aw?v=2&amp;uid=达客营销管理平台:abby&amp;site=cntaobao&amp;s=1&amp;charset=utf-8" alt="点击这里给我发消息"></a>
+              <a target="_blank" href="http://amos.alicdn.com/msg.aw?v=2&amp;uid=达客营销管理平台:fiona&amp;site=cntaobao&amp;s=2&amp;charset=utf-8"><img border="0" src="http://amos.alicdn.com/online.aw?v=2&amp;uid=达客营销管理平台:fiona&amp;site=cntaobao&amp;s=1&amp;charset=utf-8" alt="点击这里给我发消息"></a>
+          </div>
+  </div>
+</div>
+<div class="page">
+<div class="slide_box"></div>
+  <table class="soft_body" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr class="soft_body_td">
+      <td class="soft_body_left">
+        <div class="soft_left_side">
+        	
+          <div class="soft_left_side_menu">
+            <a class="menu_home onthis" href="首页.html"><em></em><span>首页</span></a>
+            <a class="menu_home help" href="帮助中心.html"><em></em>帮助中心</a>
+          </div>
+          <div class="common_qa">
+          	<div class="common_qa_title"><em></em>常遇问题</div>
+            <ul class="qa_list">
+            	<li><a href="javascipt:void()">授权子旺登录</a></li>
+				<li><a href="javascipt:void()">导入历史交易数据</a></li>
+				<li><a href="javascipt:void()">关联子店铺</a></li>
+				<li><a href="javascipt:void()">更改店铺签名</a></li>
+				<li><a href="javascipt:void()">设置会员等级优惠</a></li>
+				<li><a href="javascipt:void()">群发支付宝红包</a></li>
+				<li><a href="javascipt:void()">使用短信实时互动</a></li>
+            </ul>
+          </div>
+        </div>
+      </td>
+      <td class="soft_body_right">
+        <div class="soft_workspace" style="display:none;">
+          <div class="tab_box_main">
+            <div id="tab_0"><!--此DIV为Tab第一区块-->
+              <div class="table_top"><!--需要圆角时加上class:Rounded-->
+                <div class="table_left">
+                  &nbsp;
+                </div>
+                <div class="table_right">
+                  
+                </div>
+              </div>
+              <div class="table_workspace clearfix border-bottom padding-top20 margin-bottom20">
+                <div class="index_textBox">
+                  <div class="percentage_box">
+                    <div class="percentage_text">
+                      <strong class="welcome">尊敬的用户！</strong>
+                      <ul>
+                        <li>您还未导入历史数据，导入数据后可使用达客CRM的更多功能</li>
+                        <li><input type="submit" value="导入数据" /></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="soft_workspace">
+          <!--<div class="tab_box">
+            <span class="detail_tab active">常用工具</span>
+          </div>-->
+          <div class="tab_box_main">
+            <div id="tab_0">
+              <div class="table_workspace clearfix margin-bottom20" style="border:none; margin-top:-18px; padding-top:0px;">
+              <div class="banner" style="display:block;">
+              		<a href="#"><img src="images/banner.jpg" width="100%" height="130" style="display:block;" /></a>
+                    <a href="#"><img src="images/20140814.gif" width="100%" height="130" /></a>
+                    <a href="#"><img src="images/20140903.jpg" width="100%" height="130" /></a>
+                    <div class="icon_prev"></div>
+                    <div class="icon_next"></div>
+              </div>
+              <div class="mumber_box">
+              	<div class="mumber_number">
+                	<div class="mumber_img"><em></em>当前店铺会员数</div>
+                    <div class="mumber_text">
+                    	<strong>111111111</strong>
+                    </div>
+                </div>
+                <div class="mumber_btns">
+                	<a href="#" class="btn_box">
+                    	<div class="dr_icon"><em></em><img src="images/dr_icon.png" /><span>导入历史交易记录</span></div>
+                        <span>导入官方历史交易记录，补全店铺的会员数据</span>
+                    </a>                    
+                    <a href="#" class="btn_box"><img src="images/drwblxr.png" />导入其他联系人数据，增添营销对象</a>
+                </div>
+              </div>
+              <div class="index_box" style="width:28%;">
+                  <div class="tab_title_box">
+                    <em class="gonggao"></em><span class="detail_tab active">系统公告</span>
+                  </div>
+                  <div class="xtgg">
+                    <dl>
+                        <dt><em></em><span>公告</span><strong>系统维护公告</strong></dt><dd>2015-06-05</dd>
+                    </dl>
+                    <dl>
+                        <dt><em></em><span class="fun">新功能</span><strong>聚划算催付</strong></dt><dd>2015-06-05</dd>
+                    </dl>
+                    <dl>
+                        <dt><em></em><span class="fun">新功能</span><strong>聚划算催付</strong></dt><dd>2015-06-05</dd>
+                    </dl>
+                    <dl>
+                        <dt><em class="open"></em><span class="fun">新功能</span><strong>聚划算催付</strong></dt><dd>2015-06-05</dd>
+                    </dl>
+                    <dl>
+                        <dt><em class="open"></em><span class="fun">新功能</span><strong>聚划算催付</strong></dt><dd>2015-06-05</dd>
+                    </dl>
+                    <div class="new_fun"><em></em>告诉我你想要的功能</div>
+                  </div>
+              </div>
+              <div class="common_funs">
+              	<div class="tab_title_box">
+                	<em class="common"></em><span class="detail_tab active">常用功能</span>
+                </div>
+                <div class="common_funs_con">
+                	<a class="common_funs_item" href="#">
+                    	<em class="index_icon dx"></em>
+                        <h1>短信营销</h1>
+                        <p>短信营销短信营销短信营销短信营销短信营销短信营销短信营销短信营销短信营销短信营销短信营销短信营销</p>
+                    </a>
+                    <a class="common_funs_item fr" href="#">
+                    	<em class="index_icon cf"></em>
+                        <h1>未付款催付</h1>
+                        <p>哇哈卡哇哈卡哇哈卡哇哈卡哇哈卡哇哈卡哇哈卡哇哈卡哇哈卡哇哈卡哇哈卡哇哈卡哇哈卡</p>
+                    </a>
+                    <a class="common_funs_item" href="#">
+                    	<em class="index_icon fh"></em>
+                        <h1>发货提醒</h1>
+                        <p>哟呼哟呼哟呼哟呼哟呼哟呼哟呼哟呼哟呼哟呼大大采取所谓权威的哟呼哟呼哟呼哟呼哟呼</p>
+                    </a>
+                    <a class="common_funs_item fr" href="#">
+                    	<em class="index_icon zd"></em>
+                        <h1>指定号码发送</h1>
+                        <p>友谊的小船说翻就翻，友谊的小船说翻就翻，友谊的小船说翻就翻，友谊的小船说翻就翻</p>
+                    </a>
+                    <a class="common_funs_item" href="#">
+                    	<em class="index_icon qs"></em>
+                        <h1>签收提醒</h1>
+                        <p>爱情的巨轮说沉就沉，爱情的巨轮说沉就沉，爱情的巨轮说沉就沉，爱情的巨轮说沉就沉</p>
+                    </a>
+                    <a class="common_funs_item fr" href="#">
+                    	<em class="index_icon ll"></em>
+                        <h1>流量报告</h1>
+                        <p>阿西吧，阿西吧，阿西吧，阿西吧，阿西吧，阿西吧，阿西吧，阿西吧，阿西吧，阿西吧</p>
+                    </a>
+                </div>
+              </div>
+              <div class="index_box" style="width:28%; margin-top:20px;">
+                  <div class="tab_title_box">
+                	<em class="common"></em><span class="detail_tab active">联系客服</span>
+                  </div>
+                  <div class="xtgg" style="height:359px;">
+                    <p class="hotline_text"><img src="images/icon_phone.png" /><span>客服热线：021-61910347</span></p>
+                    <p class="hotline_text"><img style="margin-left:5px;" src="images/icon_mobile.png" /><span>手机联系：13162888912</span></p>
+                    <p style="text-align:center; padding:20px 0px;">
+                    	<a target="_blank" href="http://amos.alicdn.com/msg.aw?v=2&amp;uid=达客营销管理平台:fiona&amp;site=cntaobao&amp;s=2&amp;charset=utf-8"><img border="0" src="http://amos.alicdn.com/online.aw?v=2&amp;uid=达客营销管理平台:fiona&amp;site=cntaobao&amp;s=1&amp;charset=utf-8" alt="点击这里给我发消息"></a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                    	<a target="_blank" href="http://amos.alicdn.com/msg.aw?v=2&amp;uid=达客营销管理平台:fiona&amp;site=cntaobao&amp;s=2&amp;charset=utf-8"><img border="0" src="http://amos.alicdn.com/online.aw?v=2&amp;uid=达客营销管理平台:fiona&amp;site=cntaobao&amp;s=1&amp;charset=utf-8" alt="点击这里给我发消息"></a>
+                    </p>
+                    <div class="new_fun mess"><em></em>点我！反馈你的意见或建议</div>
+                  </div>
+              </div>
+              <div class="banner sma"><img src="images/banner_l.jpg" width="100%" style="display:block;" /></div>
+            </div>
+          </div>
+          <!--Tab切换按钮结束-->
+          <div class="clear"></div>
+          
+          
+          
+        </div>
+      </div>
+        <div class="soft_workspace_footer">
+                    
+
+
+
+
+<div class="footer_left">
+	Powered by
+    EasyContact
+	Copyright © 2012-2015 SinoContact,Inc
+</div>
+<div class="footer_right">
+	
+	<!--a href="/usercenter/accountSetting?moduleId=18"><em class="setting"></em>账户设置</a-->
+        <a href="#" class="gogoupup"><em class="setting"></em>返回顶部</a>
+    <script>
+        $('a.gogoupup').click(function(e){
+            var t=0, b=0, c=$(document).scrollTop(), d=100;
+            setRun = setInterval(function(){
+                if(t<d){
+                    t++;
+                    $(document).scrollTop(Math.abs(Math.ceil(Tween.Cubic.easeOut(t,b,c,d))-c));
+                }else{
+                    clearInterval(setRun);
+                }
+            }, 10);
+        });
+        var Tween = {
+            Cubic: {
+                easeOut: function(t,b,c,d){
+                    return c*((t=t/d-1)*t*t + 1) + b;
+                }
+            }
+        }
+    </script>
+</div>
+<div style="display: none;">
+
+<script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F2a33609c33bf8365ba0e7e5807f2aabc' type='text/javascript'%3E%3C/script%3E"));
+</script><script src=" http://hm.baidu.com/h.js?2a33609c33bf8365ba0e7e5807f2aabc" type="text/javascript"></script><a href="http://tongji.baidu.com/hm-web/welcome/ico?s=2a33609c33bf8365ba0e7e5807f2aabc" target="_blank"><img border="0" src="http://eiv.baidu.com/hmt/icon/21.gif" width="20" height="20"></a>
+</div>
+                </div>
+      </td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>

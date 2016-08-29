@@ -1,0 +1,1695 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>短信模板管理</title>
+	
+
+
+
+
+	
+
+
+
+
+
+
+
+
+<script language="javascript" type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/eye.js"></script>
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" src="js/common_develop.js"></script>
+<script language="javascript" type="text/javascript" src="js/variable_config.js"></script>
+<script language="javascript" type="text/javascript" src="js/validator.js"></script>
+<!-- Jim add Start -->
+<script language="javascript" type="text/javascript" src="js/flexigrid.pack.js"></script>
+<script language="javascript" type="text/javascript" src="js/datepicker.js"></script>
+<!-- Jim add end -->
+<link href="css/common_new.css" rel="stylesheet" type="text/css" />
+<link href="css/sms_new.css" rel="stylesheet" type="text/css" />
+
+
+<link href="css/com_menu.css" rel="stylesheet" type="text/css" />
+<link href="css/customize.css" rel="stylesheet" type="text/css" />
+	<script language="javascript" type="text/javascript" src="js/jquery-ui.js"></script>
+<link rel="stylesheet" media="screen" type="text/css" href="css/jquery-ui.css" />
+	<link href="js/jtable/themes/lightcolor/gray/jtable.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jtable/jquery.jtable.js"></script>
+<script type="text/javascript" src="/s/jtable/jquery.jtable.zh-CN.js"></script>
+	<script language="javascript" type="text/javascript" src="js/datepicker.js"></script>
+<link rel="stylesheet" media="screen" type="text/css" href="css/datepicker.css" />
+	<script language="javascript" type="text/javascript" src="js/highcharts/highcharts.src.js"></script>
+<script language="javascript" type="text/javascript" src="js/highcharts/themes/tb_crm.js"></script>
+<script type="text/javascript" src="js/highcharts/highcharts-more.js"></script>
+<script type="text/javascript" src="js/highcharts/funnel.js"></script>
+
+
+	<script language="javascript" type="text/javascript" charset="utf-8" src="js/kindeditor/kindeditor-min.js"></script>
+	<script language="javascript" type="text/javascript" charset="utf-8" src="js/kindeditor/zh_CN.js"></script>
+	<script type="text/javascript" src="js/calendar/WdatePicker.js"></script>
+	<script type="text/javascript" src="js/regex.js"></script>
+	<script type="text/javascript" src="js/validator.js"></script>
+	<script type="text/javascript">
+		var type=2;
+		var jTable ;
+
+		$(document).ready(function() {
+			if(''!=''){
+				type='';
+				$('#templateType').val('');
+				$('#tlType').val('');
+			}else{
+				type=$('#tlType').val();
+			}
+			if(false){
+				OpenPopbox('add_Sms_Template');
+			}
+			//加载表格控件
+			jTable = $('#tempLateTableContainer').jtable({
+				title: '短信模板列表',
+				paging: true, //Enable paging
+				pageSize: 10, //Set page size (default: 10)
+				selecting: false, //Enable selecting
+				multiselect: false, //Allow multiple selecting
+				actions: {
+					listAction: '/autosms/listUserAutoSmsTemplate'
+				},
+				fields: {
+					rowId: {
+						key: true,
+						create: false,
+						edit: false,
+						list: false
+					},
+					template_subject: {
+						title: '模板名称'
+					},
+					template_content: {
+						title: '模板内容',
+						display: function(data){
+							if(data.record.template_content.length > 20){
+								return "<span title=\""+data.record.template_content+"\">"+data.record.template_content.substring(0,20) +" ... </span>";
+							}else{
+								return data.record.template_content;
+							}
+						}
+					},
+					create_time: {
+						title: '创建时间',
+						display: function(data){
+							if(data.record.create_time.length > 16){
+								return data.record.create_time.substring(0,16);
+							}else{
+								return data.record.create_time;
+							}
+						}
+					},
+					status: {
+						title: '状态',
+						display: function(data){
+							switch(data.record.status){
+								case '-1':return "<font color=\"red\">未通过审核</font>" ;break ;
+								case '0':return "<font color=\"gray\">等待审核</font>" ;break ;
+								case '1':return "<font color=\"green\">审核通过</font>" ;break ;
+							}
+						}
+					},
+					flag: {
+						title: '类型',
+						display: function(data){
+							switch(data.record.flag){
+								case '1':return "<font color=\"gray\">系统模板</font>";break ;
+								case '2':return "自创模板";break ;
+							}
+						}
+					},
+					operate: {
+						title: '操作',
+						display: function(data){
+							var edit="<a style=\"cursor:pointer;\"  onclick=\"preUpdateSMSTemplate('"+data.record.template_id+"','"+data.record.template_subject+"','"+data.record.template_content+"','"+data.record.type+"','"+data.record.flag+"');insertSmsContentNew2();\">编辑</a>";
+							var dele="<a style=\"cursor:pointer;\" onclick=\"deleteTemplate('"+data.record.template_id+"','"+data.record.flag+"');\">删除</a>";
+							if(data.record.flag==2){
+								switch(data.record.status){
+									case '-1':return edit+"&nbsp;|&nbsp;"+dele;break ;
+									case '0':return  edit+"&nbsp;|&nbsp;"+dele;break ;
+									case '1':return  edit+"&nbsp;|&nbsp;"+dele;break ;
+								}
+							}else{
+								return  edit;
+							}
+						}
+					}
+				}
+			});
+
+
+			jTable.jtable('load',{
+				'templateType':type
+			});
+
+			branches();
+
+			$('#templateContent').keyup(function(){
+				insertSmsContentNew();
+			})
+			$('#templateContentUpdate').keyup(function(){
+				insertSmsContentNew2();
+			})
+		});
+
+		function loadTemplate(){
+			var type=$('#tlType').val();
+			jTable.jtable('load',{
+				templateType:type
+			});
+		}
+
+		function insertSmsContentNew(){
+			$.ajax({
+				url: '/user/getUserSignInfo',
+				type: 'POST',
+				data:{
+
+				},
+				dataType: 'json',
+				success: function(resp){
+					console.log(resp);
+					var type= 'C';
+					var sign ;
+					var is_unsubscribe = 'yes';
+					var is_pre_sign = 'yes';
+					var unsubscribe_content = ' 退订回N';
+					var first_content_length = '70';
+					var other_content_length = '67';
+					var content = "";
+					sign = "【小姿生活】";
+					$(".unsubscribe").html(unsubscribe_content);
+					if (is_unsubscribe!=null && is_unsubscribe!='' && is_unsubscribe=="yes"){
+						content = $("#templateContent").val()+unsubscribe_content;
+					}
+					if (is_pre_sign!=null && is_pre_sign!='' && is_pre_sign=="yes"){
+						content =  sign + content;
+					}else{
+						content =  content + sign;
+					}
+					console.log(content);
+					var textNmu = content.length;
+					$("C_Num").html(first_content_length);
+					$("#T_Num").html(textNmu);
+					if(textNmu-parseInt(first_content_length)>0){
+						if(parseInt(textNmu)%parseInt(other_content_length)==0){
+							$("#Sms_Num").html(parseInt((textNmu)/other_content_length));
+						}
+						else{
+							$("#Sms_Num").html(1+parseInt((textNmu)/other_content_length));
+						}
+					}else{
+						$("#Sms_Num").html(1);
+					}
+
+				}});
+
+		}
+		function insertSmsContentNew2(){
+			$.ajax({
+				url: '/user/getUserSignInfo',
+				type: 'POST',
+				data:{
+
+				},
+				dataType: 'json',
+				success: function(resp){
+					console.log(resp);
+					var type= 'C';
+					var sign ;
+					var is_unsubscribe = 'yes';
+					var is_pre_sign = 'yes';
+					var unsubscribe_content = ' 退订回N';
+					var first_content_length = '70';
+					var other_content_length = '67';
+					var content = "";
+					sign = "【小姿生活】";
+					$(".unsubscribe").html(unsubscribe_content);
+					if (is_unsubscribe!=null && is_unsubscribe!='' && is_unsubscribe=="yes"){
+						content = $("#templateContentUpdate").val()+unsubscribe_content;
+					}
+					if (is_pre_sign!=null && is_pre_sign!='' && is_pre_sign=="yes"){
+						content =  sign + content;
+					}else{
+						content =  content + sign;
+					}
+					console.log(content);
+					var textNmu = content.length;
+					$("C_Num_edit").html(first_content_length);
+					$("#T_Num_edit").html(textNmu);
+					if(textNmu-parseInt(first_content_length)>0){
+						if(parseInt(textNmu)%parseInt(other_content_length)==0){
+							$("#Sms_Num_edit").html(parseInt((textNmu)/other_content_length));
+						}
+						else{
+							$("#Sms_Num_edit").html(1+parseInt((textNmu)/other_content_length));
+						}
+					}else{
+						$("#Sms_Num_edit").html(1);
+					}
+
+				}});
+		}
+		function branches(){
+			var sign='【小姿生活】';
+			var textNmu = $("#templateContent").val().length+sign.length;
+			var c_num = MAX_AUTO_SMS_CONTENT_LENGTH-textNmu;
+			$("#T_Num").html(textNmu);
+			$('#max_sms_content_length').html(MAX_AUTO_SMS_CONTENT_LENGTH);
+			if (c_num < 0){
+				if(parseInt(textNmu)%MAX_AUTO_SMS_CONTENT_LENGTH==0){
+					$("#Sms_Num").html(parseInt(textNmu/MAX_AUTO_SMS_CONTENT_LENGTH));
+				}
+				else{
+					$("#Sms_Num").html(parseInt(textNmu/MAX_AUTO_SMS_CONTENT_LENGTH)+1);
+				};
+			}else{
+				$("#Sms_Num").html(1);
+			}
+		}
+		function branchesUpdate(){
+			var sign='【小姿生活】';
+			var textNmu = $("#templateContentUpdate").val().length+sign.length;
+			var c_num = MAX_SMS_CONTENT_LENGTH-textNmu;
+			$("#T_Num_edit").html(textNmu);
+			$('#max_sms_content_length_edit').html(MAX_SMS_CONTENT_LENGTH);
+			if (c_num < 0){
+				if(parseInt(textNmu)%MAX_SMS_CONTENT_LENGTH==0){
+					$("#Sms_Num_edit").html(parseInt(textNmu/MAX_SMS_CONTENT_LENGTH));
+				}
+				else{
+					$("#Sms_Num_edit").html(parseInt(textNmu/MAX_SMS_CONTENT_LENGTH)+1);
+				};
+			}else{
+				$("#Sms_Num_edit").html(1);
+			}
+		}
+
+		function insertAtCursor(myField, myValue) {
+
+
+			//IE support
+			if (document.selection) {
+				myField.focus();
+				sel = document.selection.createRange();
+				sel.text = myValue;
+				sel.select();
+			}
+			else if (myField.selectionStart || myField.selectionStart == '0') {
+				var startPos = myField.selectionStart;
+				var endPos = myField.selectionEnd;
+				var restoreTop = myField.scrollTop;
+				myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+				if (restoreTop > 0) {
+					myField.scrollTop = restoreTop;
+				}
+				myField.focus();
+				myField.selectionStart = startPos + myValue.length;
+				myField.selectionEnd = startPos + myValue.length;
+			} else {
+				myField.value += myValue;
+				myField.focus();
+			}
+
+			if(myField.id!=null && myField.id =='templateContent'){
+				insertSmsContentNew();
+
+			}else{
+				insertSmsContentNew2();
+			}
+		}
+
+	</script>
+
+</head>
+<body>
+<div class="popbox_core" id="add_Sms_Template"><!--此处ID和colseID对应-->
+	<div class="popbox_head">
+		<span class="title">新建短信模板</span>
+		<div class="popbox_head_right"><a class="popbox_close" onclick="ClosePopbox('add_Sms_Template')"></a></div>
+	</div>
+	<div class="popbox_workspace">
+		<!--Tab内容切换Start-->
+		<div>
+			<div class="popbox_frombox clearfix">
+				<dl class="twolist">
+					<dt>模板名称：</dt><dd><input class="text clear_text" type="text" id="templateSubject" name="templateSubject" maxlength="30"/></dd>
+				</dl>
+				<div class="clear"></div>
+				<dl>
+					<dt>模板所属：</dt>
+					<dd>
+						<select name="templateType" id="templateType" disabled>
+							<option value="23">下单关怀</option>
+							<option value="2">未付款催付</option>
+							<option value="19">预售订单催付</option>
+							<option value="21">二次催付</option>
+							<option value="60">付款关怀</option>
+							<option value="8">发货提醒</option>
+							<option value="3">到达所在城市提醒</option>
+							<option value="40">物流异常</option>
+							<option value="70">派件提醒</option>
+							<option value="4">签收提醒</option>
+							<option value="5">好评提醒</option>
+							<option value="7">好评感谢</option>
+							<option value="6">差评安抚</option>
+							<option value="30">生日关怀</option>
+						</select>
+					</dd>
+				</dl>
+				<div class="clear"></div>
+				<dl class="twolist" style="width:640px;">
+					<dt>模板变量：</dt><dd style="width:540px;"><span id="templateVariable" /></dd>
+				</dl>
+				<div class="clear"></div>
+				<dl>
+					<dt>模板内容：</dt>
+					<dd>
+						<textarea class="phoneNum clear_text" id="templateContent" name="templateContent"></textarea>
+                        <div class="note">
+							您当前已输入<span id="T_Num" class="num"
+										style="color: #09f;display: inline-block;font-family: Georgia;font-size: 18px;font-weight: bold;padding: 0 4px;">0</span>个字符（含卖家短信签名），
+							将按照 <span id="Sms_Num" class="num"  style="color:red;font-size: 14px;font-weight: bold">0</span> 条短信计费。
+                            <a href="#" class="red">计费规则<img src="images/wenhao.gif" style="margin-left:5px; margin-bottom:5px;" /></a>
+						</div>
+					</dd>
+				</dl>
+				<dl>
+					<dt>退订短信：</dt>
+					<dd>
+						<span class="unsubscribe"> 退订回N</span>
+					</dd>
+				</dl>
+				<dl>
+					<dt>短信签名：</dt>
+					<dd>
+						【小姿生活】
+						<a href="/usercenter/getBasicInfo?moduleId=37" target="_blank">
+							<font color="#8b008b">修改</font>
+						</a>
+					</dd>
+				</dl>
+				<dl>
+					<dt></dt>
+					<dd>
+						
+					</dd>
+				</dl>
+			</div>
+		</div>
+		<!--Tab内容切换End-->
+		<div class="submitbox"><input class="submit" type="submit" value="确认" id="addSubmit" onclick="addSMSTemplate()" /></div>
+
+	</div>
+</div>
+<script>
+	var templateType = null
+	if(templateType == "2"){
+		var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$店铺名称}')\">店铺名称</a>"
+                + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家昵称}')\">买家昵称</a>"
+                + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家姓名}')\">买家姓名</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$商品名}')\">商品名</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$订单总价}')\">订单总价</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$付款链接}')\">付款链接</a>";
+		$("#templateVariable").html(Str);
+	}else if(templateType == "19"){
+		var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$店铺名称}')\">店铺名称</a>"
+                + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家昵称}')\">买家昵称</a>"
+                + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家姓名}')\">买家姓名</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$商品名}')\">商品名</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$订单总价}')\">订单总价</a>";
+		$("#templateVariable").html(Str);
+	}else if(templateType == "8"){
+		var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家昵称}')\">买家昵称</a>"
+                + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家姓名}')\">买家姓名</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$店铺名称}')\">店铺名称</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$物流公司}')\">物流公司</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$运单编号}')\">运单编号</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$商品名}')\">商品名</a>";
+		$("#templateVariable").html(Str);
+	}else if(templateType == "3"){
+		var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家昵称}')\">买家昵称</a>"
+                + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家姓名}')\">买家姓名</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$店铺名称}')\">店铺名称</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$商品名}')\">商品名</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$物流公司}')\">物流公司</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$运单编号}')\">运单编号</a>";
+		$("#templateVariable").html(Str);
+	}else if(templateType == "4"){
+		var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家昵称}')\">买家昵称</a>"
+                + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家姓名}')\">买家姓名</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$店铺名称}')\">店铺名称</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$商品名}')\">商品名</a>";
+		$("#templateVariable").html(Str);
+	}else if(templateType == "5"){
+		var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家昵称}')\">买家昵称</a>"
+                + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家姓名}')\">买家姓名</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$店铺名称}')\">店铺名称</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$商品名}')\">商品名</a>";
+		$("#templateVariable").html(Str);
+
+	}else if(templateType == "7"){
+		var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家昵称}')\">买家昵称</a>"
+                + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家姓名}')\">买家姓名</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$店铺名称}')\">店铺名称</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$商品名}')\">商品名</a>";
+		$("#templateVariable").html(Str);
+	}else if(templateType == "6"){
+		var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家昵称}')\">买家昵称</a>"
+                + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家姓名}')\">买家姓名</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$店铺名称}')\">店铺名称</a>"
+				+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$商品名}')\">商品名</a>";
+		$("#templateVariable").html(Str);
+	}else if(templateType == "30"){
+        var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$日期}')\">日期</a>"
+                + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$店铺名称}')\">店铺名称</a>";
+         $("#templateVariable").html(Str);
+    }
+</script>
+
+<div class="popbox_core" id="edit_Sms_Template"><!--此处ID和colseID对应-->
+	<div class="popbox_head">
+		<span class="title">编辑短信模板</span>
+		<div class="popbox_head_right"><a class="popbox_close" onclick="ClosePopbox('edit_Sms_Template')"></a></div>
+	</div>
+	<div class="popbox_workspace">
+		<!--Tab内容切换Start-->
+		<div>
+			<div class="popbox_frombox clearfix">
+				<dl class="twolist">
+					<dt>模板名称：</dt><dd><input class="text" type="text" id="templateSubjectUpdate" name="templateSubject" maxlength="30"/></dd>
+				</dl>
+				<div class="clear"></div>
+				<dl>
+					<dt>模板所属：</dt>
+					<dd>
+						<select name="templateType" id="templateTypeUpdate" disabled>
+							<option value="23">下单关怀</option>
+							<option value="2">未付款催付</option>
+							<option value="19">预售订单催付</option>
+							<option value="21">二次催付</option>
+							<option value="60">付款关怀</option>
+							<option value="8">发货提醒</option>
+							<option value="3">到达所在城市提醒</option>
+							<option value="40">物流异常</option>
+							<option value="70">派件提醒</option>
+							<option value="4">签收提醒</option>
+							<option value="5">好评提醒</option>
+							<option value="7">好评感谢</option>
+							<option value="6">差评安抚</option>
+							<option value="30">生日关怀</option>
+						</select>
+					</dd>
+				</dl>
+				<div class="clear"></div>
+				<dl class="twolist" style="width:640px;">
+					<dt>模板变量：</dt><dd style="width:540px;"><span id="edittemplateVariable" /></dd>
+				</dl>
+				<div class="clear"></div>
+				<dl>
+					<dt>模板内容：</dt><dd><textarea class="phoneNum" id="templateContentUpdate" name="templateContent"></textarea>
+					<input type="hidden" name="templateId" id="templateIdUpdate"/>
+					<input type="hidden" name="flag" id="flagUpdate"/>
+				</dd>
+				</dl>
+				<dl>
+					<dt>退订短信：</dt>
+					<dd>
+						<span class="unsubscribe"> 退订回N</span>
+					</dd>
+				</dl>
+                <dl>
+                    <dt>短信签名：</dt>
+                    <dd>
+                        【小姿生活】
+                        <a href="/usercenter/getBasicInfo?moduleId=37" target="_blank">
+                            <font color="#8b008b">修改</font>
+                        </a>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt></dt>
+                    <dd>
+                        <div class="note">
+							计费规则：70字符计为1条短信；若短信内容大于70字符，则每条均按67字符计算（包含首条在内），去除退订回N和一个空格，以及店铺签名,<br/>
+                            您当前已输入<span id="T_Num_edit" class="num"
+                                        style="color: #09f;display: inline-block;font-family: Georgia;font-size: 18px;font-weight: bold;padding: 0 4px;">0</span>个字符（含卖家短信签名），
+                            将按照 <span id="Sms_Num_edit" class="num"  style="color:red;font-size: 14px;font-weight: bold">0</span> 条短信计费。
+                            <br/>
+                            宝贝名称长度等信息为自动获取，此处字符数仅做参考。
+                        </div>
+                    </dd>
+                </dl>
+			</div>
+			<!--Tab内容切换End-->
+			<div class="submitbox"><input class="submit" type="submit" value="确认" onclick="updateSMSTemplate()" /></div>
+		</div>
+	</div>
+</div>
+
+<div class="soft_top">
+	<!-- 顶部菜单 -->
+	
+
+
+
+
+
+
+<!-- 公共头部 -->
+<div class="soft_top">
+	<div class="top_line_a">
+		<span
+			onClick="window.location='/usercenter/rechargeCenter?moduleId=17'"
+			class="infoShowBox"> <span>短信余额：<span>7032</span>
+				&nbsp;&nbsp; 邮件余额：<span>21509</span>
+				&nbsp;&nbsp;  彩信余额：<span>82</span>
+		</span> </span>
+		<a class="infoShowBox" style="margin-right: 20px;"
+			href="/usercenter/rechargeCenter?moduleId=17"><img
+				src="/images/icon_bg.png" />充值</a>
+		<span class="infoShowBox"> <span>&nbsp;&nbsp; 
+					
+					
+					
+              旗舰版
+          
+					
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> </span>
+		<span class="infoShowBox"> <span>软件有效期至：<span>2017-09-29</span>
+		</span> </span>
+		<a class="infoShowBox" style="margin-right: 20px;"
+			href="http://fuwu.taobao.com/ser/detail.htm?spm=0.0.0.0.tII52J&service_code=FW_GOODS-1864479"><img
+				src="/images/icon_bg.png" />续费</a>
+
+		<div class="soft_top_left right">
+			<span class="refresh refresh_noClick importRefresh"
+				style="display: none;"> <span> 数据导入进度
+					<div class="percentage_box" style="padding: 2px;">
+						<div class="percentage_bg">
+							<div style="width: 0%" class="percentage"></div>
+						</div>
+					</div> </span> 已导入<span class="percentage_tips">0</span>% </span>
+			<span class="infoShowBox info"> <!--  <span>选择背景色：</span><em
+				class="color"></em> --> </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<span class="infoShowBox info" id="info2"> 新消息&nbsp;<!--<span class="icon"></span>-->
+				<span class="num msg_num">3</span> </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			 <label id="subAccount" style="display: none; color : #cdcdcd; position: relative; height: 25px; line-height: 25px;">
+          	</label>
+			
+		</div>
+	</div>
+
+	<!-- 导航开始 -->
+
+
+
+	<div class="top_line_b">
+		<div class="logoBox">
+			<img src="/images/logo.png" />
+		</div>
+		<div class="soft_top_left">
+			
+				
+				
+					<a class="fastintobox" href="/user/index"><div
+							class="fib">
+							<img src="/images/icon_home.png" />
+							<br />
+							首页
+						</div>
+					</a>
+				
+			
+			
+			
+				<a
+					class="fastintobox onthis"
+					href="/user/content?moduleId=45">
+
+					<div class="fib">
+						
+							
+								<img src="/images/icon_clock.png" />
+							
+
+							
+							
+							
+							
+							
+							
+							
+						
+						<br />
+						交易提醒 
+
+					</div> </a>
+			
+				<a
+					class="fastintobox "
+					href="/user/content?moduleId=77">
+
+					<div class="fib">
+						
+							
+
+							
+								<img src="/images/icon_auto_l.png" />
+							
+							
+							
+							
+							
+							
+							
+						
+						<br />
+						自动营销 
+
+					</div> </a>
+			
+				<a
+					class="fastintobox "
+					href="/user/content?moduleId=3">
+
+					<div class="fib">
+						
+							
+
+							
+							
+								<img src="/images/icon_yx.png" />
+							
+							
+							
+							
+							
+							
+						
+						<br />
+						营销管理 
+
+					</div> </a>
+			
+				<a
+					class="fastintobox "
+					href="/user/content?moduleId=2">
+
+					<div class="fib">
+						
+							
+
+							
+							
+							
+								<img src="/images/icon_mumber.png" />
+							
+							
+							
+							
+							
+						
+						<br />
+						会员管理 
+
+					</div> </a>
+			
+				<a
+					class="fastintobox "
+					href="/user/content?moduleId=142">
+
+					<div class="fib">
+						
+							
+
+							
+							
+							
+							
+							
+							
+							
+								<img src="/images/icon_yx.png" />
+							
+						
+						<br />
+						评价管理 
+
+					</div> </a>
+			
+				<a
+					class="fastintobox "
+					href="/user/content?moduleId=1">
+
+					<div class="fib">
+						
+							
+
+							
+							
+							
+							
+								<img src="/images/icon_sj.png" />
+							
+							
+							
+							
+						
+						<br />
+						数据分析 
+
+					</div> </a>
+			
+				<a
+					class="fastintobox "
+					href="/user/content?moduleId=4">
+
+					<div class="fib">
+						
+							
+
+							
+							
+							
+							
+							
+								<img src="/images/icon_my.png" />
+							
+							
+							
+						
+						<br />
+						我的达客 
+
+					</div> </a>
+			
+			</span>
+
+
+		</div>
+		<div class="soft_top_right">
+			<div class="username">
+				<em class="before"></em>
+				
+                  
+                        <span title="d[s103896799]">
+                            
+                                
+                                    d[s10…
+                                
+                                
+                            
+                        </span>
+                  
+                  
+              
+				
+				<br />
+				<a class="loginout"  href="/sys/logout">[ 退出登录 ]</a>
+			</div>
+		</div>
+	  <div class="contact_box new" style="display: block;" id="box_open">
+              <div class="con_box_title">
+                  <strong style="font-size:12px;">联系客服</strong>
+              </div>
+              <div class="kfzk"><img src="/images/blue_arr.png" /></div>
+          </div>
+          <div class="contact_box" id="box_close">
+              <div class="con_box_title"><strong style="font-size:14px;">客服热线：02161910347</strong>
+                  <br/><br/><strong style="font-size:14px;">手机联系：13162888912</strong></div>
+              <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=1192948838&amp;site=qq&amp;menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:1192948838:51" alt="点击这里给我发消息" title="点击这里给我发消息"></a>
+              <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=481730089&amp;site=qq&amp;menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:481730089:51" alt="点击这里给我发消息" title="点击这里给我发消息"></a>
+              <br><br>
+              <a target="_blank" href="http://amos.alicdn.com/msg.aw?v=2&amp;uid=达客营销管理平台:abby&amp;site=cntaobao&amp;s=2&amp;charset=utf-8"><img border="0" src="http://amos.alicdn.com/online.aw?v=2&amp;uid=达客营销管理平台:abby&amp;site=cntaobao&amp;s=1&amp;charset=utf-8" alt="点击这里给我发消息"></a>
+              <a target="_blank" href="http://amos.alicdn.com/msg.aw?v=2&amp;uid=达客营销管理平台:fiona&amp;site=cntaobao&amp;s=2&amp;charset=utf-8"><img border="0" src="http://amos.alicdn.com/online.aw?v=2&amp;uid=达客营销管理平台:fiona&amp;site=cntaobao&amp;s=1&amp;charset=utf-8" alt="点击这里给我发消息"></a>
+          </div>
+      </div>
+	
+		<div class="info_box_text">
+			<div class="title">
+				消息提醒
+			</div>
+
+			<span class="adm-informer-arrow"></span>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+    var getImportStatusTimer ;
+    var msgId = 0;
+    $(document).ready(function(){
+
+        var msg_num = 0 ;
+
+        var str = "<div class='info_box_main info_blue'><div class='box_top details_message' msgId='{msgId}'>{msgSubject}</div><div class='box_worker details_message' msgId='{msgId}'>{msgContent}</div><div class='box_footer'><a href='javascript:void(0)' class='delete_message' msgId='{msgId}'>删除消息</a></div></div><span class='adm-informer-arrow'></span>";
+        var noMsg = "<div class='info_box_main info_blue'><div class='box_top details_message' msgId='{msgId}'></div><div class='box_worker details_message' msgId='{msgId}'>{msgContent}</div><div class='box_footer'><a href='javascript:void(0)' class='delete_message' msgId='{msgId}'></a></div></div><span class='adm-informer-arrow'></span>";
+
+        var query = {'isRead':parseInt(0)};
+        
+        //获取子店铺
+        $.ajax({
+            url: '/usercenter/getSubAccountList',
+            type: 'POST',
+            data : {
+            },
+            dataType: 'json',
+            success: function(resp){
+            	var aList=eval(resp.subAccountList);
+            	if(aList!=null && aList.length>0){
+            		var html="切换子店铺：<select id=\"subAccountSe\" onchange=\"switchUser();\"><option value=\"\">请选择子店铺</option>";
+            		var shopName="";
+            		for(var i=0;i<aList.length;i++){
+            			shopName=JSON.parse(aList[i].sub_user_info).shopName;
+            			if(shopName.length>12){
+            				shopName=shopName.substring(0,12)+"...";
+            			}
+            			html+="<option value=\""+aList[i].sub_user_id+"\">"+shopName+"</option>";
+                 	}
+            		html+="<option value=\"-1\">转流量到子店铺</option>";
+            		html+="<select>";
+            		$('#subAccount').html(html);
+            		$('#subAccount').show();
+            	}
+            }
+        });
+        
+        //获取通知
+        $.ajax({
+            url: '/usercenter/fetchMessage',
+            type: 'POST',
+            data : {
+                query:JSON.stringify(query),
+                page:1,
+                jtPageSize:3,
+                sortname:"create_time",
+                sortorder:"DESC"
+            },
+            dataType: 'json',
+            success: function(responseText){
+                if(responseText != "" && responseText.Records != null){
+                    console.log(responseText);
+                    var rows = responseText.Records;
+                    var rollMsg = '';
+                    for(var i = 0 ; i < rows.length ; i ++){
+                        msg_num ++ ;
+                        var s = str.replaceAll("{msgId}",rows[i]["id"],false).replace("{msgSubject}",rows[i]["msg_subject"]).replace("{msgContent}",rows[i]["msg_content"])
+                        $(".info_box_text").append(s);
+                        rollMsg = rows[i]["msg_content"];
+                        if(rows[i]["msg_type"]==3){
+                            msgId = rows[i]["id"];
+                        }
+                    }
+                    if(null != rollMsg && rollMsg!='' && rollMsg!='undefined'){
+                        $("#rollMsg").html(rollMsg);
+                        $(".remindTxt").show();
+                    }
+                    //更改消息数量
+                    $(".msg_num").html(msg_num);
+                    if(msg_num > 0){
+
+                        $(".msg_num").css("color","red");
+                    }
+
+                    //删除
+
+                    $(".delete_message").click(function(){
+                        var msgId = $(this).attr("msgId");
+                        var obj = $(this);
+                        $.ajax({
+                            url: '/usercenter/deleteMessage',
+                            type: 'POST',
+                            data : {
+                                messageId:msgId
+                            },
+                            dataType: 'text',
+                            success: function(responseText){
+                                if(responseText == "true"){
+                                    $(obj).parent().parent().remove();
+                                    msg_num -- ;
+                                    $(".msg_num").html(msg_num);
+
+                                    if(msg_num == 0){
+                                        $(".info_box_text").append(noMsg.replace("{msgContent}","暂无未读消息"));
+                                        $(".msg_num").css("color","");
+                                    }
+                                }else{
+                                    alert("删除失败");
+                                }
+                            }
+                        })
+
+                    })
+
+                    //详情
+                    $(".details_message").css("cursor","pointer");
+
+                    $(".details_message").click(function(){
+                        var msgId = $(this).attr("msgId");
+                        if(msgId != 'undefined'){
+                            location.href="/usercenter/detailsMessage?messageId="+msgId+"&moduleId=20";
+                        }
+                    })
+
+                    if(rows.length <= 0){
+
+                        $(".info_box_text").append(noMsg.replace("{msgContent}","暂无未读消息"));
+                    }
+
+                }else{
+
+                    $(".info_box_text").append(noMsg.replace("{msgContent}","暂无未读消息"));
+                }
+
+
+
+            }
+        })
+
+        //查询用户导入状态
+        $.ajax({
+            url: '/import/getUserImportInfo',
+            type: 'POST',
+            dataType: 'json',
+            success: function(json){{
+                console.log(json);
+
+                if(json.status > 0 && json.isRead == false){
+
+                    //定时获取数据导入状态
+                    tbImportData() ;
+                }
+            }}
+        })
+
+
+        $('#box_close').click(function(e) {
+            $('.contact_box').hide();
+    		$('.contact_box.new').show();
+        });
+    	
+    	$('#box_open').click(function(e) {
+    		$('.contact_box').show();
+    		$('.contact_box.new').hide();
+
+        });
+
+    })
+
+    function iknow(){
+        $.ajax({
+            url: '/usercenter/iknow',
+            type: 'POST',
+            data:{
+                messageId:parseInt(msgId)
+            },
+            dataType: 'json',
+            success: function(json){{
+                location.reload();
+            }}
+        })
+    }
+    
+    //导入淘宝数据
+    function tbImportData(){
+
+        //显示进度条
+        $(".importRefresh").show() ;
+
+        $.ajax({
+            url: '/import/getUserImportInfo',
+            type: 'POST',
+            dataType: 'json',
+            success: function(json){{
+                console.log(json);
+
+                //导入完成
+                if(json.status == 100){
+
+                    if(json.isRead == false){
+
+                        //提示用户
+                        importTips();
+                    }
+
+                    //隐藏进度条
+                    $(".importRefresh").hide() ;
+
+                    //停止定时器
+                    clearTimeout(getImportStatusTimer) ;
+                }else{
+                    $(".percentage").css("width",json.percentage + "%");
+                    $(".percentage_tips").text(json.percentage);
+
+                    //定时获取数据导入状态
+                    getImportStatusTimer = setTimeout('tbImportData()',5000) ;
+                }
+            }}
+        })
+    }
+
+    //导入完成，提醒用户
+    function importTips(){
+        $.ajax({
+            url: '/import/initImportMsg',
+            type: 'POST',
+            dataType: 'text',
+            success: function(text){{
+                alert(text);
+            }}
+        })
+    }
+    
+    function switchUser(){
+    	var subId=$('#subAccountSe').val();
+    	if(subId!=null&&subId.length>0){
+    		if(subId==-1){
+    			location.href="/usercenter/subAccountManager?moduleId=91";
+    		}else{
+    			location.href="/usercenter/switchSubUser?subUserId="+subId;
+    		}
+    	}
+    }
+</script>
+</div>
+<div class="page">
+	<table class="soft_body" width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr class="soft_body_td">
+			<td class="soft_body_left">
+				
+
+
+
+
+
+<!--新UI左边菜单Start -->
+
+<div class="soft_left_side">
+	
+	<div class="soft_left_side_menu">
+		            <a class="menu_home " href="/user/index"><em></em><span>首页</span></a>
+		            <a class="menu_home help" href="/crmhtml/CRMjcjc.html" target="_blank" ><em></em>帮助中心</a>
+		          </div>
+	
+	<div class="soft_left_side_menu soft_left_side_submenu">
+		<ul class="nav_first_list">
+	
+		
+		<li  >
+				 
+			<a class="menu_home "   href="/autosms/tradeCreateRemind?moduleId=130"><span class="xdgh"></span>下单关怀</a>
+			 
+           </li>
+	
+		
+		<li  >
+				 
+			<a class="menu_home "   href="/autosms/tradeRemind?moduleId=63"><span class="autosms_3"></span>未付款催付</a>
+			 
+           </li>
+	
+		
+		<li  >
+				 
+			<a class="menu_home "   href="/autosms/secondTradeRemind?moduleId=117"><span class="rccf"></span>二次催付</a>
+			 
+           </li>
+	
+		
+		<li  >
+				 
+			<a class="menu_home "   href="/autosms/preSaleRemind?moduleId=64"><span class="autosms_4"></span>预售订单催付</a>
+			 
+           </li>
+	
+		
+		<li  >
+				 
+			<a class="menu_home "   href="/autosms/jhsTradeRemind?moduleId=138"><span class="jhscf"></span>聚划算催付</a>
+			 
+           </li>
+	
+		
+		<li  >
+				 
+			<a class="menu_home "   href="/autosms/payCare?moduleId=116"><span class="fkgh"></span>付款关怀</a>
+			 
+           </li>
+	
+		
+		<li  >
+				 
+			<a class="menu_home "   href="/autosms/shipmentsRemind?moduleId=65"><span class="autosms_5"></span>发货提醒</a>
+			 
+           </li>
+	
+		
+		<li  >
+				 
+			<a class="menu_home "   href="/autosms/delayShipmentRemind?moduleId=136"><span class="ycfh"></span>延时发货提醒</a>
+			 
+           </li>
+	
+		
+		<li  >
+				 
+			<a class="menu_home "   href="/autosms/getLogisticsError?moduleId=125"><span class="wlyctq"></span>物流异常通知</a>
+			 
+           </li>
+	
+		
+		<li  >
+				 
+			<a class="menu_home "   href="/autosms/sendGoodToUser?moduleId=118"><span class="pjtx"></span>派件提醒</a>
+			 
+           </li>
+	
+		
+		<li  class="level_one"  >
+				 <!-- 如果有子菜单 -->
+					<span></span>
+				
+			<a class="menu_home "   href="/autosms/refuseApplyRemindPre?moduleId=133"><span class="tkgh"></span>退款关怀</a>
+			 <!-- 如果有子菜单 -->
+				  <ul class="level_two" >
+				
+				         
+						<a href="/autosms/refuseApplyRemind?moduleId=134"><li ><em></em>退款关怀</li></a>
+	                     
+						<a href="/autosms/listSmsRefuse?moduleId=135"><li ><em></em>退款关怀列表</li></a>
+	              
+	              </ul>
+			
+           </li>
+	
+		
+		<li  >
+				 
+			<a class="menu_home "   href="/autosms/arriveRemind?moduleId=66"><span class="autosms_6"></span>到达所在城市通知</a>
+			 
+           </li>
+	
+		
+		<li  >
+				 
+			<a class="menu_home "   href="/autosms/signRemind?moduleId=67"><span class="autosms_7"></span>签收提醒</a>
+			 
+           </li>
+	
+		
+		<li  >
+				 
+			<a class="menu_home "   href="/autosms/payRemind?moduleId=68"><span class="autosms_8"></span>评价提醒</a>
+			 
+           </li>
+	
+		
+		<li  >
+				 
+			<a class="menu_home "   href="/autosms/goodRateRemind?moduleId=69"><span class="autosms_9"></span>好评感谢</a>
+			 
+           </li>
+	
+		
+		<li  >
+				 
+			<a class="menu_home "   href="/autosms/badRateRemind?moduleId=70"><span class="autosms_10"></span>差评安抚</a>
+			 
+           </li>
+	
+		
+		<li  class="level_one"  >
+				 <!-- 如果有子菜单 -->
+					<span></span>
+				
+			<a class="menu_home "   href="/autosms/customerCarePre?moduleId=49"><span class="autosms_2"></span>售后关怀</a>
+			 <!-- 如果有子菜单 -->
+				  <ul class="level_two" >
+				
+				         
+						<a href="/autosms/customerCareFirst?moduleId=53"><li ><em></em>短信售后关怀</li></a>
+	                     
+						<a href="/autosms/listSmsCareReport?moduleId=54"><li ><em></em>短信关怀列表</li></a>
+	                     
+						<a href="/autosms/firstEmailCare?moduleId=55"><li ><em></em>邮件售后关怀</li></a>
+	                     
+						<a href="/autosms/listEmailCareReport?moduleId=56"><li ><em></em>邮件关怀列表</li></a>
+	              
+	              </ul>
+			
+           </li>
+	
+		
+		<li  >
+				 
+			<a class="menu_home "   href="/autosms/birthdayCare?moduleId=92"><span class="member_6"></span>生日关怀</a>
+			 
+           </li>
+	
+		
+		<li  class="level_one"  >
+				 <!-- 如果有子菜单 -->
+					<span></span>
+				
+			<a class="menu_home "   href="/autosms/goConfigLotteryInfo?moduleId=112"><span class="mysoft_chjia"></span>抽奖关怀</a>
+			 <!-- 如果有子菜单 -->
+				  <ul class="level_two" >
+				
+				         
+						<a href="/autosms/preGetLotteryWinList?moduleId=115"><li ><em></em>中奖记录查询</li></a>
+	              
+	              </ul>
+			
+           </li>
+	
+		
+		<li  >
+				 
+			<a class="menu_home "   href="/autosms/newTradeRemind?moduleId=71"><span class="autosms_11"></span>卖家交易提醒</a>
+			 
+           </li>
+	
+		
+		<li  >
+				 
+			<a class="menu_home onthis "   href="/autosms/userAutoSmsTemplate?moduleId=90"><span class="marketing_8"></span>短信模板管理</a>
+			 
+           </li>
+	
+		</ul>
+	</div>
+
+	
+		 		
+		          
+</div>
+<!-- end -->
+			</td>
+			<td class="soft_body_right">
+				<div class="soft_workspace_title">
+					
+
+
+
+
+
+<ul class="bread_crumbs">
+	<li class="first"><a href="/user/content?moduleId=45">交易提醒</a></li>
+	<li><a href="/autosms/userAutoSmsTemplate?moduleId=90">短信模板管理</a></li>
+	
+</ul>
+<h3>
+	<span class="marketing_8"></span>
+	
+		
+			短信模板管理
+		
+		
+	
+
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</h3>
+
+				</div>
+				<div class="soft_workspace">
+					<div class="tab_box_main">
+						<div id="tab_0"><!--此DIV为Tab第一区块-->
+							<div class="table_top Rounded"><!--需要圆角时加上class:Rounded-->
+								<div class="table_left">
+									<select name="tlType" id="tlType" onchange="loadTemplate();">
+										<option value="23">下单关怀</option>
+										<option value="2">未付款催付</option>
+										<option value="19">预售订单催付</option>
+										<option value="21">二次催付</option>
+										<option value="60">付款关怀</option>
+										<option value="8">发货提醒</option>
+										<option value="3">到达所在城市提醒</option>
+										<option value="40">物流异常</option>
+										<option value="70">派件提醒</option>
+										<option value="4">签收提醒</option>
+										<option value="5">好评提醒</option>
+										<option value="7">好评感谢</option>
+										<option value="6">差评安抚</option>
+										<option value="30">生日关怀</option>
+									</select>
+									<a class="menu" href="javascript:void(0)" onclick="OpenPopbox('add_Sms_Template');"><em class="add"></em>新建短信模板</a>
+								</div>
+								<div class="table_right">
+
+								</div>
+							</div>
+							<!--表格组件调用start-->
+							<div id="tempLateTableContainer" style="min-height: 200px;"></div>
+							<!--表格组件调用end-->
+						</div>
+					</div>
+				</div>
+				<div class="soft_workspace_footer">
+					
+
+
+
+
+
+<div class="footer_left">
+	Powered by
+    EasyContact
+	Copyright &copy; 2012-2016 SinoContact,Inc
+</div>
+<div class="footer_right">
+	
+	<!--a href="/usercenter/accountSetting?moduleId=18"><em class="setting"></em>账户设置</a-->
+        <a href="#" class="gogoupup"><em class="setting"></em>返回顶部</a>
+    <script>
+        $('a.gogoupup').click(function(e){
+            var t=0, b=0, c=$(document).scrollTop(), d=100;
+            setRun = setInterval(function(){
+                if(t<d){
+                    t++;
+                    $(document).scrollTop(Math.abs(Math.ceil(Tween.Cubic.easeOut(t,b,c,d))-c));
+                }else{
+                    clearInterval(setRun);
+                }
+            }, 10);
+        });
+        var Tween = {
+            Cubic: {
+                easeOut: function(t,b,c,d){
+                    return c*((t=t/d-1)*t*t + 1) + b;
+                }
+            }
+        }
+    </script>
+</div>
+<div style="display: none;">
+<script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F2a33609c33bf8365ba0e7e5807f2aabc' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+<script type="text/javascript">
+	function deleteTemplate(templateId,flag){
+		if(confirm("确认删除？")){
+			$.ajax({
+				url: '/autosms/deleteUserAutoSmsTemplate',
+				type: 'POST',
+				data : {
+					"templateId":templateId,
+					"flag":flag
+				},
+				dataType: 'text',
+				success: function(responseText){
+					if(responseText=='true'){
+						jTable.jtable('load',{
+							'templateType':type
+						});
+						alert('删除成功！');
+					}else{
+						alert('删除失败！');
+					}
+				}
+			});
+		}
+	}
+
+	function addSMSTemplate(){
+		var subject=$("#templateSubject").val();
+		var content=$("#templateContent").val();
+		type=$("#templateType").val();
+
+		if(subject.length>0&&content.length>0){
+			$("#addSubmit").attr("disabled","true");
+			if(content.length >= 300){
+				alert("模板内容过长(请将字数控制在300以内)");
+			}else{
+				//检查是否包含关键词
+                $.ajax({
+                    url: '/communication/checkContainKeys',
+                    type: 'POST',
+                    data:{
+                 	   push_content:content
+                    },
+                    dataType: 'json',
+                    success: function(resp){
+                        //包含关键词
+                        if(resp.isContainKeys == true){
+                        		var tips="模板包含非法字符："+resp.containKeys+"；请重新编辑模板内容！";
+                        		alert(tips);
+                         }else{//不包含关键词
+                        	 $.ajax({
+             					url: '/autosms/addUserAutoSmsTemplate',
+             					type: 'POST',
+             					data : {
+             						"templateSubject" : subject,
+             						"templateType":type,
+             						"templateContent": content
+             					},
+             					dataType: 'text',
+             					success: function(responseText){
+             						$("#addSubmit").removeAttr("disabled");
+             						ClosePopbox('add_Sms_Template');
+             						if(responseText=='true'){
+             							jTable.jtable('load',{
+             								'templateType':type
+             							});
+             							//alert("模板添加成功，待管理员审核通过即可使用！");
+             							alert("模板添加成功！");
+             						}else{
+             							alert("系统异常，请稍后重试！");
+             						}
+
+             					}
+             				});
+                         }
+                    }
+                });
+			}
+		}
+		else{
+			alert("模板名称/内容不能为空");
+		}
+		$("#addSubmit").removeAttr("disabled");
+	}
+
+	function preUpdateSMSTemplate(templateId,templateSubject,templateContent,type,flag){
+
+		console.log(templateId+"|"+templateSubject+"|"+templateContent+"|"+type+"|"+flag);
+		$('#templateSubjectUpdate').val(templateSubject);
+		$('#templateContentUpdate').val(templateContent);
+		$('#templateTypeUpdate').val(type);
+		$('#templateIdUpdate').val(templateId);
+		$('#flagUpdate').val(flag);
+		if(type == "2"){
+			var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$店铺名称}')\">店铺名称</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$买家昵称}')\">买家昵称</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$买家姓名}')\">买家姓名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$商品名}')\">商品名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$订单总价}')\">订单总价</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$付款链接}')\">付款链接</a>";
+			$("#edittemplateVariable").html(Str);
+		}else if(type == "19"){
+			var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$店铺名称}')\">店铺名称</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$买家昵称}')\">买家昵称</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$买家姓名}')\">买家姓名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$商品名}')\">商品名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$订单总价}')\">订单总价</a>";
+			$("#edittemplateVariable").html(Str);
+		}else if(type == "8"){
+			var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$买家昵称}')\">买家昵称</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$买家姓名}')\">买家姓名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$店铺名称}')\">店铺名称</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$物流公司}')\">物流公司</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$运单编号}')\">运单编号</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$商品名}')\">商品名</a>";
+			$("#edittemplateVariable").html(Str);
+		}else if(type == "3"){
+			var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$买家昵称}')\">买家昵称</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$买家姓名}')\">买家姓名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$店铺名称}')\">店铺名称</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$商品名}')\">商品名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$物流公司}')\">物流公司</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$运单编号}')\">运单编号</a>";
+			$("#edittemplateVariable").html(Str);
+		}else if(type == "4"){
+			var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$买家昵称}')\">买家昵称</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$买家姓名}')\">买家姓名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$店铺名称}')\">店铺名称</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$商品名}')\">商品名</a>";
+			$("#edittemplateVariable").html(Str);
+		}else if(type == "5"){
+			var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$买家昵称}')\">买家昵称</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$买家姓名}')\">买家姓名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$店铺名称}')\">店铺名称</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$商品名}')\">商品名</a>";
+			$("#edittemplateVariable").html(Str);
+
+		}else if(type == "7"){
+			var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$买家昵称}')\">买家昵称</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$买家姓名}')\">买家姓名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$店铺名称}')\">店铺名称</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$商品名}')\">商品名</a>";
+			$("#edittemplateVariable").html(Str);
+		}else if(type == "6"){
+			var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$买家昵称}')\">买家昵称</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$买家姓名}')\">买家姓名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$店铺名称}')\">店铺名称</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$商品名}')\">商品名</a>";
+			$("#edittemplateVariable").html(Str);
+		}else if(type == "30"){
+            var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$日期}')\">日期</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContentUpdate'),'{$店铺名称}')\">店铺名称</a>";
+
+            $("#edittemplateVariable").html(Str);
+        }
+        branchesUpdate();
+		OpenPopbox('edit_Sms_Template');
+	}
+
+	function updateSMSTemplate(){
+		var subject=$('#templateSubjectUpdate').val();
+		var content=$('#templateContentUpdate').val();
+		type=$('#templateTypeUpdate').val();
+		$('#tlType').val(type);
+		var id=$('#templateIdUpdate').val();
+		var flag=$('#flagUpdate').val();
+		if(subject.length>0&&content.length>0){
+			if(content.length >= 300){
+				alert("模板内容过长(请将字数控制在300以内)");
+			}else{
+				$.ajax({
+					url: '/autosms/updateUserAutoSmsTemplate',
+					type: 'POST',
+					data : {
+						'templateId':id,
+						'templateSubject': subject,
+						'templateContent': content,
+						'templateType':type,
+						'flag':flag
+					},
+					dataType: 'text',
+					success: function(responseText){
+						ClosePopbox('edit_Sms_Template');
+						if(responseText=='true'){
+							jTable.jtable('load',{
+								'templateType':type
+							});
+							alert("模板编辑成功，待管理员审核通过即可使用！");
+						}else{
+							alert("系统异常，请稍后重试！");
+						}
+					}
+				});
+			}
+		}
+		else{
+			alert("主题/内容不能为空！");
+		}
+	}
+
+	function clearData(){
+		$("#add_Sms_Template .clear_text").each(function (){
+			$(this).val('');
+		});
+		$("#add_Sms_Template .clear_html").each(function (){
+			$(this).html('');
+		});
+		if($('#tlType').val()!=''){
+			$('#templateType').val($('#tlType').val());
+		}
+		var sign='【小姿生活】';
+		var textNmu = sign.length;
+		var c_num = MAX_SMS_CONTENT_LENGTH-textNmu;
+		$("#T_Num").html(textNmu);
+		$('#max_sms_content_length').html(MAX_SMS_CONTENT_LENGTH);
+		if (c_num < 0){
+			if(parseInt(textNmu)%MAX_SMS_CONTENT_LENGTH==0){
+				$("#Sms_Num").html(parseInt(textNmu/MAX_SMS_CONTENT_LENGTH));
+			}
+			else{
+				$("#Sms_Num").html(parseInt(textNmu/MAX_SMS_CONTENT_LENGTH)+1);
+			};
+		}else{
+			$("#Sms_Num").html(1);
+		}
+		var type = $('#tlType').val();
+		if(type == "2"){
+			var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$店铺名称}')\">店铺名称</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家昵称}')\">买家昵称</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家姓名}')\">买家姓名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$商品名}')\">商品名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$订单总价}')\">订单总价</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$付款链接}')\">付款链接</a>";
+			$("#templateVariable").html(Str);
+		}else if(type == "19"){
+			var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$店铺名称}')\">店铺名称</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家昵称}')\">买家昵称</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家姓名}')\">买家姓名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$商品名}')\">商品名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$订单总价}')\">订单总价</a>";
+			$("#templateVariable").html(Str);
+		}else if(type == "8"){
+			var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家昵称}')\">买家昵称</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家姓名}')\">买家姓名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$店铺名称}')\">店铺名称</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$物流公司}')\">物流公司</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$运单编号}')\">运单编号</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$商品名}')\">商品名</a>";
+			$("#templateVariable").html(Str);
+		}else if(type == "3"){
+			var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家昵称}')\">买家昵称</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家姓名}')\">买家姓名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$店铺名称}')\">店铺名称</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$商品名}')\">商品名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$物流公司}')\">物流公司</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$运单编号}')\">运单编号</a>";
+			$("#templateVariable").html(Str);
+		}else if(type == "4"){
+			var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家昵称}')\">买家昵称</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家姓名}')\">买家姓名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$店铺名称}')\">店铺名称</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$商品名}')\">商品名</a>";
+			$("#templateVariable").html(Str);
+		}else if(type == "5"){
+			var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家昵称}')\">买家昵称</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家姓名}')\">买家姓名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$店铺名称}')\">店铺名称</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$商品名}')\">商品名</a>";
+			$("#templateVariable").html(Str);
+
+		}else if(type == "7"){
+			var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家昵称}')\">买家昵称</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家姓名}')\">买家姓名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$店铺名称}')\">店铺名称</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$商品名}')\">商品名</a>";
+			$("#templateVariable").html(Str);
+		}else if(type == "6"){
+			var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家昵称}')\">买家昵称</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$买家姓名}')\">买家姓名</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$店铺名称}')\">店铺名称</a>"
+					+ "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$商品名}')\">商品名</a>";
+			$("#templateVariable").html(Str);
+		}else if(type == "30"){
+            var Str = "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$日期}')\">日期</a>"
+                    + "<a class=\"options\" title=\"\" href=\"javascript:void(0)\" onclick=\"insertAtCursor(document.getElementById('templateContent'),'{$店铺名称}')\">店铺名称</a>";
+            $("#templateVariable").html(Str);
+        }
+	}
+</script>
+</body>
+</html>

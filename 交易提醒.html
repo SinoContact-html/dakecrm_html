@@ -1,0 +1,1355 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script language="javascript" type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/flexigrid.pack.js"></script>
+<script language="javascript" type="text/javascript" src="js/datepicker.js"></script>
+<script language="javascript" type="text/javascript" src="js/eye.js"></script>
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" charset="utf-8" src="js/kindeditor/kindeditor-min.js"></script>
+<script language="javascript" type="text/javascript" charset="utf-8" src="js/kindeditor/zh_CN.js"></script>
+<script>
+var editor;
+KindEditor.ready(function(K) {
+	editor = K.create('textarea[name="content"]', {
+		
+	allowFileManager : true
+	});
+});
+
+ function insertAtCursor(myField, myValue) {
+            //IE support  
+            if (document.selection) {
+                myField.focus();
+                sel = document.selection.createRange();
+                sel.text = myValue;
+                sel.select();
+            }
+            else if (myField.selectionStart || myField.selectionStart == '0') {
+                var startPos = myField.selectionStart;
+                var endPos = myField.selectionEnd;
+                var restoreTop = myField.scrollTop;
+                myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+                if (restoreTop > 0) {
+                    myField.scrollTop = restoreTop;
+                }
+                myField.focus();
+                myField.selectionStart = startPos + myValue.length;
+                myField.selectionEnd = startPos + myValue.length;
+            } else {
+                myField.value += myValue;
+                myField.focus();
+            }
+            var textNmu = $('#textarea_sms_text').val().length;
+            var thisText = $('#textarea_sms_text').val();
+            var c_num = MAX_SMS_CONTENT_LENGTH - textNmu;
+            $("#T_Num").html(textNmu);
+            if (c_num < 0){
+                if(parseInt(textNmu)%MAX_SMS_CONTENT_LENGTH==0){
+                    $("#Sms_Num").html(parseInt(textNmu/MAX_SMS_CONTENT_LENGTH));
+                }
+                else{
+                    $("#Sms_Num").html(parseInt(textNmu/MAX_SMS_CONTENT_LENGTH)+1);
+                };
+            }else{
+                $("#Sms_Num").html(1);
+            }
+            $('#iphone_sms_text').html($('#textarea_sms_text').val());
+        }
+</script>
+<link href="css/common_new.css" rel="stylesheet" type="text/css" />
+<link href="css/sms_new.css" rel="stylesheet" type="text/css" />
+<link href="css/flexigrid.pack.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" media="screen" type="text/css" href="css/datepicker.css" />
+
+<title>無標題文件</title>
+</head>
+
+<body>
+<div class="popbox_core rem" id="add_new_template">
+	<div class="popbox_head">
+    	<span class="title">新建短信模板</span>
+        <div class="popbox_head_right"><a class="popbox_close" onclick="CloseRemind('add_new_template')"></a></div>
+    </div>
+    <div class="soft_workspace" style="position:relative; padding:0px;">
+        <div class="table_workspace clearfix border-bottom">
+         <div class="table_workspace_iphone_sms" style="margin:0px; border:none;">
+          <div class="popbox_frombox clearfix">
+                      <div class="iphone_sms">
+                        <div class="smsBox">
+                          <div class="smsBox_text" id="iphone_sms_text">你好！您在本店购买的#商品#还未付款，付款后我们将以最快的速度发货哦！【小资生活】</div>
+                        </div>
+                        <div class="smsBox_bottom"></div>
+                      </div>
+                      <div class="iphone_sms_frombox" style="width:400px; margin-left:20px; padding:10px 0px;">
+                      	<dl class="fleft">
+                            <dt>模板标题：</dt>
+                            <dd>
+                            	<input type="text" />
+                            </dd>
+                        </dl>
+                        <dl class="fleft">
+                            <dt>短信内容：</dt>
+                            <dd style="width:300px;">
+                                <textarea id="textarea_sms_text" class="phoneNum" name="sms_content" style="float:left; width:350px;">你看过了许多美景，终于挑选了我。快来付款哦  {$付款链接}  </textarea>
+                                <div class="note" style="width: 500px;">您当前已输入<span id="T_Num" class="num">41</span>个字符，将按照<span id="Sms_Num" class="num" style="color:red;">1</span>条短信计费。<a class="red" href="#">计费规则<img src="images/wenhao.gif" style="margin-left:5px;" /></a></div>
+                                <input type="hidden" id="templateId" name="templateId">
+                                <input type="hidden" id="flag" name="flag">
+                            </dd>
+                        </dl>
+                        <dl class="fleft">
+                          <dt>短信签名：</dt>
+                          <dd>
+                            <input class="text" value="【小资生活】" type="text">
+                            <input type="button" value="修改签名">
+                          </dd>
+                        </dl>
+                        <div class="submitbox np" style="padding-top:30px;">
+                         	<input type="submit" class="submit" value="存为模板">
+                       	  </div>
+                      </div>
+            	</div>
+         	</div>
+    	</div>
+	</div>
+</div>
+
+
+<div class="popbox_core" id="add_moban_chose">
+	<div class="popbox_head">
+    	<span class="title">模板选择</span>
+        <div class="popbox_head_right"><a class="popbox_close" onclick="ClosePopbox('add_moban_chose')"></a></div>
+    </div>
+    <div class="soft_workspace" style="position:relative; padding-bottom:20px;">
+    	<div class="tab_box" id="tab03" style="overflow:auto; height:56px;">
+            <span class="detail_tab active">系统模板</span>
+            <span class="detail_tab">高ROI模板</span>
+            <span class="detail_tab">高ROI模板</span>
+            <span class="detail_tab">高ROI模板</span>
+            <span class="detail_tab">高ROI模板</span>
+            <span class="detail_tab">高ROI模板</span>
+            <span class="detail_tab">高ROI模板</span>
+            <span id="zdy_muban" class="detail_tab">自定义模板</span>
+            <input id="new_muban" type="button" style="margin-top:6px; margin-left:10px; display:none;" value="新建短信模板" onclick="OpenRemind_noMove('add_new_template')" />
+          </div>
+          <script type="text/javascript">
+		    $('#tab03 span').click(function(e) {
+                if($(this).attr('id') == 'zdy_muban'){
+					$('#new_muban').show();
+				}else{
+					$('#new_muban').hide();
+				}
+            });
+		  </script>
+          <!--表格组件调用start-->
+              <div class="table_tablebox"><!--高度值请根据实际情况修改-->
+                <table class="flexme4" style="display: none"></table>
+                <script type="text/javascript">
+				$(".flexme4").flexigrid({
+					url : 'http://localhost/example4.php',
+					dataType : 'json',
+					colModel : [ {
+						display : '最后发送时间',
+						name : '最后发送时间',
+						width : 90,
+						sortable : true,
+						align : 'center'
+						}, {
+							display : '买家昵称',
+							name : '买家昵称',
+							width : 120,
+							sortable : true,
+							align : 'left'
+						}, {
+							display : '买家手机号',
+							name : '买家手机号',
+							width : 120,
+							sortable : true,
+							align : 'left'
+						}, {
+							display : '互动消息详情',
+							name : 'favorite_color',
+							width : 80,
+							sortable : true,
+							align : 'left',
+						}, {
+							display : '未读消息',
+							name : '未读消息',
+							width : 80,
+							sortable : true,
+							align : 'left'
+					} ],
+					buttons : [ {
+						name : 'Add',
+						bclass : 'add',
+						onpress : Example4
+						}
+						,
+						{
+							name : 'Edit',
+							bclass : 'edit',
+							onpress : Example4
+						}
+						,
+						{
+							name : 'Delete',
+							bclass : 'delete',
+							onpress : Example4
+						}
+						,
+						{
+							separator : true
+						} 
+					],
+					searchitems : [ {
+						display : 'EmployeeID',
+						name : 'employeeID'
+						}, {
+							display : 'Name',
+							name : 'name',
+							isdefault : true
+					} ],
+					sortname : "iso",
+					sortorder : "asc",
+					usepager : true,
+					title : 'Employees',
+					useRp : true,
+					rp : 15,
+					showTableToggleBtn : true,
+					//width : 750,
+					height : 200
+				});
+	
+				function Example4(com, grid) {
+					if (com == 'Delete') {
+						var conf = confirm('Delete ' + $('.trSelected', grid).length + ' items?')
+						if(conf){
+							$.each($('.trSelected', grid),
+								function(key, value){
+									$.get('http://localhost/example4.php', { Delete: value.firstChild.innerText}
+										, function(){
+											// when ajax returns (callback), update the grid to refresh the data
+											$(".flexme4").flexReload();
+									});
+							});    
+						}
+					}
+					else if (com == 'Edit') {
+						var conf = confirm('Edit ' + $('.trSelected', grid).length + ' items?')
+						if(conf){
+							$.each($('.trSelected', grid),
+								function(key, value){
+									// collect the data
+									var OrgEmpID = value.children[0].innerText; // in case we're changing the key
+									var EmpID = prompt("Please enter the New Employee ID",value.children[0].innerText);
+									var Name = prompt("Please enter the Employee Name",value.children[1].innerText);
+									var PrimaryLanguage = prompt("Please enter the Employee's Primary Language",value.children[2].innerText);
+									var FavoriteColor = prompt("Please enter the Employee's Favorite Color",value.children[3].innerText);
+									var FavoriteAnimal = prompt("Please enter the Employee's Favorite Animal",value.children[4].innerText);
+	
+									// call the ajax to save the data to the session
+									$.get('http://localhost/example4.php', 
+										{ Edit: true
+											, OrgEmpID: OrgEmpID
+											, EmpID: EmpID
+											, Name: Name
+											, PrimaryLanguage: PrimaryLanguage
+											, FavoriteColor: FavoriteColor
+											, FavoritePet: FavoriteAnimal  }
+										, function(){
+											// when ajax returns (callback), update the grid to refresh the data
+											$(".flexme4").flexReload();
+									});
+							});    
+						}
+					}
+					else if (com == 'Add') {
+						// collect the data
+						var EmpID = prompt("Please enter the Employee ID","5");
+						var Name = prompt("Please enter the Employee Name","Mark");
+						var PrimaryLanguage = prompt("Please enter the Employee's Primary Language","php");
+						var FavoriteColor = prompt("Please enter the Employee's Favorite Color","Tan");
+						var FavoriteAnimal = prompt("Please enter the Employee's Favorite Animal","Dog");
+	
+						// call the ajax to save the data to the session
+						$.get('http://localhost/example4.php', { Add: true, EmpID: EmpID, Name: Name, PrimaryLanguage: PrimaryLanguage, FavoriteColor: FavoriteColor, FavoritePet: FavoriteAnimal  }
+							, function(){
+								// when ajax returns (callback), update the grid to refresh the data
+								$(".flexme4").flexReload();
+						});
+					}
+				}
+			</script>
+              </div>
+              <!--表格组件调用end-->
+       </div>
+    </div>
+</div>
+
+<div class="popbox_core" style="width:150px;" id="add_success"><!--此处ID和colseID对应-->
+    <div style="text-align:center; height:50px; line-height:50px; font-size:16px;">已发送</div>
+</div>
+
+<div class="popbox_core" style="width:850px;" id="add_SMS"><!--此处ID和colseID对应-->
+	<div class="popbox_head">
+    	<span class="title">短信内容编辑</span>
+    </div>
+    <div class="soft_workspace" style="padding:0px;">
+    	<div class="table_workspace" style="padding-top:0px; border:none;">
+        	<div class="table_workspace_iphone_sms"  style="margin:0px;">
+                    <div class="popbox_frombox clearfix">
+                      <div class="iphone_sms">
+                        <div class="smsBox">
+                          <div class="smsBox_text" id="iphone_sms_text">你好！您在本店购买的#商品#还未付款，付款后我们将以最快的速度发货哦！【小资生活】</div>
+                        </div>
+                        <div class="smsBox_bottom"></div>
+                      </div>
+                      <div class="iphone_sms_frombox" style="width:500px; margin-left:30px;">
+                      	<dl class="fleft">
+                          <dt>短信模板选择：</dt>
+                          <dd>
+                            <div class="options_box"> <a class="options onthis" title="" href="javascript:void(0)">商务风格催付</a><a class="options" href="javascript:void(0)">可爱撒娇催付</a>
+                            </div>
+                          </dd>
+                        </dl>
+                        
+                        <dl>
+                          <dt>短信内容：</dt>
+                          <dd>
+                          	<a class="options" title="" href="javascript:void(0)" onclick="insertAtCursor(document.getElementById('textarea_sms_text'),'{$ni_name}')">买家昵称</a>
+                            <a class="options" href="javascript:void(0)" onclick="insertAtCursor(document.getElementById('textarea_sms_text'),'{$name}')">买家姓名</a>
+                            <a class="options" href="javascript:void(0)" onclick="insertAtCursor(document.getElementById('textarea_sms_text'),'{$store_name}')">店铺名称</a>
+                            <a class="options" href="javascript:void(0)" onclick="insertAtCursor(document.getElementById('textarea_sms_text'),'{$ddh}')">订单号</a>
+                            <textarea style="float:left;" id="textarea_sms_text" class="phoneNum">你好！您在本店购买的#商品#还未付款，付款后我们将以最快的速度发货哦！【小资生活】</textarea>
+                            <a class="options" href="javascript:void(0)">另存为模板</a>
+                            <div class="note">每条短信最多允许输入60个字符，<span id="textNumWord">还可以输入</span><span class="num" id="C_Num">60</span>个字符</div>
+                          </dd>
+                        </dl>
+                        
+                        <dl class="fleft">
+                          <dt>卖家签名：</dt>
+                          <dd>
+                            <input class="text" value="【小资生活】" type="text">
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    
+                    <div class="submitbox mar">
+                    <input class="submit" type="button" value="确认" onclick="ClosePopbox('add_SMS')">
+                    <input class="submit can" type="button" value="取消" onclick="ClosePopbox('add_SMS')"></div>
+                    </div>
+                <!----->
+                </div>
+                </div>
+                </div>
+</div>
+
+
+<div class="popbox_core" id="add_Contacts"><!--此处ID和colseID对应-->
+	<div class="popbox_head">
+    	<span class="title">添加指定商品</span>
+    </div>
+    <div class="popbox_workspace">
+    	<div>
+			商品id： <input class="text" placeholder="输入文字..." type="text" style="margin-right:50px; width:200px;">
+        	商品关键字：<input class="text" placeholder="输入文字..." type="text" style="width:200px;">
+            <label><input type="checkbox" />只显示在架商品</label>
+        </div>
+        <div>
+        	商品链接：<input class="text" placeholder="输入文字..." type="text" style="width:520px;">
+            <div class="options_box"><a class="options" href="javascript:void(0)">搜索</a></div>
+        </div>
+        <div class="store_pro">
+        	<ul>
+            	<li><label><input type="checkbox" />选中当前页</label><strong>店铺中的商品</strong></li>
+                <li class="left">
+                <label>
+                	<div class="pro_img">
+                		<input type="checkbox" />
+                    	<img src="images/demo/pd.jpg" />
+                    </div>
+                    <div class="pro_name">
+                    	女用手套<br />商品id：43583475479
+                    </div>
+                    <div class="pro_pic">￥3.00</div>
+                    <div class="clear"></div>
+                 </label>
+                 </li>
+                 <li class="left">
+                <label>
+                	<div class="pro_img">
+                		<input type="checkbox" />
+                    	<img src="images/demo/pd.jpg" />
+                    </div>
+                    <div class="pro_name">
+                    	女用手套<br />商品id：43583475479
+                    </div>
+                    <div class="pro_pic">￥3.00</div>
+                    <div class="clear"></div>
+                 </label>
+                 </li>
+                 <li class="left">
+                <label>
+                	<div class="pro_img">
+                		<input type="checkbox" />
+                    	<img src="images/demo/pd.jpg" />
+                    </div>
+                    <div class="pro_name">
+                    	女用手套<br />商品id：43583475479
+                    </div>
+                    <div class="pro_pic">￥3.00</div>
+                    <div class="clear"></div>
+                 </label>
+                 </li>
+                 <li class="left">
+                <label>
+                	<div class="pro_img">
+                		<input type="checkbox" />
+                    	<img src="images/demo/pd.jpg" />
+                    </div>
+                    <div class="pro_name">
+                    	女用手套<br />商品id：43583475479
+                    </div>
+                    <div class="pro_pic">￥3.00</div>
+                    <div class="clear"></div>
+                 </label>
+                 </li>
+                 <li class="left">
+                <label>
+                	<div class="pro_img">
+                		<input type="checkbox" />
+                    	<img src="images/demo/pd.jpg" />
+                    </div>
+                    <div class="pro_name">
+                    	女用手套<br />商品id：43583475479
+                    </div>
+                    <div class="pro_pic">￥3.00</div>
+                    <div class="clear"></div>
+                 </label>
+                 </li>
+            </ul>
+            <div class="pro_middle">>></div>
+            <ul class="pro_right">
+            	<li><p><strong>已选中的商品</strong><a href="javascript:void(0)"><img src="images/del.png" /><span>清空当前页</span></a></p></li>
+                <li class="left">
+                <a href="javascript:void(0)">
+                	<div class="pro_img">
+                    	<em></em><img src="images/demo/pd.jpg" />
+                    </div>
+                    <div class="pro_name">
+                    	女用手套<br />商品id：43583475479<br/><span class="pri">￥133333.00</span>
+                    </div>
+                    <div class="pro_pic"><img src="images/del.png" /></div>
+                    <div class="clear"></div>
+                 </a>
+                 </li>
+                 <li class="left">
+                <a href="javascript:void(0)">
+                	<div class="pro_img">
+                    	<em></em><img src="images/demo/pd.jpg" />
+                    </div>
+                    <div class="pro_name">
+                    	女用手套<br />商品id：43583475479
+                    </div>
+                    <div class="pro_pic"><span class="pri">￥3.00</span><img src="images/del.png" /></div>
+                    <div class="clear"></div>
+                 </a>
+                 </li>
+                 <li class="left">
+                <a href="javascript:void(0)">
+                	<div class="pro_img">
+                    	<em></em><img src="images/demo/pd.jpg" />
+                    </div>
+                    <div class="pro_name">
+                    	女用手套<br />商品id：43583475479
+                    </div>
+                    <div class="pro_pic"><span>￥3.00</span><img src="images/del.png" /></div>
+                    <div class="clear"></div>
+                 </a>
+                 </li>
+                 <li class="left">
+                <a href="javascript:void(0)">
+                	<div class="pro_img">
+                    	<em></em><img src="images/demo/pd.jpg" />
+                    </div>
+                    <div class="pro_name">
+                    	女用手套<br />商品id：43583475479
+                    </div>
+                    <div class="pro_pic"><span>￥3.00</span><img src="images/del.png" /></div>
+                    <div class="clear"></div>
+                 </a>
+                 </li>
+                 <li class="left">
+                <a href="javascript:void(0)">
+                	<div class="pro_img">
+                    	<em></em><img src="images/demo/pd.jpg" />
+                    </div>
+                    <div class="pro_name">
+                    	女用手套<br />商品id：43583475479
+                    </div>
+                    <div class="pro_pic"><span>￥3.00</span><img src="images/del.png" /></div>
+                    <div class="clear"></div>
+                 </a>
+                 </li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="soft_workspace" style="margin:0px;">
+        <div class="pagefen" style="padding:0px; margin:0px; float:left;">
+            <span>共<strong>23</strong>款商品</span><a href="javascript:void(0)">首页</a><a href="javascript:void(0)"><em class="prev"></em></a><a href="javascript:void(0)">1</a><a class="onthis" href="javascript:void(0)">2</a><a href="javascript:void(0)">3</a><a href="javascript:void(0)"><em class="next"></em></a><a href="javascript:void(0)">末页</a>
+          </div>
+          <div class="pagefen" style="padding:0px; margin:0px; float:right; margin-top:-28px; margin-right:20px;">
+            <span>共<strong>23</strong>款商品</span><a href="javascript:void(0)">首页</a><a href="javascript:void(0)"><em class="prev"></em></a><a href="javascript:void(0)">1</a><a class="onthis" href="javascript:void(0)">2</a><a href="javascript:void(0)">3</a><a href="javascript:void(0)"><em class="next"></em></a><a href="javascript:void(0)">末页</a>
+          </div>
+          <div class="clear"></div>
+          </div>
+        <div class="submitbox">
+    		<input class="submit" value="保存" type="button" onclick="ClosePopbox('add_Contacts')" />
+    		<input class="submit can" value="取消" type="button" style="margin-left:50px;" onclick="ClosePopbox('add_Contacts')" />
+    	</div>
+    </div>
+</div>
+
+<div class="popbox_core  popbox_remind" id="space_Contacts"><!--此处ID和colseID对应-->
+  <div class="popbox_head">
+    <span class="title">选择所在省份</span>
+    <label id="selectAll"><input type="checkbox" /><span>全选</span></label>
+    <label id="noSelectAll"><input type="checkbox" /><span>全不选</span></label>
+    <label><input type="checkbox" /><span>排除偏远地区</span></label>
+  </div>
+  <div class="popbox_workspace">
+  	<div>
+    	<label class="area_check"><input type="checkbox" /><strong>华东</strong></label>
+        <label><input type="checkbox" /><span>上海</span></label>
+        <label><input type="checkbox" /><span>浙江</span></label>
+        <label><input type="checkbox" /><span>江苏</span></label>
+        <label><input type="checkbox" /><span>安徽</span></label>
+        <label><input type="checkbox" /><span>江西</span></label>
+    </div>
+    <div>
+    	<label class="area_check"><input type="checkbox" /><strong>华北</strong></label>
+        <label><input type="checkbox" /><span>北京</span></label>
+        <label><input type="checkbox" /><span>天津</span></label>
+        <label><input type="checkbox" /><span>河北</span></label>
+        <label><input type="checkbox" /><span>山西</span></label>
+        <label><input type="checkbox" /><span>山东</span></label>
+        <label><input type="checkbox" /><span>内蒙古</span></label>
+    </div>
+    <div>
+    	<label class="area_check"><input type="checkbox" /><strong>华中</strong></label>
+        <label><input type="checkbox" /><span>湖北</span></label>
+        <label><input type="checkbox" /><span>湖南</span></label>
+        <label><input type="checkbox" /><span>河南</span></label>
+    </div>
+    <div>
+    	<label class="area_check"><input type="checkbox" /><strong>华南</strong></label>
+        <label><input type="checkbox" /><span>广东</span></label>
+        <label><input type="checkbox" /><span>广西</span></label>
+        <label><input type="checkbox" /><span>福建</span></label>
+        <label><input type="checkbox" /><span>海南</span></label>
+    </div>
+	<div>
+    	<label class="area_check"><input type="checkbox" /><strong>东北</strong></label>
+        <label><input type="checkbox" /><span>辽宁</span></label>
+        <label><input type="checkbox" /><span>吉林</span></label>
+        <label><input type="checkbox" /><span>黑龙江</span></label>
+    </div>
+    <div>
+    	<label class="area_check"><input type="checkbox" /><strong>西北</strong></label>
+        <label><input type="checkbox" /><span>陕西</span></label>
+        <label><input type="checkbox" /><span>新疆</span></label>
+        <label><input type="checkbox" /><span>青海</span></label>
+        <label><input type="checkbox" /><span>宁夏</span></label>
+        <label><input type="checkbox" /><span>甘肃</span></label>
+    </div>
+    <div>
+    	<label class="area_check"><input type="checkbox" /><strong>西南</strong></label>
+        <label><input type="checkbox" /><span>四川</span></label>
+        <label><input type="checkbox" /><span>云南</span></label>
+        <label><input type="checkbox" /><span>贵州</span></label>
+        <label><input type="checkbox" /><span>西藏</span></label>
+        <label><input type="checkbox" /><span>重庆</span></label>
+    </div>
+    <div>
+    	<label class="area_check"><input type="checkbox" /><strong>港澳台</strong></label>
+        <label><input type="checkbox" /><span>香港</span></label>
+        <label><input type="checkbox" /><span>澳门</span></label>
+        <label><input type="checkbox" /><span>台湾</span></label>
+    </div>
+    <div>
+    	<label class="area_check"><input type="checkbox" /><strong>海外</strong></label>
+        <label><input type="checkbox" /><span>海外</span></label>
+    </div>
+    <div class="submitbox">
+    	<input class="submit" value="确认" type="button" onclick="ClosePopbox('space_Contacts')" />
+    	<input class="submit can" value="取消" type="button" style="margin-left:50px;" onclick="ClosePopbox('space_Contacts')" />
+    </div>
+  </div>
+  <script type="text/javascript">
+  $('#selectAll').click(function(e) {
+      $('.popbox_workspace input[type=checkbox]').prop('checked',true);
+	  $('.popbox_head input[type=checkbox]').prop('checked',false);
+	  $(this).find('input[type=checkbox]').prop('checked',true);
+   });
+   
+   $('#noSelectAll').click(function(e) {
+      $('.popbox_workspace input[type=checkbox]').prop('checked',false);
+	  $('.popbox_head input[type=checkbox]').prop('checked',false);
+	  $(this).find('input[type=checkbox]').prop('checked',true);
+   });
+   
+   $('.area_check').click(function(e) {
+	   $(this).siblings('label').find('input[type=checkbox]').prop('checked',true);
+   });
+  </script>
+</div>
+
+<div class="soft_top">
+ <div class="top_line_a">
+    <span onClick="window.location='充值中心-购买流量包.html'" class="infoShowBox">
+      <span>短信余额：<span>431</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮件余额：<span>732</span></span>
+    </span>
+    <a class="infoShowBox" style="margin-right:20px;" href="充值中心-购买流量包.html"><img src="images/icon_bg.png" />充值</a>
+    <span class="infoShowBox">
+      <span>&nbsp;&nbsp;旗舰版&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    </span>
+    <span onClick="window.location='充值中心-购买流量包.html'" class="infoShowBox">
+      <span>软件有效期至：<span>2016-8-30</span></span>
+    </span>
+    <a class="infoShowBox" style="margin-right:20px;" href="充值中心-购买流量包.html"><img src="images/icon_bg.png" />续费</a>  
+    
+        <div class="soft_top_left right">
+  	<span class="refresh refresh_noClick importRefresh" style="display: none;">
+          <span>
+          数据导入进度
+            <div class="percentage_box" style="padding:2px;">
+                <div class="percentage_bg">
+                    <div style="width:0%" class="percentage"></div>
+                </div>
+            </div>
+          </span>
+        已导入<span class="percentage_tips">0</span>%
+        </span>
+        <span class="infoShowBox info">
+        	<span>选择背景色：</span><em class="color"></em>
+        </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="infoShowBox info" id="info2">
+          新消息&nbsp;<!--<span class="icon"></span>--><span class="num">3</span>
+        </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <label id="subAccount" style="color:#cdcdcd; position:relative; height:25px; line-height:25px;">切换子店铺：<select id="subAccountSe" onchange="switchUser();" style="margin-top:-3px;"><option value="">请选择子店铺</option><option value="424">d[s103896799...</option><option value="-1">转流量到子店铺</option></select></label>
+        <a href="#" class="infoShowBox special" style="color:#FFF; position:relative; margin-left:20px; padding-right:5px;">切回主账户</a>
+    </div>
+  </div>
+  <div class="top_line_b">
+  		 <div class="logoBox"><a href="首页.html"><img src="images/logo.png" /></a></div>
+      <div class="soft_top_left">                                                               
+        <a class="fastintobox onthis" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_home.png" /><br />首页</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_clock.png" /><br />交易提醒</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_auto_l.png" /><br />自动营销</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_yx.png" /><br />营销管理</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_mumber.png" /><br />会员管理</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_sj.png" /><br />数据分析</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_my.png" /><br />我的达客</div>
+        </a>
+        <a class="fastintobox last" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_help.png" /><br />使用教程</div>
+        </a>
+      </div>
+      <div class="soft_top_right">
+        <div class="username">
+        	<em class="before"></em>达客CRM店铺名<br/>
+        	<a class="loginout">[ 退出登录 ]</a>
+        </div>
+      </div>
+      <div class="info_box_text">
+        <div class="title">消息提醒</div>
+        <div class="info_box_main info_blue">
+          <div class="box_top">放假通知</div>
+          <div class="box_worker">123123</div>
+          <div class="box_footer"><a href="#">删除消息</a></div>
+        </div>
+        <div class="info_box_main info_green">
+          <div class="box_top">余额不足提醒</div>
+          <div class="box_worker">123123</div>
+          <div class="box_footer"><a href="#">删除消息</a></div>
+        </div>
+        <div class="info_box_main info_gray">
+          <div class="box_top">立刻升级</div>
+          <div class="box_worker">123123</div>
+          <div class="box_footer"><a href="#">删除消息</a></div>
+        </div>
+        <span class="adm-informer-arrow"></span>
+      </div>
+  </div>
+</div>
+<div class="page">
+<div class="slide_box"></div>
+  <table class="soft_body" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr class="soft_body_td">
+      <td class="soft_body_left">
+        <div class="soft_left_side">
+          <div class="search_box">
+            	<img src="images/icon_search.png" />
+                <input type="text" placeholder="功能搜索" />
+            </div>
+          <div class="soft_left_side_menu soft_left_side_submenu">
+          	<ul class="nav_first_list">
+                <li><a class="menu_home onthis" href="首页.html"><span class="xdgh"></span>短信营销</a></li>
+                <li><a class="menu_home zdhm" href="帮助中心.html"><span class="xdgh"></span>指定号码发送</a></li>
+                <li><a class="menu_home mail" href="帮助中心.html"><span class="xdgh"></span>邮件营销</a></li>
+                <li><a class="menu_home hb" href="帮助中心.html"><span class="xdgh"></span>发放红包</a></li>
+                <li><a class="menu_home sd" href="帮助中心.html"><span class="xdgh"></span>手动订单提醒</a></li>
+                <li><a class="menu_home jjr" href="帮助中心.html"><span class="xdgh"></span>节假日关怀</a></li>
+                <li><a class="menu_home yx" href="帮助中心.html"><span class="xdgh"></span>营销建议</a></li>
+                <li><a class="menu_home yx" href="帮助中心.html"><span class="pjgl"></span>评价管理</a></li>
+             </ul>
+          </div>
+        </div>
+      </td>
+      <td class="soft_body_right">
+        <div class="soft_workspace_title">
+          <ul class="bread_crumbs">
+            <li class="first"><a href="#">营销管理</a></li><li><a href="#">短信营销</a></li>
+          </ul>
+          <h3><span class="autosms_1"></span>未付款催付&nbsp;&nbsp;
+          <b>-&nbsp;&nbsp;&nbsp;&nbsp;对未付款的订单进行（短信/邮件）催付，能有效提高订单付款率。</b></h3>
+        </div>
+        <div class="soft_workspace">
+          <div class="menu_title" onclick="OpenPopbox_new('a','弹框标题','弹框内容弹框内容弹框内容弹框内容弹框内容弹框内容弹框内容')">所有通知环节<div class="sh_box"><img src="images/blue_arr_u.gif" width="9" />收起</div></div>
+          <div class="tab_box_main">
+              <!--图表及高亮字段显示区Start-->
+              <div class="table_workspace clearfix border-bottom padding-top20 padding-bottom20 mb20">
+                <!--交易环节开关Start-->
+                <div class="logistics_switch">
+                  <div class="switchBox">
+                  	<a href="#">
+                      <div class="switch_menu switch_menu_1"></div>
+                      <h4>下单关怀</h4>
+                    </a>
+                  </div>
+                  <div class="lineBox lineBox4">
+                    <em class="level1">&nbsp;</em><em class="level2">&nbsp;</em><em class="level3">&nbsp;</em>
+                  </div>
+                  <div class="switchBox">
+                  	<a href="#">
+                      <div class="switch_menu jhs"></div>
+                      <h4>聚划算催付</h4>
+                    </a>
+                    <a href="#">
+                      <div class="switch_menu wfk"></div>
+                      <h4>未付款催付</h4>
+                    </a>
+                    <a href="#">
+                    	<div class="switch_menu wfk"></div>
+                      <h4>预售订单催付</h4>
+                    </a>
+                  </div>
+                  <div class="lineBox duan">
+                    <em>&nbsp;</em>
+                  </div>
+                  <div class="switchBox">
+                  	<a href="#">
+                    	<div class="switch_menu eccf switch_menu_1"></div>
+                      <h4>二次催付</h4>
+                    </a>
+                  </div>
+                  <div class="lineBox duan">
+                    <em>&nbsp;</em>
+                  </div>
+                  <div class="switchBox">
+                    <a class="off" href="交易提醒-发货提醒.html">
+                    	<div class="switch_menu fkgh switch_menu_1"></div>
+                      <h4>付款关怀</h4>
+                    </a>
+                  </div>
+                  <div class="lineBox duan">
+                    <em>&nbsp;</em>
+                  </div>
+                  <div class="switchBox">
+                  	<a class="switch_menu_down" href="交易提醒-物流提醒.html">
+                    	<div class="switch_menu ysfh"></div>
+                      <h4>延时发货提醒</h4>
+                    </a>
+                    <a href="交易提醒-物流提醒.html">
+                    	<div class="switch_menu fhtz"></div>
+                      <h4>发货通知</h4>
+                    </a>
+                    <a class="switch_menu_down" href="交易提醒-物流提醒.html">
+                    	<div class="switch_menu wlyctz"></div>
+                      <h4>物流异常通知</h4>
+                    </a>
+                  </div>
+                  <div class="lineBox lineBox5">
+                    <em>&nbsp;</em>
+                    <em class="level2">&nbsp;</em>
+                    <em class="level3">&nbsp;</em>
+                  </div>
+                  <div class="switchBox">
+                    <a class="off" href="交易提醒-提醒确认付款.html">
+                    	<div class="switch_menu ddcs switch_menu_1"></div>
+                      <h4>到达所在<br/>城市通知</h4>
+                    </a>
+                  </div>
+                  <div class="lineBox duan">
+                    <em>&nbsp;</em>
+                  </div>
+                  <div class="switchBox">
+                    <a href="交易提醒-好评提醒.html">
+                    	<div class="switch_menu pijtx switch_menu_1"></div>
+                      <h4>派件提醒</h4>                     
+                    </a>
+                  </div>
+                  <div class="lineBox duan">
+                    <em>&nbsp;</em>
+                  </div>
+                  <div class="switchBox">
+                  	<a class="switch_menu_down" href="交易提醒-物流提醒.html">
+                    	<div class="switch_menu tkgh"></div>
+                      <h4 class="longer">退款关怀</h4>
+                    </a>
+                    <a href="交易提醒-好评提醒.html">
+                    	<div class="switch_menu qstx"></div>
+                      <h4>签收提醒</h4>
+                    </a>
+                    <a class="switch_menu_down" href="交易提醒-物流提醒.html">
+                    	<div class="switch_menu cjgh"></div>
+                      <h4>抽奖关怀</h4>
+                    </a>
+                  </div>
+                  <div class="lineBox lineBox5">
+                    <em>&nbsp;</em>
+                    <em class="level2">&nbsp;</em>
+                    <em class="level3">&nbsp;</em>
+                  </div>
+                  <div class="switchBox">
+                    <a href="交易提醒-好评提醒.html">
+                    	<div class="switch_menu pjtx switch_menu_1"></div>
+                      <h4>评价提醒</h4>
+                    </a>
+                  </div>
+                  <div class="lineBox lineBox2">
+                    <em class="level1">&nbsp;</em>
+                    <em class="level2">&nbsp;</em>
+                  </div>
+                  <div class="switchBox">
+                    <a href="交易提醒-好评感谢.html">
+                    	<div class="switch_menu hptx switch_menu_3"></div>
+                      <h4>好评感谢</h4>
+                    </a>
+                    <a href="交易提醒-差评安抚.html">
+                    	<div class="switch_menu cptx"></div>
+                      <h4>差评安抚</h4>
+                    </a>
+                  </div>
+                  <div class="lineBox lineBox6">
+                    <em class="level1">&nbsp;</em><em class="level2">&nbsp;</em>
+                  </div>
+                  <div class="switchBox">
+                    <a href="交易提醒-好评提醒.html">
+                    	<div class="switch_menu shgh switch_menu_3"></div>
+                      <h4 class="longer">售后关怀</h4>
+                    </a>
+                    <a href="交易提醒-好评提醒.html">
+                    	<div class="switch_menu srgh"></div>
+                      <h4>生日关怀</h4>
+                    </a>
+                  </div>
+                </div>
+                <!--交易环节开关End-->
+              </div>
+              
+              <script type="text/javascript">
+			  	var isOpen = true;
+			  	$('.sh_box').click(function(e) {
+					if(isOpen){
+                    	$(this).find('img').attr('src','images/blue_arr_d.gif');
+						isOpen = false;
+					}else{
+						$(this).find('img').attr('src','images/blue_arr_u.gif');
+						isOpen = true;
+					}
+					$('.logistics_switch').slideToggle();
+                });
+			  </script>
+              <!--图表及高亮字段显示区End-->
+          </div>
+          <div class="soft_workspace_title new">
+              <h3><span class="autosms_1"></span>未付款催付&nbsp;&nbsp;
+              <b>-&nbsp;&nbsp;&nbsp;&nbsp;对未付款的订单进行（短信/邮件）催付，能有效提高订单付款率。</b></h3>
+            </div>
+          <div class="tab_box" id="tab01">
+            <span class="detail_tab active">短信设置<img src="images/wenhao.gif" /></span>
+            <span class="detail_tab">邮件设置</span>
+            <span class="detail_tab">短信催付记录</span>
+            <span class="detail_tab">短信催付效果</span>
+          </div>
+           <div class="tab_box_main" id="add_auto_evaluate" style="display:none;">
+              <!--SMS设置Start-->
+              <div class="table_workspace clearfix border-bottom padding-top20 margin-bottom20">
+                <div class="adm-detail-title">自动评价</div>
+                <div class="table_workspace_iphone_sms">
+                	<div class="popbox_frombox clearfix padding-left0">
+                        <div class="iphone_sms_frombox" style="width:900px;">
+                            <dl class="fleft">
+                              <dt>评价开关：</dt>
+                              <dd>
+                                <label><input type="radio" name="ggggg" value="单选" />&nbsp;开启</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="radio" name="ggggg" checked="checked" value="单选" />&nbsp;关闭</label>
+                                <span class="red">注：评价提醒功能开启后，才能开启自动评价功能！</span>
+                              </dd>
+                            </dl>
+                            <dl class="fleft">
+                              <dt><span class="red">官方规定：</span></dt>
+                              <dd>
+                                天猫店（商城店）无需开启自动评价（天猫店会在买家评价后自动给好评）；
+                                <br/>集市店（淘宝店）需要交易双方互评之后，才能获取到评价信息；
+                                <br/>方便您及时为交易给出好评，建议您开启自动评价功能。
+                              </dd>
+                            </dl>
+                            <dl class="fleft">
+                              <dt>选择回评方式：</dt>
+                              <dd>
+                              	<label><input type="radio" name="hhhhh" value="单选" />&nbsp;当交易完成后，自动给对方好评。</label>
+                                <br/>
+                                <label><input type="radio" name="hhhhh" checked="checked" value="单选" />&nbsp;当客户评价后，自动给对方好评。</label>
+                              </dd>
+                            </dl>
+                            <dl class="fleft">
+                          		<dt>设置评价内容：</dt>
+                          		<dd><textarea id="textarea_sms_text" class="phoneNum">非常爽快的客户，必须好评！</textarea></dd>
+                        	</dl>
+                         </div>
+                     </div>
+                <!----->
+                </div>
+              </div>
+           </div>
+          <div class="tab_box_main" id="add_xg_setup" style="display:none;">
+          	  <div class="table_workspace clearfix border-bottom padding-top20 margin-bottom20">
+              	 <div class="adm-detail-title">好评提醒效果统计</div>
+                 <div class="table_top Rounded" style="margin:10px 20px 0px 20px;"><!--需要圆角时加上class:Rounded-->
+                                <div class="table_left">
+                                    <a class="menu onthis" href="javascript:void(0)" type="1">今天</a>
+                                    <a class="menu" href="javascript:void(0)" type="2">最近7天</a>
+                                    <a class="menu" href="javascript:void(0)" type="3">最近一个月</a>
+                                    
+                                    <script type="text/javascript">
+										$('.table_left a').click(function(e) {
+                                            $('.table_left a').removeClass('onthis');
+											$(this).addClass('onthis');
+                                        });
+									</script>
+
+                                    <div class="widgetField">
+                                    <span style="float:left; margin-right:5px;">自定义时间：</span>
+                                    <input id="query_time_start" class="radius" type="text" value="" onclick="WdatePicker({startDate:'%y-%M-01',maxDate:'%y-%M-%d'})"></div>
+                                    
+                                    <div class="widgetField">&nbsp;-&nbsp;</div>
+                                    <div class="widgetField">
+                                        <input id="query_time_end" type="text" value="" onclick="WdatePicker({maxDate:'%y-%M-%d'})">
+                                    </div>
+                                    <a id="Submit_Time" href="javascript:void(0)" class="menu submit" type="4">确定</a>
+                                </div>
+                            </div>
+                    <div class="table_workspace_iphone_sms" style="margin-top:0px;">
+                    	注：如不设置查询时间，系统默认统计前一日的提醒效果。
+                        <table width="100%" border="0" style="text-align:center;">
+  <tr height="50px;">
+    <td>时间</td>
+    <td>发送量（条）</td>
+    <td>评价链接点击量（次）</td>
+    <td>总评价数</td>
+    <td>好评成功数</td>
+    <td>好评成功率</td>
+  </tr>
+  <tr>
+    <td>2015.7.21 ~ 2015.7.23</td>
+    <td>100</td>
+    <td>100</td>
+    <td>100</td>
+    <td>80</td>
+    <td>80%</td>
+  </tr>
+</table>
+                    </div>
+              </div>
+          </div>
+          <div class="tab_box_main" id="add_sms_setup">
+              <!--SMS设置Start-->
+              <div class="table_workspace clearfix border-bottom padding-top20 margin-bottom20">
+              	<div class="table_workspace_iphone_sms">
+                	<div class="sms_title_box">
+                		<div class="sms_title">短信内容</div>
+                        <a class="change_btn hh"><input class="setup" type="button" value="修改"></a>
+                    </div>
+                    <div class="show_box">
+                        <div class="popbox_frombox clearfix padding-left0">
+                            <div class="iphone_sms_frombox">
+                                <dl class="fleft">
+                                  <dt>短信内容：</dt>
+                                  <dd>如果你是女生,来锦城吧亲~男女生比例一比一哟,保证你有哥哥照顾,分配均匀哟~ 如果你是男生,来锦城吧亲~锦城的妹纸很有爱超级温柔...</dd>
+                                </dl>
+                                <div class="text_num">当前短信内容<strong>65</strong>个字符，将按<strong>1</strong>条短信收费！</div>
+                            </div>
+                        </div>
+                	</div>
+                    <div class="change_box">
+                    <div class="popbox_frombox clearfix">
+                      <div class="iphone_sms">
+                        <div class="smsBox">
+                          <div class="smsBox_text" id="iphone_sms_text">你好！您在本店购买的#商品#还未付款，付款后我们将以最快的速度发货哦！【小资生活】</div>
+                        </div>
+                        <div class="smsBox_bottom"></div>
+                      </div>
+                      <div class="iphone_sms_frombox" style="width:500px; margin-left:20px;">
+                      	<dl class="fleft">
+                            <dt>自动发送：</dt>
+                            <dd>
+                                        <label><input type="radio" name="is_open" class="is_open" checked="checked" value="1" onclick="javascript:$('#openTips').show();">&nbsp;开启</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <label><input type="radio" name="is_open" value="0" class="is_open" onclick="javascript:$('#openTips').hide();">&nbsp;关闭</label>
+                                        <script>
+                                            $(document).ready(function (){
+                                                $("#period_time").removeAttr("disabled");
+                                                $("#period_time").val("0");
+                                            })
+                                        </script>
+                                        <a id="openTips" href="#"><font color="red">关闭功能保存后，再重新开启</font><img src="images/wenhao.gif" style="margin-left:5px;" /></a>
+                            </dd>
+                        </dl>
+                        <dl class="fleft">
+                            <dt>短信模板：</dt>
+                            <dd>
+                            	<input style="margin-top:4px;" type="button" value="模板选择" onclick="OpenPopbox_noMove('add_moban_chose')">
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>短信内容：</dt>
+                            <dd style="width: 680px;">
+                                  <span>
+                                     <a class="options" title="" href="javascript:void(0)" onclick="insertAtCursor(document.getElementById('textarea_sms_text'),'{$店铺名称}')">店铺名称</a>
+                                     <a class="options" title="" href="javascript:void(0)" onclick="insertAtCursor(document.getElementById('textarea_sms_text'),'{$买家昵称}')">买家昵称</a>
+                                     <a class="options" title="" href="javascript:void(0)" onclick="insertAtCursor(document.getElementById('textarea_sms_text'),'{$买家姓名}')">买家姓名</a>
+                                     <a class="options" title="" href="javascript:void(0)" onclick="insertAtCursor(document.getElementById('textarea_sms_text'),'{$商品名}')">商品名</a>
+                                     <select style="float:none; margin-bottom:8px;" id="selectVariable" onchange="setVariable()">
+                                         <option>更多变量</option>
+                                         <option value="{$订单总价}">订单总价</option>
+                                         <option value="{$付款链接}">付款链接</option>
+                                     </select>
+                                </span>
+                                <textarea id="textarea_sms_text" class="phoneNum" name="sms_content" style="float:left">你看过了许多美景，终于挑选了我。快来付款哦  {$付款链接}  </textarea>
+                                <input style="margin-left: 20px; float: left;" type="button" value="另保存为模板" onclick="OpenRemind_noMove('add_moban')">
+                                <script type="text/javascript">
+                                function preTestSend(){
+                                	var pushSubject="未付款催付 测试";
+                                	var testRecipients=$('#test_recipients').val();
+                                	var pushContent=$('#textarea_sms_text').val();
+                                	testSend(pushSubject,testRecipients,pushContent);
+                                }
+                                </script>
+                                <div class="note" style="width: 500px;">您当前已输入<span id="T_Num" class="num">41</span>个字符，将按照<span id="Sms_Num" class="num" style="color:red;">1</span>条短信计费。<a class="red" href="#">计费规则<img src="images/wenhao.gif" style="margin-left:5px;" /></a></div>
+                                <input type="hidden" id="templateId" name="templateId">
+                                <input type="hidden" id="flag" name="flag">
+                            </dd>
+                        </dl>
+                        <dl class="fleft">
+                          <dt>短信测试：</dt>
+                          <dd>
+                            <input type="text" class="text" maxlength="120" style="width: 395px;" value="" id="test_recipients" placeholder="请输入测试手机号，多个号码以 “,” 号隔开">
+                            <input style="margin-left: 20px; " type="button" value="立即测试" onclick="preTestSend();" class="submit">
+                          </dd>
+                        </dl>
+                        <dl class="fleft">
+                          <dt>卖家签名：</dt>
+                          <dd>
+                            <input class="text" value="【小资生活】" type="text">
+                            <input type="button" value="修改签名">
+                          </dd>
+                        </dl>
+                      </div>
+                      <div class="submitbox np">
+                         	<input type="submit" class="submit" value="保存">
+                         	<input type="submit" class="submit can close" value="取消">
+                       	  </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="table_workspace_iphone_sms">
+                <!-- -->
+                	<div class="sms_title_box">
+                		<div class="sms_title">基本条件</div>
+                        <a class="change_btn hh"><input class="setup" type="button" value="修改"></a>
+                    </div>
+                <div class="show_box">
+                	<div class="popbox_frombox clearfix padding-left0">
+                        <div class="iphone_sms_frombox">
+                            <dl class="fleft">
+                              <dt>发送时间：</dt>
+                              <dd>拍下后5分钟后</dd>
+                            </dl>
+                            <dl class="fleft">
+                              <dt>发送时段：</dt>
+                              <dd>09:00~21:00</dd>
+                            </dl>
+                            <dl class="fleft" style="margin-bottom:0px">
+                              <dt>发送频次：</dt>
+                              <dd>不限</dd>
+                            </dl>
+                        </div>
+                	</div>
+                </div>
+                <div class="change_box">
+                    <div class="popbox_frombox clearfix" style="padding:0px;">
+                      <div class="iphone_sms_frombox">
+                        <dl class="fleft">
+                          <dt>发送时间：</dt>
+                          <dd>
+                            <select class="float_none" name="total_duration">
+                              <option value="1" selected="">5分钟</option>
+                              <option value="10">10分钟</option>
+                              <option value="30">30分钟</option>
+                            </select>（拍下后间隔此设置时间后发送短信）
+                          </dd>
+                        </dl>
+                        <dl class="fleft bianji">
+                            <dt><a href="#" style="text-decoration:none;"><img src="images/wenhao.gif" style="position:absolute; left:10px; margin-top:7px;" />发送时段：</a></dt>
+                            <dd class="bianji" style="width:600px">
+                                        <label><input type="radio" name="is_limit_open" class="is_limit_open limitFlag" value="1">&nbsp;启用发送时间限制</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <label><input type="radio" name="is_limit_open" class="is_limit_open limitFlag" checked="checked" value="0">&nbsp;不限制发送时间<span id="tip" style="display: none;">（发送时段外的订单信息，次日自动催付）</span></label>
+                                <dl class="fleft is_limit_open limitTime" style="display: none;">
+                                    <dt>发送开始时间：</dt>
+                                    <dd>
+                                        <input class="text Wdate" value="09:00" type="text" name="limit_starttime" maxlength="5" onfocus="WdatePicker({dateFmt:'HH:mm'})">
+                                    </dd>
+                                </dl>
+                                <dl class="fleft is_limit_open limitTime" style="display: none;">
+                                    <dt>发送结束时间：</dt>
+                                    <dd>
+                                        <input class="text Wdate" value="21:00" type="text" name="limit_endtime" maxlength="5" onfocus="WdatePicker({dateFmt:'HH:mm'})">
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+                        <dl class="fleft">
+                            <dt><a href="#" style="text-decoration:none;"><img src="images/wenhao.gif" style="position:absolute; left:10px; margin-top:7px;" />发送频率：</a></dt>
+                            <dd><label><input type="checkbox" name="fatigue_flag" value="1">24小时内对同一买家（多笔订单）只催付一次</label></dd>
+                        </dl>
+                        
+                      </div>
+                      <div class="submitbox np">
+                         	<input type="submit" class="submit" value="保存">
+                         	<input type="submit" class="submit can close" value="取消">
+                       	  </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="table_workspace_iphone_sms">
+                	<div class="sms_title_box">
+                		<div class="sms_title">高级条件</div>
+                        <a class="change_btn hh"><input class="setup" type="button" value="修改"></a>
+                    </div>
+                    <div class="show_box">
+                    	<div class="popbox_frombox clearfix padding-left0">
+                			<div class="iphone_sms_frombox">
+                            	<dl class="fleft">
+                          			<dt>实付金额：</dt>
+                          			<dd>10~10000000000元</dd>
+                        		</dl>
+                                <dl class="fleft">
+                          			<dt>发送地域：</dt>
+                          			<dd>
+                                    	<div class="options_box">
+                                        	默认全部 / 自定义(3)
+                                        </div>
+                                    </dd>
+                        		</dl>
+                                <dl class="fleft" style="width:770px;">
+                          			<dt style="margin-bottom:10px;">已选定商品：</dt>
+                          			<dd style="width:800px;">
+                                    	<ul id="stroe_pro" style="width:400px; float:left;">
+                                        	<li><img src="images/demo/pd.jpg" /><em><img src="images/del.png" /></em></li>
+                                            <li><img src="images/demo/pd.jpg" /><em><img src="images/del.png" /></em></li>
+                                            <li><img src="images/demo/pd.jpg" /><em><img src="images/del.png" /></em></li>
+                                            <li><img src="images/demo/pd.jpg" /><em><img src="images/del.png" /></em></li>
+                                            <li><img src="images/demo/pd.jpg" /><em><img src="images/del.png" /></em></li>
+                                            <li><img src="images/demo/pd.jpg" /><em><img src="images/del.png" /></em></li>
+                                            <li><img src="images/demo/pd.jpg" /><em><img src="images/del.png" /></em></li>
+                                            <li><img src="images/demo/pd.jpg" /><em><img src="images/del.png" /></em></li>
+                                        </ul>
+                                        <div style="float:left; clear:none; text-align:center;">
+                                        	<strong>指定发送的内容：</strong><br/>
+                                        </div>
+                                        <div class="zdfsnr">你好！您在本店购买的#商品#还未付款，付款后我们将以最快的速度发货哦！【小资生活】</div>
+                                    </dd>
+                        		</dl>
+                                <dl class="fleft gaoji">
+                                    <dt>屏蔽标旗会员：</dt>
+                                    <dd class="seller_flag_op">未屏蔽标旗</dd>
+                                </dl>
+                                <dl class="fleft" style="margin-bottom:0px">
+                          			<dt>订单来源：</dt>
+                          			<dd>
+                                    	<div class="options_box">
+                                        	不限 / PC端 / 移动端 / 聚划算
+                                        </div>
+                                    </dd>
+                        		</dl>
+                            </div>
+                       </div>
+                    </div>
+                    <div class="change_box">
+                    	<div class="popbox_frombox clearfix padding-left0">
+                			<div class="iphone_sms_frombox" style="width:800px;">
+                            	<input type="button" value="重置" style="position:absolute; right:20px;" />
+                                <dl class="fleft">
+                          			<dt>实付金额：</dt>
+                          			<dd><input type="text" value="10" />~<input type="text" value="10000000000" />元</dd>
+                        		</dl>
+                                <dl class="fleft">
+                          			<dt>发送地域：</dt>
+                          			<dd>
+                                    	<div class="options_box">
+                                        	<a class="options" href="javascript:void(0)">默认全部</a>
+                                            <a class="options onthis" onclick="OpenPopbox_noMove('space_Contacts')" href="javascript:void(0)">自定义</a>
+                                        </div>
+                                    </dd>
+                        		</dl>
+                                <div class="options_box"><a class="options" onclick="OpenPopbox_noMove('add_Contacts')" href="javascript:void(0)">添加指定商品（发送指定内容）</a></div>
+                                <dl class="fleft" style="width:780px; padding-left:10px; border:#d3dbdd 1px solid;">
+                          			<dt style="margin-bottom:10px;">已选定商品：</dt>
+                          			<dd style="width:800px;">
+                                    	<div class="dele"><img src="images/del.png" /></div>
+                                    	<ul id="stroe_pro" style="width:400px; float:left;">
+                                        	<li><img src="images/demo/pd.jpg" /><em><img src="images/del.png" /></em></li>
+                                            <li><div class="options_box"><a class="options" onclick="OpenPopbox_noMove('add_Contacts')" href="javascript:void(0)">添加商品</a></div></li>
+                                        </ul>
+                                        <div style="float:left; clear:none; text-align:center;">
+                                        	<strong>指定发送的内容：</strong><br/>
+                                        	<div class="options_box" style="margin-top:30px;"><a class="options" onclick="OpenPopbox_noMove('add_SMS')" href="javascript:void(0)">编辑内容</a></div>
+                                        </div>
+                                        <div style="float:left; clear:none; width:200px;">你好！您在本店购买的#商品#还未付款，付款后我们将以最快的速度发货哦！【小资生活】</div>
+                                    </dd>
+                        		</dl>
+                                <dl class="fleft" style="width:780px; padding-left:10px; border:#d3dbdd 1px solid;">
+                          			<dt style="margin-bottom:10px;">已选定商品：</dt>
+                          			<dd style="width:800px;">
+                                    	<ul id="stroe_pro" style="width:400px; float:left;">
+                                        	<li><img src="images/demo/pd.jpg" /><em><img src="images/del.png" /></em></li>
+                                            <li><img src="images/demo/pd.jpg" /><em><img src="images/del.png" /></em></li>
+                                            <li><img src="images/demo/pd.jpg" /><em><img src="images/del.png" /></em></li>
+                                            <li><img src="images/demo/pd.jpg" /><em><img src="images/del.png" /></em></li>
+                                            <li><img src="images/demo/pd.jpg" /><em><img src="images/del.png" /></em></li>
+                                            <li><img src="images/demo/pd.jpg" /><em><img src="images/del.png" /></em></li>
+                                            <li><img src="images/demo/pd.jpg" /><em><img src="images/del.png" /></em></li>
+                                            <li><img src="images/demo/pd.jpg" /><em><img src="images/del.png" /></em></li>
+                                            <li><div class="options_box"><a class="options" onclick="OpenPopbox_noMove('add_Contacts')" href="javascript:void(0)">添加商品</a></div></li>
+                                        </ul>
+                                        <div style="float:left; clear:none; text-align:center;">
+                                        	<strong>指定发送的内容：</strong><br/>
+                                        	<div class="options_box" style="margin-top:30px;"><a class="options" onclick="OpenPopbox_noMove('add_SMS')" href="javascript:void(0)">编辑内容</a></div>
+                                        </div>
+                                        <div style="float:left; clear:none; width:200px;">你好！您在本店购买的#商品#还未付款，付款后我们将以最快的速度发货哦！【小资生活】</div>
+                                    </dd>
+                        		</dl>
+                                <dl class="fleft">
+                                    <dt>屏蔽标旗订单：</dt>
+                                    <dd>
+                                        <label style="margin-top:10px;margin-right:10px;"><input type="checkbox" class="seller_flag" name="seller_flag" value="1"><img src="images/cq/op_memo_1.png" width="11"></label>
+                                        <label style="margin-top:10px;margin-right:10px;"><input type="checkbox" class="seller_flag" name="seller_flag" value="2"><img src="images/cq/op_memo_2.png" width="11"></label>
+                                        <label style="margin-top:10px;margin-right:10px;"><input type="checkbox" class="seller_flag" name="seller_flag" value="3"><img src="images/cq/op_memo_3.png" width="11"></label>
+                                        <label style="margin-top:10px;margin-right:10px;"><input type="checkbox" class="seller_flag" name="seller_flag" value="4"><img src="images/cq/op_memo_4.png" width="11"></label>
+                                        <label style="margin-top:10px;margin-right:10px;"><input type="checkbox" class="seller_flag" name="seller_flag" value="5"><img src="images/cq/op_memo_5.png" width="11"></label>
+                                    </dd>
+                                </dl>
+                                <dl class="fleft">
+                          			<dt>订单来源：</dt>
+                          			<dd>
+                                    	<div class="options_box">
+                                        	<a class="options onthis" href="javascript:void(0)">不限</a>
+                                            <a class="options" href="javascript:void(0)">PC端</a>
+                                            <a class="options" href="javascript:void(0)">移动端</a>
+                                            <a class="options" href="javascript:void(0)">聚划算</a>
+                                        </div>
+                                    </dd>
+                        		</dl>
+                            </div>
+                            <div class="submitbox np">
+                         	<input type="submit" class="submit" value="保存">
+                         	<input type="submit" class="submit can close" value="取消">
+                       	  </div>
+                       </div>
+                </div>
+              </div>
+              <!--SMS设置End-->
+          </div>
+          
+          <div class="tab_box_main" id="add_email_setup" style="display:none;">
+              <!--SMS设置Start-->
+              <div class="table_workspace clearfix border-bottom padding-top20 margin-bottom20">
+                <div class="adm-detail-title">邮件未付款催付设置</div>
+                <div class="table_workspace_iphone_sms">
+                <!----->
+                    <div class="popbox_frombox clearfix">
+                      <div class="iphone_sms_frombox iphone_mail_frombox">
+                        <dl class="fleft">
+                          <dt>自动发送：</dt>
+                          <dd>
+                            <label><input type="radio" name="eeeee" value="单选" />&nbsp;是</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label><input type="radio" name="eeeee" checked="checked" value="单选" />&nbsp;否</label>
+                          </dd>
+                        </dl>
+                        <div><textarea name="content" style="width:810px; height:200px; visibility:hidden; display:block;"></textarea></div>
+                      </div>
+                    </div>
+                    <div class="percentage_box">
+                      <div class="percentage_text">
+                        <strong class="fontsize14">说明：</strong>
+                        <p style="padding-top:5px;">用于买家拍下宝贝后，一定时间内未付款，有利于提高拍下宝贝的付款率。</p>
+                        <ul class="pl12" style="padding-top:5px;">
+                          <li>1,&nbsp;发送时段说明：为防止短消息在夜间给买家造成不必要的困扰，可以打开发送时段限制，默认晚上10点至隔天上午9点为限制时段。</li>
+                        </ul>
+                      </div>
+                    </div>
+                <!----->
+                </div>
+                <div class="submitbox"><input class="submit" type="submit" value="确认"></div>
+              </div>
+              <!--SMS设置End-->
+          </div>
+          
+        </div>
+        <script language="javascript" type="text/javascript">
+			  var theTab1_box = new Array('add_sms_setup','add_email_setup','add_xg_setup','add_auto_evaluate');
+			  var theTab1 = new AlexTab2('tab01',theTab1_box);
+			  theTab1;
+			  var theTab3_box = new Array('add_system','add_highROI','add_custom');
+			  var theTab3 = new AlexTab2('tab03',theTab3_box);
+			  theTab3;
+		</script>
+      </div>
+        <div class="soft_workspace_footer">
+          <div class="footer_left">Powered by <a href="http://www.easycontact.cn" target="_blank">EasyContact</a>  Copyright &copy; 2013-2011 SinoContact,Inc</div>
+          <div class="footer_right"><a href="http://www.easycontact.cn" target="_blank">www.EasyContact.cn</a>&nbsp;｜&nbsp;<a href="#"><em class="setting"></em>账户设置</a></div>
+        </div>
+        
+      </td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>
