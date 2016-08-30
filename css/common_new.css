@@ -823,7 +823,7 @@ strong.bigtitle {font-size:24px; font-weight:normal;}
 .soft_workspace .table_workspace .table_dataBox_pd0 {margin:0 0 20px 0; clear:both;}
 .soft_workspace .table_workspace .table_dataBox table {border-collapse: collapse; border-bottom:1px solid #ccc;}
 .soft_workspace .table_workspace .table_dataBox table tr td {WORD-WRAP:break-word; background:#fff;}
-.soft_workspace .table_workspace .table_dataBox table thead tr {background:#fafafa url(images/fhbg2.gif) repeat-x bottom; border:1px solid #ccc; border-bottom:0;}
+.soft_workspace .table_workspace .table_dataBox table thead tr {background:#fafafa url(images/fhbg2.gif) repeat-x bottom; border-bottom:0;}
 .soft_workspace .table_workspace .table_dataBox table thead tr td {line-height:30px; cursor:default; background:#fafafa url(images/fhbg2.gif) repeat-x bottom; white-space:nowrap; color:#000;text-shadow:0 1px 0 rgba(255,255,255,0.5); text-align:center;}
 .soft_workspace .table_workspace .table_dataBox table tbody tr { border:1px solid #ccc; border-width:0 1px;}
 .soft_workspace .table_workspace .table_dataBox table tbody tr td {line-height:36px; text-align:center;}
@@ -840,12 +840,12 @@ background-image: -webkit-linear-gradient(bottom, #093, #16c14f);
 .soft_workspace .table_workspace .table_dataBox table tbody tr.fengeLine {height:1px;}
 .soft_workspace .table_workspace .table_dataBox table tbody tr.fengeLine td {height:1px; line-height:1px; background:#ccc;}
 
-
+.soft_workspace .table_workspace .table_dataBox_RFM {border: 1px solid #d3dbdd;}
 .soft_workspace .table_workspace .table_dataBox_RFM table {}
 .soft_workspace .table_workspace .table_dataBox_RFM table thead tr td {line-height:20px; background-size:10px; padding:5px 0;}
 .soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td {line-height:160%; padding:0; border:1px solid #FFF;}
 .soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td strong {display:block; font-size:18px;}
-.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.total {background:#c5d8d8;}
+.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.total {background:#efefef;}
 .soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_1 {background:#f8696b;}
 .soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_2 {background:#f8736d;}
 .soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_3 {background:#f97e6f;}
