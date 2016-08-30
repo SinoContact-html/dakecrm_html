@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script language="javascript" type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/flexigrid.pack.js"></script>
+<script language="javascript" type="text/javascript" src="js/datepicker.js"></script>
+<script language="javascript" type="text/javascript" src="js/eye.js"></script>
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<link href="css/common.css" rel="stylesheet" type="text/css" />
+<link href="css/flexigrid.pack.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" media="screen" type="text/css" href="css/datepicker.css" />
+
+<title>無標題文件</title>
+</head>
+
+<body>
+<div class="soft_top">
+  <div class="top_line_a">
+    <div class="logoBox"><a href="首页.html"></a></div>
+    <span onClick="window.location='充值中心-购买流量包.html'" class="infoShowBox">
+      <span>短信余额：20　　邮件余额：20　　彩信余额：20</span>
+    </span>
+    <span onClick="window.location='充值中心-购买流量包.html'" class="infoShowBox mr30">
+      <span>充值</span>
+    </span>
+    <span onClick="window.location='充值中心-购买流量包.html'" class="infoShowBox">
+      <span>软件有效期至：2014年8月30日</span>
+    </span>
+    <span onClick="window.location='充值中心-购买流量包.html'" class="infoShowBox">
+      <span>续费</span>
+    </span>
+  </div>
+  <div class="top_line_b">
+      <div class="soft_top_left">
+        <!--<a class="top_nav hover" href="首页.html">首页</a>
+        <a class="top_nav default" href="CRM管理中心.html">CRM管理中心</a>
+        <span onClick="window.location='充值中心-购买流量包.html'" class="refresh">
+          <span>充值中心</span>
+        </span>-->
+        <span class="refresh refresh_noClick">
+          <span>当前版本：基础版</span>
+        </span>
+        <span onClick="window.location='充值中心-购买流量包.html'" class="refresh mr30">
+          <span>升级</span>
+        </span>
+        <span class="refresh mr30 refresh_noClick">
+          <span>客服热线：400-888-8888</span>
+        </span>
+        <span class="info_box mr30" id="info2">
+          <span class="icon"></span><span class="num">1</span>
+        </span>
+        <span class="refresh refresh_noClick">
+          <span>
+          数据导入进度
+            <div class="percentage_box" style="padding:2px;">
+              <div class="percentage_bg">
+                <div style="width:20%"></div>
+              </div>
+            </div>
+          </span>
+        </span>
+        <!--<span onClick="window.location='充值中心-购买流量包.html'" class="refresh">
+          <span>创建营销活动</span>
+        </span>
+        <span onClick="window.location='充值中心-购买流量包.html'" class="refresh">
+          <span>自动催付</span>
+        </span>
+        <span class="refresh">
+          <span class="icon"></span><span>刷新数据</span>
+        </span>-->
+      </div>
+      <div class="soft_top_right">
+        <a class="username" id="Contact_Us"><span class="contact"></span>联系我们</a>
+        <a class="username"><span class="before"></span>锦衣夜行</a>
+        <a class="loginout">注销</a>
+      </div>
+      <div class="contact_box">
+        QQ<br />旺旺
+        <span class="adm-informer-arrow"></span>
+      </div>
+      <div class="info_box_text">
+        <div class="title">消息提醒</div>
+        <div class="info_box_main info_blue">
+          <div class="box_top">放假通知</div>
+          <div class="box_worker">123123</div>
+          <div class="box_footer"><a href="#">删除消息</a></div>
+        </div>
+        <div class="info_box_main info_green">
+          <div class="box_top">余额不足提醒</div>
+          <div class="box_worker">123123</div>
+          <div class="box_footer"><a href="#">删除消息</a></div>
+        </div>
+        <div class="info_box_main info_gray">
+          <div class="box_top">立刻升级</div>
+          <div class="box_worker">123123</div>
+          <div class="box_footer"><a href="#">删除消息</a></div>
+        </div>
+        <span class="adm-informer-arrow"></span>
+      </div>
+  </div>
+</div>
+<div class="page">
+  <table class="soft_body" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr class="soft_body_td">
+      <td class="soft_body_left">
+        <div class="soft_left_side">
+          <div class="soft_left_side_menu">
+            <a class="menu" href="订单走势.html">
+              <span class="icon analyze"></span>
+              <h5>数据分析</h5>
+            </a>
+            <a class="menu" href="会员列表.html">
+              <span class="icon group"></span>
+              <h5>会员分组</h5>
+            </a>
+            <a class="menu" href="营销活动.html">
+              <span class="icon marketing"></span>
+              <h5>营销活动</h5>
+            </a>
+            <a class="menu" href="交易提醒.html">
+              <span class="icon autosms"></span>
+              <h5>自动营销</h5>
+            </a>
+            <a class="menu onthis" href="我的达客.html">
+              <span class="icon setting"></span>
+              <h5>我的达客</h5>
+            </a>
+          </div>
+          <div class="soft_left_side_submenu">
+            <span class="nav_colse"></span>
+            <div class="items_title">我的达客</div>
+            <ul class="nav_first_list">
+              <li>
+                <em></em><a class="onthis" href="我的达客.html"><span class="mysoft_1"></span>流量报告</a>
+              </li>
+              <li>
+                <em></em><a href="javascript:void(0)"><span class="mysoft_2"></span>充值中心</a>
+                <ul>
+                  <li><em></em><a href="充值中心-购买流量包.html">购买流量包</a></li>
+                  <li><em></em><a href="充值中心-平台续费.html">平台续费</a></li>
+                  <li><em></em><a href="充值中心-我的订单.html">我的订单</a></li>
+                </ul>
+              </li>
+              <li>
+                <em></em><a href="javascript:void(0)"><span class="mysoft_3"></span>账户设置</a>
+                <ul>
+                  <li><em></em><a href="账户设置-基本信息设置.html">基本信息设置</a></li>
+                  <li><em></em><a href="账户设置-提醒设置.html">提醒设置</a></li>
+                  <li><em></em><a href="账户设置-邮件独立通道.html">邮件独立通道</a></li>
+                </ul>
+              </li>
+              <li>
+                <em></em><a href="意见反馈.html"><span class="mysoft_4"></span>意见反馈</a>
+              </li>
+              <li>
+                <em></em><a href="消息提醒.html"><span class="mysoft_5"></span>消息提醒</a>
+              </li>
+              <li>
+            	<em class=""></em><a class="" href="/autosms/tradeRemind?moduleId=63">
+            	<span class="mysoft_cash"></span>邀请赚现金</a>
+              </li>
+              <li>
+            	<em class=""></em><a class="" href="/autosms/tradeRemind?moduleId=63">
+            	<span class="mysoft_chjia"></span>抽奖</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </td>
+      <td class="soft_body_right">
+        <div class="soft_workspace_title">
+          <ul class="bread_crumbs">
+            <li class="first"><a href="#">首页</a></li>
+            <li><a href="#">CRM管理中心</a></li>
+            <li><a href="#">我的达客</a></li>
+            <li><a href="#">流量报告</a></li>
+          </ul>
+          <h3><span class="mysoft_1"></span>营销报告</h3>
+        </div>
+        <div class="soft_workspace">
+        	<div style="width:1000px; height:1000px; text-align:center; background:url(images/bg.jpg) no-repeat;">
+	<div style="padding-top:456px; width:500px; display:inline-block;">
+    	http://fuwu.taobao.com/ser/detail.html?spm=a1z13.1113643.51032021.131.xmMBOu&service_code=FW_GOODS-1864479&tracelog=category&scm=1215.1.1.51032021
+    </div>
+</div>
+        </div>
+        </div>
+        <div class="soft_workspace_footer">
+          <div class="footer_left">Powered by <a href="http://www.easycontact.cn" target="_blank">EasyContact</a>  Copyright &copy; 2013-2011 SinoContact,Inc</div>
+          <div class="footer_right"><a href="http://www.easycontact.cn" target="_blank">www.EasyContact.cn</a>&nbsp;｜&nbsp;<a href="#"><em class="setting"></em>账户设置</a></div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>

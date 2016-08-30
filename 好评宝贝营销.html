@@ -1,0 +1,1110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script language="javascript" type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/flexigrid.pack.js"></script>
+<script language="javascript" type="text/javascript" src="js/datepicker.js"></script>
+<script language="javascript" type="text/javascript" src="js/eye.js"></script>
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" charset="utf-8" src="js/kindeditor/kindeditor-min.js"></script>
+<script language="javascript" type="text/javascript" charset="utf-8" src="js/kindeditor/zh_CN.js"></script>
+<script>
+var editor;
+KindEditor.ready(function(K) {
+	editor = K.create('textarea[name="content"]', {
+		
+	allowFileManager : true
+	});
+});
+
+ function insertAtCursor(myField, myValue) {
+            //IE support  
+            if (document.selection) {
+                myField.focus();
+                sel = document.selection.createRange();
+                sel.text = myValue;
+                sel.select();
+            }
+            else if (myField.selectionStart || myField.selectionStart == '0') {
+                var startPos = myField.selectionStart;
+                var endPos = myField.selectionEnd;
+                var restoreTop = myField.scrollTop;
+                myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+                if (restoreTop > 0) {
+                    myField.scrollTop = restoreTop;
+                }
+                myField.focus();
+                myField.selectionStart = startPos + myValue.length;
+                myField.selectionEnd = startPos + myValue.length;
+            } else {
+                myField.value += myValue;
+                myField.focus();
+            }
+            var textNmu = $('#textarea_sms_text').val().length;
+            var thisText = $('#textarea_sms_text').val();
+            var c_num = MAX_SMS_CONTENT_LENGTH - textNmu;
+            $("#T_Num").html(textNmu);
+            if (c_num < 0){
+                if(parseInt(textNmu)%MAX_SMS_CONTENT_LENGTH==0){
+                    $("#Sms_Num").html(parseInt(textNmu/MAX_SMS_CONTENT_LENGTH));
+                }
+                else{
+                    $("#Sms_Num").html(parseInt(textNmu/MAX_SMS_CONTENT_LENGTH)+1);
+                };
+            }else{
+                $("#Sms_Num").html(1);
+            }
+            $('#iphone_sms_text').html($('#textarea_sms_text').val());
+        }
+</script>
+<link href="css/common.css" rel="stylesheet" type="text/css" />
+<link href="css/sms.css" rel="stylesheet" type="text/css" />
+<link href="css/edm.css" rel="stylesheet" type="text/css" />
+<link href="css/flexigrid.pack.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" media="screen" type="text/css" href="css/datepicker.css" />
+
+<title>無標題文件</title>
+</head>
+
+<body>
+<div class="popbox_core" id="add_data_table"><!--此处ID和colseID对应-->
+	<div class="popbox_head">
+    	<span class="title">付款订单详情</span>
+    	<div class="popbox_head_right">
+    		<a class="popbox_close" href="javascript:void()" onclick="ClosePopbox('add_data_table')"></a>
+        </div>
+    </div>
+    <div class="soft_workspace" style="padding:0px;">
+    	<!--表格组件调用start-->
+              <div class="table_tablebox"><!--高度值请根据实际情况修改-->
+                <table class="flexme4" style="display: none"></table>
+                <script type="text/javascript">
+				$(".flexme4").flexigrid({
+					url : 'http://localhost/example4.php',
+					dataType : 'json',
+					colModel : [ {
+						display : '最后发送时间',
+						name : '最后发送时间',
+						width : 90,
+						sortable : true,
+						align : 'center'
+						}, {
+							display : '买家昵称',
+							name : '买家昵称',
+							width : 120,
+							sortable : true,
+							align : 'left'
+						}, {
+							display : '买家手机号',
+							name : '买家手机号',
+							width : 120,
+							sortable : true,
+							align : 'left'
+						}, {
+							display : '互动消息详情',
+							name : 'favorite_color',
+							width : 80,
+							sortable : true,
+							align : 'left',
+						}, {
+							display : '未读消息',
+							name : '未读消息',
+							width : 80,
+							sortable : true,
+							align : 'left'
+					} ],
+					buttons : [ {
+						name : 'Add',
+						bclass : 'add',
+						onpress : Example4
+						}
+						,
+						{
+							name : 'Edit',
+							bclass : 'edit',
+							onpress : Example4
+						}
+						,
+						{
+							name : 'Delete',
+							bclass : 'delete',
+							onpress : Example4
+						}
+						,
+						{
+							separator : true
+						} 
+					],
+					searchitems : [ {
+						display : 'EmployeeID',
+						name : 'employeeID'
+						}, {
+							display : 'Name',
+							name : 'name',
+							isdefault : true
+					} ],
+					sortname : "iso",
+					sortorder : "asc",
+					usepager : true,
+					title : 'Employees',
+					useRp : true,
+					rp : 15,
+					showTableToggleBtn : true,
+					//width : 750,
+					height : 200
+				});
+	
+				function Example4(com, grid) {
+					if (com == 'Delete') {
+						var conf = confirm('Delete ' + $('.trSelected', grid).length + ' items?')
+						if(conf){
+							$.each($('.trSelected', grid),
+								function(key, value){
+									$.get('http://localhost/example4.php', { Delete: value.firstChild.innerText}
+										, function(){
+											// when ajax returns (callback), update the grid to refresh the data
+											$(".flexme4").flexReload();
+									});
+							});    
+						}
+					}
+					else if (com == 'Edit') {
+						var conf = confirm('Edit ' + $('.trSelected', grid).length + ' items?')
+						if(conf){
+							$.each($('.trSelected', grid),
+								function(key, value){
+									// collect the data
+									var OrgEmpID = value.children[0].innerText; // in case we're changing the key
+									var EmpID = prompt("Please enter the New Employee ID",value.children[0].innerText);
+									var Name = prompt("Please enter the Employee Name",value.children[1].innerText);
+									var PrimaryLanguage = prompt("Please enter the Employee's Primary Language",value.children[2].innerText);
+									var FavoriteColor = prompt("Please enter the Employee's Favorite Color",value.children[3].innerText);
+									var FavoriteAnimal = prompt("Please enter the Employee's Favorite Animal",value.children[4].innerText);
+	
+									// call the ajax to save the data to the session
+									$.get('http://localhost/example4.php', 
+										{ Edit: true
+											, OrgEmpID: OrgEmpID
+											, EmpID: EmpID
+											, Name: Name
+											, PrimaryLanguage: PrimaryLanguage
+											, FavoriteColor: FavoriteColor
+											, FavoritePet: FavoriteAnimal  }
+										, function(){
+											// when ajax returns (callback), update the grid to refresh the data
+											$(".flexme4").flexReload();
+									});
+							});    
+						}
+					}
+					else if (com == 'Add') {
+						// collect the data
+						var EmpID = prompt("Please enter the Employee ID","5");
+						var Name = prompt("Please enter the Employee Name","Mark");
+						var PrimaryLanguage = prompt("Please enter the Employee's Primary Language","php");
+						var FavoriteColor = prompt("Please enter the Employee's Favorite Color","Tan");
+						var FavoriteAnimal = prompt("Please enter the Employee's Favorite Animal","Dog");
+	
+						// call the ajax to save the data to the session
+						$.get('http://localhost/example4.php', { Add: true, EmpID: EmpID, Name: Name, PrimaryLanguage: PrimaryLanguage, FavoriteColor: FavoriteColor, FavoritePet: FavoriteAnimal  }
+							, function(){
+								// when ajax returns (callback), update the grid to refresh the data
+								$(".flexme4").flexReload();
+						});
+					}
+				}
+			</script>
+              </div>
+              <!--表格组件调用end-->
+	</div>
+</div>
+
+
+
+
+<div class="popbox_core popbox_remind" id="addSourceUrl"><!--此处ID和colseID对应-->
+    <div class="popbox_head">
+        <span class="title">生成短链接</span>
+        <div class="popbox_head_right"><a class="popbox_close" onclick="ClosePopbox('addSourceUrl')"></a></div>
+    </div>
+    <div class="popbox_workspace">
+    
+        <!--Tab内容切换Start-->
+        <div>
+            <div class="popbox_frombox clearfix">
+                <div class="RecipientTableContainer" id = "addUrl" >
+					请输入您要生成短链接的网址：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="text" class="urlText" name="sourceUrl" id="sourceUrl" size="60" value=""/>
+                </div>
+                <br/>
+                <div class="RecipientTableContainer" id = "createUrl" >
+                	请复制生成的短链接到短信内容中：
+                	<input type="text" class="urlText"  name="shortUrl" id="shortUrl" size="60" value="" readonly="readonly"/>
+                </div>
+                <div><span style="color: red" class="msg_span"></span></div>
+            </div>
+        </div>
+        <!--Tab内容切换End-->
+        <div class="submitbox">
+        	<input class="submit copyShortUrl" type="submit" id="copy" onclick="copyShortUrl();" value="复制" style="display: none;"/>	
+        	<input class="submit createShortUrl" id="submit" type="submit" onclick="createShortUrl()" value="提交"/>
+        	&nbsp;&nbsp;&nbsp;&nbsp;
+            <input class="submit" type="submit" onclick="ClosePopbox('addSourceUrl');" value="返回"/>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	function showShortUrlBox(){
+        	clearText();
+        	$("#createUrl").hide();
+        	OpenPopbox('addSourceUrl');
+        	$("#submit").show();
+    		$("#copy").hide();
+			$('#tips').html("<font color=\"red\">亲，请记得在生成的短链接后面 加上一个空格 哦！</font>");
+        }
+       function createShortUrl(){
+        	if($("#sourceUrl").val()==''){
+                $(".msg_span").text("请输入需要生成短连接的网址，例如：http://tb.easycontact.cn");
+        		return;
+        	}
+			
+             $.ajax({
+                url: '/communication/createShortUrl',
+                type: 'POST',
+                data:{
+                    sourceUrl:$("#sourceUrl").val()
+                },
+                dataType: 'text',
+                success: function(resp){
+                    console.log(resp);
+                    if(resp !=null && resp !='' ){
+                    	OpenPopbox('createUrl');
+                        $(".msg_span").text("");
+                        $("#shortUrl").val(resp);
+                        $("#copy").show();
+        				$("#submit").hide();
+                    }else{
+                    	clearText();
+                        $(".msg_span").text("生成短链接失败！请输入正确格式的网址，例如：http://tb.easycontact.cn");
+//                    	alert("生成短链接失败！请输入正确格式的网址，例如：http://tb.easycontact.cn");
+                    	$("#submit").show();
+        				$("#copy").hide();
+                    }
+                }
+            });
+        }
+
+    /*function createShortUrl(){
+        window.open("http://www.taobao.cz/");
+        $('#tips').html("<font color=\"red\">亲，请记得在生成的短链接后面 加上一个空格 哦！</font>");
+    }*/
+       function clearText(){
+       		$(".urlText").each(
+       			function (){
+       				$(this).val("");
+       			}
+       		);
+       }
+       function copyShortUrl(){
+       		buttonCopyCode($("#shortUrl").val())
+       }
+      function buttonCopyCode(txt ){  
+      	if(window.clipboardData) {  
+        	window.clipboardData.clearData();  
+        	window.clipboardData.setData("Text", txt);  
+    		} else if (navigator.userAgent.indexOf("Opera") != -1) {  
+        		window.location = txt;  
+    			} else if (window.netscape) {  
+        			try {  
+            			netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");  
+            			} catch (e) {  
+            				alert("您的复制功能被浏览器拒绝，请手动复制文本框中的短链接！");  
+            				return;  
+        				}  
+       				 var clip = Components.classes['@mozilla.org/widget/clipboard;1'].createInstance(Components.interfaces.nsIClipboard);  
+        			 if (!clip)  
+            			return;  
+        			var trans = Components.classes['@mozilla.org/widget/transferable;1'].createInstance(Components.interfaces.nsITransferable);  
+        			if (!trans)  
+            			return;  
+        			trans.addDataFlavor('text/unicode');  
+        			var str = new Object();  
+        			var len = new Object();  
+        			var str = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);  
+        			var copytext = txt;  
+        			str.data = copytext;  
+        			trans.setTransferData("text/unicode", str, copytext.length * 2);  
+       				var clipid = Components.interfaces.nsIClipboard;  
+        			if (!clip)  
+            			return false;  
+        				clip.setData(trans, null, clipid.kGlobalClipboard);  
+    			} else{  
+        			alert("您的复制功能被浏览器拒绝，请手动复制文本框中的短链接！"); 
+        			return;  
+        			}  
+    			alert("复制成功");
+    			ClosePopbox('addSourceUrl');
+    			} 
+</script>
+
+
+<div class="popbox_core popbox_remind popbox_new" id="space_Next"><!--此处ID和colseID对应-->
+  <div class="popbox_workspace">
+  <div class="popbox_textbox">
+	为确保买家收到您的消息！<br />
+	系统可以自动同时发一封内容相同的邮件给买家。
+  </div>
+<div class="submitbox">
+    		<input class="submit next_step_btn_true" value="好，同时发邮件" type="submit" onclick="ClosePopbox('space_Next')" />
+    		<input class="submit next_step_btn_false" value="不了，还是只发短信" type="submit" style="margin-left:50px;" onclick="ClosePopbox('space_Next')" />
+    	</div>
+        
+  </div>
+</div>
+
+<div class="popbox_core popbox_remind popbox_new" id="uploadPicDiv"><!--此处ID和colseID对应-->
+  <div class="popbox_workspace">
+  <div class="popbox_textbox">
+	为保证插入的短链接生效，请务必保留前后空格
+  </div>
+<div class="submitbox">
+    		<input class="submit" value="知道了" type="submit" onclick="ClosePopbox('uploadPicDiv')" />
+    	</div>
+        
+  </div>
+</div>
+
+
+<div class="popbox_core popbox_remind popbox_new" id="containKeys"><!--此处ID和colseID对应-->
+  <div class="popbox_workspace">
+  <div class="popbox_textbox">
+	<span  style="color:red;">提示：您输入的内容包含敏感词汇 “ <span id="keyWords"></span> ” ,请斟酌修改后再发送。</span>
+  </div>
+<div class="submitbox">
+    		<input class="submit" value="知道了" type="submit" onclick="ClosePopbox('containKeys')" />
+    	</div>
+        
+  </div>
+</div>
+
+<div class="popbox_core  popbox_remind" id="tbSourceUrl" style="width:500px;"><!--此处ID和colseID对应-->
+  <div class="popbox_workspace">
+  	<p style="line-height:20px;"><strong>淘宝短链说明：</strong>网址必须是 taobao.com、tmall.com、jaeapp.com 这三个域名下的。<br>
+  	<strong>跟踪点击效果：</strong>需在淘宝后台 ECRM 中查看 &nbsp;&nbsp;<a href="https://ecrm.taobao.com/channel/short_link_manager.htm" target="_blank" style="color: blue">点击查看</a></p>
+    <div style="margin:10px 0px;">
+    	链接类型：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input id="dpy" type="radio" name="linkType" value="LT_SHOP">&nbsp;店铺页</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    	<label><input id="bby" type="radio" name="linkType" value="LT_ITEM">&nbsp;宝贝页</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    	<label><input id="hdy" type="radio" name="linkType" value="LT_ACTIVITY">&nbsp;活动页</label>
+    </div>
+    <div id="add_text" style="margin-top:20px;">&nbsp;</div>
+    <div class="submitbox">
+    		<input class="submit" value="生成并插入短链接" type="submit" onclick="getTBShortLink();">
+    		<input class="submit can" value="关闭" type="submit" style="margin-left:50px;" onclick="ClosePopbox('tbSourceUrl')">
+    	</div>
+  </div>
+</div>
+
+<script type="text/javascript">
+var isdpy = false;
+    		var isbby = false;
+    		var ishdy = false;
+    		
+    		$('#dpy').click(function(e) {
+    			if (isdpy) return;
+    			$('#add_text').html('&nbsp;');
+                //$('#add_text').append('<strong>店铺首页：c.tb.cn/c.KF5K</strong>');
+    			isbby = false;
+    			ishdy = false;
+    			isdpy = true;
+            });
+    		
+    		$('#bby').click(function(e) {
+                if (isbby) return;
+    			$('#add_text').html('&nbsp;');
+    			$('#add_text').append('<strong>宝贝页/宝贝ID：</strong><input type="text" style="width: 300px;" id=\"itemText\"/>');
+    			isdpy = false;
+    			ishdy = false;
+    			isbby = true;
+            });
+    		
+    		$('#hdy').click(function(e) {
+                if (ishdy) return;
+    			$('#add_text').html('&nbsp;');
+    			$('#add_text').append('<strong>活动页：</strong><input type="text"  style="width: 300px;" id=\"activityUrl\"/>');
+    			isdpy = false;
+    			isbby = false;
+    			ishdy = true;
+            });
+</script>
+
+<div class="popbox_core rem" id="add_moban" style="width:500px;">
+    <div class="popbox_workspace" style="width:450px;">
+        <div style="text-align:center; margin:30px 0px;">请为保存的模板命名：<input type="text" id="templateName" name="templateName"/></div>
+        <div class="submitbox">
+            <input class="submit" value="保存" type="submit" onclick="saveTemplate()" />
+            <input class="submit can" value="取消" type="submit" style="margin-left:50px;" onclick="CloseRemind('add_moban')" />
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="soft_top">
+ <div class="top_line_a">
+    <span onClick="window.location='充值中心-购买流量包.html'" class="infoShowBox">
+      <span>短信余额：<span>431</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮件余额：<span>732</span></span>
+    </span>
+    <a class="infoShowBox" style="margin-right:20px;" href="充值中心-购买流量包.html"><img src="images/icon_bg.png" />充值</a>
+    <span class="infoShowBox">
+      <span>&nbsp;&nbsp;旗舰版&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    </span>
+    <span onClick="window.location='充值中心-购买流量包.html'" class="infoShowBox">
+      <span>软件有效期至：<span>2016-8-30</span></span>
+    </span>
+    <a class="infoShowBox" style="margin-right:20px;" href="充值中心-购买流量包.html"><img src="images/icon_bg.png" />续费</a>  
+    
+        <div class="soft_top_left right">
+  	<span class="refresh refresh_noClick importRefresh" style="display: none;">
+          <span>
+          数据导入进度
+            <div class="percentage_box" style="padding:2px;">
+                <div class="percentage_bg">
+                    <div style="width:0%" class="percentage"></div>
+                </div>
+            </div>
+          </span>
+        已导入<span class="percentage_tips">0</span>%
+        </span>
+        <span class="infoShowBox info">
+        	<span>选择背景色：</span><em class="color"></em>
+        </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="infoShowBox info" id="info2">
+          新消息&nbsp;<!--<span class="icon"></span>--><span class="num">3</span>
+        </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <label id="subAccount" style="color:#cdcdcd; position:relative; height:25px; line-height:25px;">切换子店铺：<select id="subAccountSe" onchange="switchUser();" style="margin-top:-3px;"><option value="">请选择子店铺</option><option value="424">d[s103896799...</option><option value="-1">转流量到子店铺</option></select></label>
+        <a href="#" class="infoShowBox special" style="color:#FFF; position:relative; margin-left:20px; padding-right:5px;">切回主账户</a>
+    </div>
+  </div>
+  <div class="top_line_b">
+  		 <div class="logoBox"><a href="首页.html"><img src="images/logo.png" /></a></div>
+      <div class="soft_top_left">                                                               
+        <a class="fastintobox onthis" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_home.png" /><br />首页</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_clock.png" /><br />交易提醒</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_auto_l.png" /><br />自动营销</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_yx.png" /><br />营销管理</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_mumber.png" /><br />会员管理</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_sj.png" /><br />数据分析</div>
+        </a>
+        <a class="fastintobox" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_my.png" /><br />我的达客</div>
+        </a>
+        <a class="fastintobox last" href="充值中心-购买流量包.html">
+        	<div class="fib"><img src="images/icon_help.png" /><br />使用教程</div>
+        </a>
+      </div>
+      <div class="soft_top_right">
+        <div class="username">
+        	<em class="before"></em>达客CRM店铺名<br/>
+        	<a class="loginout">[ 退出登录 ]</a>
+        </div>
+      </div>
+      <div class="info_box_text">
+        <div class="title">消息提醒</div>
+        <div class="info_box_main info_blue">
+          <div class="box_top">放假通知</div>
+          <div class="box_worker">123123</div>
+          <div class="box_footer"><a href="#">删除消息</a></div>
+        </div>
+        <div class="info_box_main info_green">
+          <div class="box_top">余额不足提醒</div>
+          <div class="box_worker">123123</div>
+          <div class="box_footer"><a href="#">删除消息</a></div>
+        </div>
+        <div class="info_box_main info_gray">
+          <div class="box_top">立刻升级</div>
+          <div class="box_worker">123123</div>
+          <div class="box_footer"><a href="#">删除消息</a></div>
+        </div>
+        <span class="adm-informer-arrow"></span>
+      </div>
+  </div>
+</div>
+<div class="page">
+<div class="slide_box"></div>
+  <table class="soft_body" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr class="soft_body_td">
+      <td class="soft_body_left">
+        <div class="soft_left_side">
+          <div class="search_box">
+            	<img src="images/icon_search.png" />
+                <input type="text" placeholder="功能搜索" />
+            </div>
+          <div class="soft_left_side_menu">
+            <a class="menu_home onthis" href="首页.html"><em></em>短信营销</a>
+            <a class="menu_home zdhm" href="帮助中心.html"><em></em>指定号码发送</a>
+            <a class="menu_home mail" href="帮助中心.html"><em></em>邮件营销</a>
+            <a class="menu_home hb" href="帮助中心.html"><em></em>发放红包</a>
+            <a class="menu_home sd" href="帮助中心.html"><em></em>手动订单提醒</a>
+            <a class="menu_home jjr" href="帮助中心.html"><em></em>节假日关怀</a>
+            <a class="menu_home yx" href="帮助中心.html"><em></em>营销建议</a>
+          </div>
+        </div>
+      </td>
+      <td class="soft_body_right">
+        <div class="soft_workspace_title">
+          <ul class="bread_crumbs">
+            <li class="first"><a href="#">营销管理</a></li><li><a href="#">短信营销</a></li>
+          </ul>
+          <h3><span class="autosms_1"></span>创建短信营销</h3>
+        </div>
+        <div class="soft_workspace">
+          <div class="tab_box" id="tab01">
+            <span class="detail_tab active">设置</span>
+            <span class="detail_tab">统计效果</span>
+            <span class="detail_tab">发送记录</span>
+          </div>
+          <div class="tab_box_main" id="add_sms_setup">
+              <div class="table_workspace clearfix border-bottom mb20" style="padding-top:20px;">
+                <div class="table_workspace_iphone_sms">
+                	<div class="sms_title_box">
+                		<div class="sms_title">短信设置</div>
+                        <a class="change_btn hh"><input class="setup" type="button" value="修改"></a>
+                    </div>
+                	<div class="show_box">
+                        <div class="popbox_frombox clearfix padding-left0">
+                            <div class="iphone_sms_frombox">
+                                <dl class="fleft">
+                                  <dt>短信内容：</dt>
+                                  <dd>如果你是女生,来锦城吧亲~男女生比例一比一哟,保证你有哥哥照顾,分配均匀哟~ 如果你是男生,来锦城吧亲~锦城的妹纸很有爱超级温柔...</dd>
+                                </dl>
+                                <div class="text_num">当前短信内容<strong>65</strong>个字符，将按<strong>1</strong>条短信收费！</div>
+                            </div>
+                        </div>
+                	</div>
+                    <div class="change_box">
+                    <div class="popbox_frombox clearfix" style="padding-bottom:0px;">
+                      <div class="iphone_sms">
+                        <div class="smsBox">
+                          <div class="smsBox_text" id="iphone_sms_text">你好！您在本店购买的#商品#还未付款，付款后我们将以最快的速度发货哦！【小资生活】</div>
+                        </div>
+                        <div class="smsBox_bottom"></div>
+                      </div>
+                      <div class="iphone_sms_frombox" style="width:700px; margin-left:20px;">
+                      	<dl class="fleft">
+                            <dt>短信标题：</dt>
+                            <dd>
+                                <input style="width: 250px;" class="text" type="text" id="push_subject" value="1111" maxlength="50">
+                                <span style="color: red;">*</span>
+                            </dd>
+                        </dl>
+                        <dl class="fleft">
+                        	<dt>插入短信模板：</dt>
+                            <dd>
+                            	<div class="options_box">
+                                    <select id="template_content" class="float_none" name="total_duration" onchange="if($(this).val() != '') {insertSmsTemplateContent($(this).val());clearRecommend();}">
+                                        <option value="" selected="">更多模板选择</option>
+                                        <option value="" selected="">短信模板</option>
+                                        <option value="" selected="">短信模板</option>
+                                        <option value="" selected="">短信模板</option>
+                                     </select>
+                                </div>
+                        	</dd>
+                        </dl>
+                        <dl class="fleft">
+                        	<dt>高ROI短信模板推荐：</dt>
+                            <dd>
+                            	<div class="options_box">
+                                	<select id="recommend_template_content" class="float_none" name="total_duration" onchange="if($(this).val() != '') insertSmsTemplateContent($(this).val())">
+                                    	<option value="" selected="">请选择</option>
+                                    </select>
+                                    <span>别家短信营销ROI为什么这么高？借鉴一下呗</span>
+                            	</div>
+                             </dd>
+                      	 </dl>
+                         <dl class="fleft">
+                         	<dt>
+                                短信内容：&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span style="position:relative;" class="red" href="#" id="jfgz">&nbsp;&nbsp;计费规则</span>
+                                <div class="flo_box">计费规则：70字符计为1条短信,若短信内容大于70字符，则每条均按67字符计算（包含首条在内）。扣除退订回N和一个空格，以及店铺签名。</div>
+                                <a class="options" href="javascript:void(0)" onclick=" insertAtCursor(document.getElementById('textarea_sms_text'),'[达客CRM]');" style="position:absolute; top:158px; right:400px;">插入店铺名</a>
+                            </dt>
+                            <dd style="width: 680px;">
+                                <textarea id="textarea_sms_text" style="float:left" class="phoneNum" onblur="value=value.replace(/\s+/g, ' ')"></textarea>
+                                <input style="margin-left: 20px; float: left;" type="button" value="另保存为模板" onclick="OpenRemind_noMove('add_moban')">
+                                <br>
+                                <span id="tips"></span>
+                                <div class="note" style="margin-bottom:0px;">您当前已输入<span id="T_Num" class="num">9</span>个字符，将按照<span id="Sms_Num" class="num" style="color:red;">1</span>条短信计费。</div>
+                            </dd>
+                         </dl>
+                         <dl class="fleft">
+                             <dt>淘宝短链：</dt>
+                             <dd>
+                                 <div class="options_box">
+                                     <a class="options" href="javascript:void(0)" onclick="OpenPopbox_noMove('tbSourceUrl')">插入淘宝短链接</a>
+                                 </div>
+                             </dd>
+                         </dl>
+                         <dl class="fleft">
+                             <dt>达客短链：</dt>
+                             <dd>
+                                 <div class="options_box">
+                                     <a class="options" href="javascript:void(0)">生成短链插入</a>
+                                     <input type="text" id="text_dlj" placeholder="将短链接填写至此输入框内" style="width:200px; margin-top:-5px;">
+                                 </div>
+                             </dd>
+                         </dl>
+                         <dl class="fleft">
+                             <dd>
+                                  <font color="red">特别说明：<br>
+                                     1、 短信发送通道规定：“【淘宝】”与“退订回N”为短信必加内容，系统默认已经加上，无需手动添加。
+                                  </font>
+                                  <font color="red"><br>
+                                     2、请勿发送与淘宝店铺营销无关的内容，若经发现，将关闭店铺在达客CRM的使用权限。
+                                     <br>
+                                     3、为确保短信中出现的链接功能正常，插入的链接前后务必带有空格；默认插入的短链已经添加。
+                                  </font>
+                              </dd>
+                     	 </dl>
+                         <dl class="fleft">
+                             <dd>
+                             短信测试：
+                             <input type="text" style="width:400px;" placeholder="请输入测试手机号，多个号码，请以 &quot;，&quot; 分隔" />
+                             <a class="options" style="margin-bottom:0px;">立即测试</a>
+                             </dd>
+                         </dl>
+                         <dl class="fleft">
+                             <dd>
+                             卖家签名：
+                             <span class="seller_sign">【达客】</span>
+                             <a class="options" href="/usercenter/getBasicInfo?moduleId=37">修改签名</a>
+                             </dd>
+                         </dl>
+                         <dl>
+                             <dt></dt>
+                             <dd>
+                             	<input type="checkbox" id="isRelatePush">发送同样内容的邮件给买家
+                             </dd>
+                         </dl>
+                         <div class="submitbox np">
+                        	<input type="submit" class="submit" value="保存">
+                            <input type="submit" class="submit can" value="取消">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+          </div>
+          <script type="text/javascript">
+          function showShortUrl(){
+              $("#text_dlj").show();
+              $("#add_dlj").css('display','inline-block');
+              $("#text_dlj").val('');
+              $("#shortLinkBR").show();
+          }
+      	  </script>
+          <div class="menu_title" style="margin:-20px 0px 40px 20px;">筛选会员</div>
+                <div class="table_workspace_iphone_sms" style="margin-bottom:0px;">
+                	<div class="sms_title_box">
+                		<div class="sms_title">好评条件</div>
+                		<a class="change_btn hh"><input class="setup" type="button" value="修改"></a>
+                    </div>
+                    <div class="show_box">
+                    	<div class="popbox_frombox clearfix padding-left0">
+                			<div class="iphone_sms_frombox">
+                            	<dl class="fleft">
+                          			<dt>好评时间：</dt>
+                          			<dd>2016-04-03 14:23  ~  2016-04-05 14:32</dd>
+                        		</dl>
+                                <dl class="fleft" style="margin-bottom:0px;">
+                          			<dt>指定好评宝贝：</dt>
+                          			<dd>已指定宝贝（6）</dd>
+                        		</dl>
+                            </div>
+                    	</div>
+                    </div>
+                    <div class="change_box">
+                    	<div class="popbox_frombox clearfix padding-left0">
+                			<div class="iphone_sms_frombox">
+                            	<dl class="fleft">
+                          			<dt>好评时间：　　</dt>
+                          			<dd><input type="text" />  ~  <input type="text" /></dd>
+                        		</dl>
+                                <dl class="fleft">
+                          			<dt>添加好评宝贝：</dt>
+                          			<dd>
+                                    	<span class="red">可在下列输入框内输入指定的宝贝名称</span><br/>
+                                    	<input type="text" />  ~  <input type="text" />
+                                	</dd>
+                        		</dl>
+                                <dl class="fleft">
+                          			<dt>已添加宝贝：　</dt>
+                          			<dd style="width:500px;">
+                                    	<ul class="bb_list">
+                                        	<li>2016人气款天然彩棉成人儿童亲子口罩K13防雾霾PM2.5<a href="javascript:void()">删除</a></li>
+                                            <li>2016人气款天然彩棉成人儿童亲子口罩K13防雾霾PM2.5<a href="javascript:void()">删除</a></li>
+                                            <li>2016人气款天然彩棉成人儿童亲子口罩K13防雾霾PM2.5<a href="javascript:void()">删除</a></li>
+                                            <li>2016人气款天然彩棉成人儿童亲子口罩K13防雾霾PM2.5<a href="javascript:void()">删除</a></li>
+                                            <li>2016人气款天然彩棉成人儿童亲子口罩K13防雾霾PM2.5<a href="javascript:void()">删除</a></li>
+                                            <li>2016人气款天然彩棉成人儿童亲子口罩K13防雾霾PM2.5<a href="javascript:void()">删除</a></li>
+                                            <li>2016人气款天然彩棉成人儿童亲子口罩K13防雾霾PM2.5<a href="javascript:void()">删除</a></li>
+                                            <li>2016人气款天然彩棉成人儿童亲子口罩K13防雾霾PM2.5<a href="javascript:void()">删除</a></li>
+                                        </ul>
+                                	</dd>
+                        		</dl>
+                            </div>
+                         </div>
+                         <div class="submitbox np">
+                         	<input type="submit" class="submit" value="保存">
+                         	<input type="submit" class="submit can" value="取消">
+                       	  </div>
+                	</div>
+                </div>
+                <div class="sxjg">
+                	<p style="margin-bottom:10px;"><strong>筛选会员：</strong>根据您当前所指定的条件，筛选目标客户；由于执行筛选条件涉及的数据量过大，可能会导致筛选结果变慢，请耐心等待。</p>
+                	<input type="button" value="立即筛选" style="margin-right:10px;" />筛选结果：系统正在为您筛选会员，请耐心等待...本次筛选，有效会员(有手机号)共计 <storng>158657</storng> 人，<span>已去重并过滤短信黑名单。</span>
+                </div>
+                <div class="table_workspace_iphone_sms">
+                	<div class="sms_title_box">
+                		<div class="sms_title">定时设置</div>
+                        <a class="change_btn hh"><input class="setup" type="button" value="修改"></a>
+                    </div>
+                	<div class="show_box">
+                        <div class="popbox_frombox clearfix padding-left0">
+                            <div class="iphone_sms_frombox">
+                                <dl class="fleft" style="margin-bottom:0px;">
+                                  <dt>发送时间：</dt>
+                                  <dd>2016-04-07 17:33:12</dd>
+                                </dl>
+                            </div>
+                        </div>
+                	</div>
+                    <div class="change_box">
+                    <div class="popbox_frombox clearfix" style="padding-bottom:0px; padding:0px;">
+                      <div class="iphone_sms_frombox">
+                      	<dl class="fleft" style="margin-bottom:0px;">
+                            <dt>发送时间：</dt>
+                            <dd>
+                                <label><input type="radio" checked="checked" name="sendType" value="1" id="RadioGroup1_0" onclick="$('#push_time').hide();javascript:$('.send_btn').val('立即发送');">&nbsp;立即发送</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="radio" name="sendType" value="2" id="RadioGroup1_1" onclick="$('#push_time').show();javascript:$('.send_btn').val('定时发送');">&nbsp;定时发送</label>
+                            </dd>
+                        </dl>
+                        <dl id="push_time" class="fleft" style="margin-bottom:0px; display:none;">
+                        	<dt>定时发送时间：</dt>
+                        	<dd>
+                        		<input name="sendTime" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'%y-%M-%d %H:%m:%s'})" class="text sendTime">
+                        	</dd>
+                        </dl>
+                      </div>
+                      <div class="submitbox np">
+                         	<input type="submit" class="submit" value="保存">
+                         	<input type="submit" class="submit can" value="取消">
+                       	  </div>
+                    </div>
+                  </div>
+            	</div>
+          <div class="submitbox" style="margin-bottom:20px;"><input type="submit" value="确认发送" /></div>
+      </div>
+      </div>
+      <div class="tab_box_main" id="add_email_setup" style="display:none;">
+    	<div class="table_workspace clearfix border-bottom margin-bottom20">
+        	<div class="table_top" style="border-bottom:1px solid #d3dbdd; margin:10px;"><!--需要圆角时加上class:Rounded-->
+                <div class="table_left">
+                  <div class="event_name">
+                    活动名称：年货促销年货促销年货促销年货促销年货促销…
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    活动时间：2012/2/12~2012/2/15
+                  </div>
+                </div>
+              </div>
+        	<div class="tab_box" id="tab02" style="margin:10px; margin-bottom:1px;">
+            	<span class="detail_tab active">营销数据统计</span>
+                <span class="detail_tab">宝贝销量分析</span>
+            </div>
+            <div class="tab_box_main" id="real_time_data">
+            	<div class="table_workspace clearfix border-bottom margin-bottom20" style="margin:0px 10px 10px 10px;">
+            	<div class="statisticsTop" style="margin:0px;">
+                	<table width="100%" border="0">
+                    	<tbody><tr>
+                          <td class="sms" style="padding-right: 5px;">实际发送人数<em title="活动设定的参与会员"></em><span class="total_recipients"><a style="text-decoration:underline" href="javascript:void()" onclick="OpenPopbox_noMove('add_data_table')">12345678</a></span></td>
+                          <td class="sms" style="padding-right: 5px;">发送总量（条）<em title="实际接收到的会员"></em><span class="real_recipients">12345678</span></td>
+                          <td class="smsNum" style="padding-right: 5px;">发送成本（元）<em title="实际发送的数目"></em><span class="real_branches">10000.00</span></td>
+                          <td class="sms" style="padding-right: 5px;">下单总数（笔）<em title="本次营销活动所花费用"></em><span class="cost_fee">100000</span></td>
+                          <td class="sms" style="padding-right: 5px;">付款订单总数（笔）<em title="本次营销活动所花费用"></em><span class="cost_fee">50000</span></td>
+                          <td class="sms" style="padding-right: 5px;">付款总人数<em title="本次营销活动所花费用"></em><span class="cost_fee">100000</span></td>
+                          <td class="sms" style="padding-right: 5px;">付款总金额（元）<em title="会员产生的交易总笔数"></em><span class="buy_count">100000000.00</span></td>
+                          <td class="sms" style="padding-right: 5px;">客单价（元）<em title="会员产生的交易总笔数"></em><span class="buy_count">200000.00</span></td>
+                          <td class="sms" style="padding-right: 5px;">ROI（回报率）<em title="会员产生的交易总笔数"></em><span class="buy_count">10000.00%</span></td>
+                          <td class="sms" style="padding-right: 5px;">响应率<em title="会员产生的交易总笔数"></em><span class="buy_count">100.00%</span></td>
+                        </tr>
+                     </tbody></table>
+                  </div>
+                  <div class="table_img_box" style="border:none;"><img src="images/demo/tb.jpg"></div>
+            	</div>
+            </div>
+            <div class="tab_box_main" id="effect_statistics" style="display:none;">
+            	<div class="table_workspace clearfix border-bottom margin-bottom20" style="margin:0px 10px 10px 10px;">
+                    <div class="table_chart">
+                        <img src="images/demo/demo.gif" height="250">
+                    </div>
+                	<div class="table_dataBox">
+                      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <thead>
+                          <tr>
+                            <td>成交排名</td>
+                            <td>宝贝名称</td>
+                            <td>宝贝单价</td>
+                            <td>宝贝成交量</td>
+                            <td width="250">宝贝成交量占比</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>No.1</td>
+                            <td>超级童装超级童装超级童装</td>
+                            <td>￥88.00</td>
+                            <td>36</td>
+                            <td class="tleft">
+                              <div class="percentageBox">
+                                <div class="percentageData" style="width:70%;"><em>70%</em></div>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr class="erow">
+                            <td>No.2</td>
+                            <td>超级童装超级童装超级童装</td>
+                            <td>￥88.00</td>
+                            <td>36</td>
+                            <td class="tleft">
+                              <div class="percentageBox">
+                                <div class="percentageData" style="width:15%;"><em>15%</em></div>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>No.3</td>
+                            <td>超级童装超级童装超级童装</td>
+                            <td>￥88.00</td>
+                            <td>36</td>
+                            <td class="tleft">
+                              <div class="percentageBox">
+                                <div class="percentageData" style="width:8%;"><em>8%</em></div>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr class="erow">
+                            <td>No.4</td>
+                            <td>超级童装超级童装超级童装</td>
+                            <td>￥88.00</td>
+                            <td>36</td>
+                            <td class="tleft">
+                              <div class="percentageBox">
+                                <div class="percentageData" style="width:5%;"><em>5%</em></div>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>No.5</td>
+                            <td>超级童装超级童装超级童装</td>
+                            <td>￥88.00</td>
+                            <td>36</td>
+                            <td class="tleft">
+                              <div class="percentageBox">
+                                <div class="percentageData" style="width:2%;"><em>2%</em></div>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+            	</div>
+            </div>
+        </div>
+      </div>
+      <div class="tab_box_main" id="add_xg_setup" style="display:none;">
+    		<div class="table_workspace clearfix border-bottom margin-bottom20">
+            	<div class="soft_workspace">
+                	<div class="tab_box_main">
+                    	<div class="table_top Rounded"><!--需要圆角时加上class:Rounded-->
+                                <div class="table_left">
+                                    <a class="menu" href="javascript:void(0)" onclick="window.location='/communication/createCustomSMSMarketing_preContent?moduleId=' + createSMSPageModuleId"><em class="add"></em>创建短信活动</a>
+                                    <a class="menu" href="javascript:void(0)" onclick="deleteEmailPush()"><em class="del"></em>删除短信活动</a>
+                                </div>
+                            </div>
+                            <!--表格组件调用start-->
+              <div class="table_tablebox"><!--高度值请根据实际情况修改-->
+                <table class="flexme4" style="display: none"></table>
+                <script type="text/javascript">
+				$(".flexme4").flexigrid({
+					url : 'http://localhost/example4.php',
+					dataType : 'json',
+					colModel : [ {
+						display : '最后发送时间',
+						name : '最后发送时间',
+						width : 90,
+						sortable : true,
+						align : 'center'
+						}, {
+							display : '买家昵称',
+							name : '买家昵称',
+							width : 120,
+							sortable : true,
+							align : 'left'
+						}, {
+							display : '买家手机号',
+							name : '买家手机号',
+							width : 120,
+							sortable : true,
+							align : 'left'
+						}, {
+							display : '互动消息详情',
+							name : 'favorite_color',
+							width : 80,
+							sortable : true,
+							align : 'left',
+						}, {
+							display : '未读消息',
+							name : '未读消息',
+							width : 80,
+							sortable : true,
+							align : 'left'
+					} ],
+					buttons : [ {
+						name : 'Add',
+						bclass : 'add',
+						onpress : Example4
+						}
+						,
+						{
+							name : 'Edit',
+							bclass : 'edit',
+							onpress : Example4
+						}
+						,
+						{
+							name : 'Delete',
+							bclass : 'delete',
+							onpress : Example4
+						}
+						,
+						{
+							separator : true
+						} 
+					],
+					searchitems : [ {
+						display : 'EmployeeID',
+						name : 'employeeID'
+						}, {
+							display : 'Name',
+							name : 'name',
+							isdefault : true
+					} ],
+					sortname : "iso",
+					sortorder : "asc",
+					usepager : true,
+					title : 'Employees',
+					useRp : true,
+					rp : 15,
+					showTableToggleBtn : true,
+					//width : 750,
+					height : 200
+				});
+	
+				function Example4(com, grid) {
+					if (com == 'Delete') {
+						var conf = confirm('Delete ' + $('.trSelected', grid).length + ' items?')
+						if(conf){
+							$.each($('.trSelected', grid),
+								function(key, value){
+									$.get('http://localhost/example4.php', { Delete: value.firstChild.innerText}
+										, function(){
+											// when ajax returns (callback), update the grid to refresh the data
+											$(".flexme4").flexReload();
+									});
+							});    
+						}
+					}
+					else if (com == 'Edit') {
+						var conf = confirm('Edit ' + $('.trSelected', grid).length + ' items?')
+						if(conf){
+							$.each($('.trSelected', grid),
+								function(key, value){
+									// collect the data
+									var OrgEmpID = value.children[0].innerText; // in case we're changing the key
+									var EmpID = prompt("Please enter the New Employee ID",value.children[0].innerText);
+									var Name = prompt("Please enter the Employee Name",value.children[1].innerText);
+									var PrimaryLanguage = prompt("Please enter the Employee's Primary Language",value.children[2].innerText);
+									var FavoriteColor = prompt("Please enter the Employee's Favorite Color",value.children[3].innerText);
+									var FavoriteAnimal = prompt("Please enter the Employee's Favorite Animal",value.children[4].innerText);
+	
+									// call the ajax to save the data to the session
+									$.get('http://localhost/example4.php', 
+										{ Edit: true
+											, OrgEmpID: OrgEmpID
+											, EmpID: EmpID
+											, Name: Name
+											, PrimaryLanguage: PrimaryLanguage
+											, FavoriteColor: FavoriteColor
+											, FavoritePet: FavoriteAnimal  }
+										, function(){
+											// when ajax returns (callback), update the grid to refresh the data
+											$(".flexme4").flexReload();
+									});
+							});    
+						}
+					}
+					else if (com == 'Add') {
+						// collect the data
+						var EmpID = prompt("Please enter the Employee ID","5");
+						var Name = prompt("Please enter the Employee Name","Mark");
+						var PrimaryLanguage = prompt("Please enter the Employee's Primary Language","php");
+						var FavoriteColor = prompt("Please enter the Employee's Favorite Color","Tan");
+						var FavoriteAnimal = prompt("Please enter the Employee's Favorite Animal","Dog");
+	
+						// call the ajax to save the data to the session
+						$.get('http://localhost/example4.php', { Add: true, EmpID: EmpID, Name: Name, PrimaryLanguage: PrimaryLanguage, FavoriteColor: FavoriteColor, FavoritePet: FavoriteAnimal  }
+							, function(){
+								// when ajax returns (callback), update the grid to refresh the data
+								$(".flexme4").flexReload();
+						});
+					}
+				}
+			</script>
+              </div>
+              <!--表格组件调用end-->
+                    </div>
+                </div>
+      		</div>
+      	</div>
+    </div>
+    <script language="javascript" type="text/javascript">
+			  var theTab1_box = new Array('add_sms_setup','add_email_setup','add_xg_setup');
+			  var theTab1 = new AlexTab2('tab01',theTab1_box);
+			  theTab1;
+			  var theTab2_box = new Array('real_time_data','effect_statistics');
+			  var theTab2 = new AlexTab2('tab02',theTab2_box);
+			  theTab2;
+		</script>
+        <div class="soft_workspace_footer">
+          <div class="footer_left">Powered by <a href="http://www.easycontact.cn" target="_blank">EasyContact</a>  Copyright &copy; 2013-2011 SinoContact,Inc</div>
+          <div class="footer_right"><a href="http://www.easycontact.cn" target="_blank">www.EasyContact.cn</a>&nbsp;｜&nbsp;<a href="#"><em class="setting"></em>账户设置</a></div>
+        </div>
+        
+      </td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>

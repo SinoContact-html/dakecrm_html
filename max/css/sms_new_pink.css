@@ -1,0 +1,407 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+/**************************2013-7-3 Start*******************************/
+.soft_workspace .table_workspace .logistics_switch {padding:0 10px; width:1000px; margin:0 auto;}
+.soft_workspace .table_workspace .logistics_switch_one {height:98px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox {width:80px; float:left; height:200px; margin-left:-5px;}
+.soft_workspace .table_workspace .logistics_switch_one .switchBox {width:80px; float:left; height:90px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a {display:block; text-decoration:none;}
+.soft_workspace .table_workspace .logistics_switch .switchBox .switch_menu {width:80px; height:60px; margin:0 1px;
+text-decoration:none;
+background:url(../images/icon_auto.png) center 0 no-repeat;
+behavior: url(./PIE.htc);}
+/*.soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu:hover,
+.soft_workspace .table_workspace .logistics_switch .switchBox a.onthis {text-decoration:none;
+border:#5abaf4 2px solid;
+background: #1c87d3;
+background: -webkit-gradient(linear, 0 0, 0 bottom, from(#1c87d3), to(#1c87d3));
+background: -webkit-linear-gradient(#1c87d3, #1c87d3);
+background: -moz-linear-gradient(#1c87d3, #1c87d3);
+background: -ms-linear-gradient(#1c87d3, #1c87d3);
+background: -o-linear-gradient(#1c87d3, #1c87d3);
+background: linear-gradient(#1c87d3, #1c87d3);
+-pie-background: linear-gradient(#1c87d3, #1c87d3);
+behavior: url(./PIE.htc);}
+.soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu_on {
+background: #444a56;
+background: -webkit-gradient(linear, 0 0, 0 bottom, from(#444a56), to(#30373e));
+background: -webkit-linear-gradient(#444a56, #30373e);
+background: -moz-linear-gradient(#444a56, #30373e);
+background: -ms-linear-gradient(#444a56, #30373e);
+background: -o-linear-gradient(#444a56, #30373e);
+background: linear-gradient(#444a56, #30373e);
+-pie-background: linear-gradient(#444a56, #30373e);
+behavior: url(./PIE.htc);}*/
+
+.soft_workspace .table_workspace .logistics_switch .switchBox a.off .switch_menu {background:url(../images/icon_auto_off.png) center 0 no-repeat;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a .switch_menu.wfk {background-position:center -60px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a .switch_menu.fkgh {background-position:center -120px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a .switch_menu.fhtz {background-position:center -180px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a .switch_menu.ddcs {background-position:center -240px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a .switch_menu.pijtx {background-position:center -300px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a .switch_menu.qstx {background-position:center -360px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a .switch_menu.pjtx {background-position:center -420px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a .switch_menu.hptx {background-position:center -480px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a .switch_menu.cptx {background-position:center -540px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a .switch_menu.wlyctz {background-position:center -600px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a .switch_menu.cjgh {background-position:center -660px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a .switch_menu.eccf {background-position:center -720px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a .switch_menu.hpgx {background-position:center -780px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a .switch_menu.shgh {background-position:center -840px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a .switch_menu.srgh {background-position:center -900px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a .switch_menu.jhs {background-position:center -960px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a .switch_menu.ysfh {background-position:center -1020px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a .switch_menu.tkgh {background-position:center -1080px;}
+
+
+
+.soft_workspace .table_workspace .logistics_switch .switchBox .switch_menu_1 {margin-top:105px;}
+.soft_workspace .table_workspace .logistics_switch_one .switchBox a.switch_menu_1 {margin-top:0px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu_2 {margin-top:0px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu_down {margin-left:45px; width:80px; position:relative; z-index:99;}
+.soft_workspace .table_workspace .logistics_switch .switchBox .switch_menu_3 {margin-top:50px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a h4 {text-align:center; color:#74b5e5; font-size:12px; font-weight:normal; line-height:20px; padding-top:5px; height:40px; width:80px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a h4.longer {width:200px; margin-left:-58px; color:#d0550b;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a.off h4 {color:#afafaf;}
+/*.soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu:hover h4,
+.soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu.onthis h4 {color:#fff; text-shadow:0 2px 0 #666;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu .onthis {height:3px; line-height:1px; overflow:hidden; background:url(../images/switch_onthis.png) center center no-repeat; margin-top:3px;}*/
+.soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu .onoff {margin:15px 0px 5px 9px; width:62px; height:22px; line-height:22px; font-size:10px; background:#75b5e4; color:#FFF; border-radius:3px;}
+.logistics_switch .switchBox a.switch_menu .onoff span {display:block; font-size:10px; text-shadow:0 1px 0 rgba(110,110,110,0.5); text-align:center;}
+.logistics_switch .switchBox a.switch_menu .offon span {display:block; font-size:10px; text-shadow:0 1px 0 rgba(110,110,110,0.5); text-align:center;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu .offon {margin:15px 0px 5px 9px; width:62px; height:22px; line-height:22px; font-size:10px; background:#d9d9d9; color:#2d323e; border-radius:3px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu .setup {background:#c7dced; width:80px; height:22px; line-height:22px; margin-left:10px; text-align:center; border-radius:3px; color:#2d323e;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu .setup.hover {background:#46b51c; color:#FFF;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu .setup.onthis {background:url(../images/setup_btn.png); color:#292929; margin-top:0px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu .onoff span {display:block; font-size:10px; text-shadow:0 1px 0 rgba(110,110,110,0.5); text-align:center;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu .onoff span.right {float:right; margin-right:5px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu_on .onoff {background-position: center -24px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu_on:hover {
+background: #444a56;
+background: -webkit-gradient(linear, 0 0, 0 bottom, from(#444a56), to(#30373e));
+background: -webkit-linear-gradient(#444a56, #30373e);
+background: -moz-linear-gradient(#444a56, #30373e);
+background: -ms-linear-gradient(#444a56, #30373e);
+background: -o-linear-gradient(#444a56, #30373e);
+background: linear-gradient(#444a56, #30373e);
+-pie-background: linear-gradient(#444a56, #30373e);
+behavior: url(./PIE.htc);}
+
+.soft_workspace .table_workspace .logistics_switch .lineBox {width:23px; margin:0 -5px; float:left; height:300px; background:url(../images/line_1.gif) left 130px repeat-x; position:relative;}
+.soft_workspace .table_workspace .logistics_switch .lineBox.duan {width:15px; margin-right:0px;}
+.soft_workspace .table_workspace .logistics_switch_one .lineBox {width:35px; margin:0 5px; float:left; height:90px; background:url(../images/line_1.gif) left 35px repeat-x; position:relative;}
+.soft_workspace .table_workspace .logistics_switch_one .lineBox.nb {width:0px; background:none;}
+.soft_workspace .table_workspace .logistics_switch .lineBox2 {background:url(../images/line_2.gif) -3px 80px no-repeat;}
+.soft_workspace .table_workspace .logistics_switch .lineBox3 {background:url(../images/line_3.gif) center 100px no-repeat;}
+.soft_workspace .table_workspace .logistics_switch .lineBox4 {background:url(../images/line_1.gif) left 33px repeat-x;}
+.soft_workspace .table_workspace .logistics_switch .lineBox em {display:block; width:9px; height:9px; line-height:1px; overflow:hidden; background:url(../images/line_jt.png) no-repeat; position:absolute; right:-5px; top:132px;}
+.soft_workspace .table_workspace .logistics_switch_one .lineBox em {display:block; width:9px; height:9px; line-height:1px; overflow:hidden; background:url(../images/line_jt.gif) no-repeat; position:absolute; right:-5px; top:36px;}
+.soft_workspace .table_workspace .logistics_switch .lineBox2 em.level1 {top:80px; right:0px;}
+.soft_workspace .table_workspace .logistics_switch .lineBox2 em.level2 {top:186px; right:0px;}
+.soft_workspace .table_workspace .logistics_switch .lineBox4 em {top:31px;}
+
+.soft_workspace .table_workspace .table_workspace_iphone_sms {background-color:#fff; border:#d7d7d7 1px solid; padding:20px; margin:20px; position:relative; margin-bottom:40px; padding-top:30px;}
+/*************/
+.soft_workspace .table_workspace .left_50 {width:50%; float:left;}
+.soft_workspace .table_workspace .adm-detail-title {color:#000; font-size:14px; padding:3px 0 3px 20px; font-weight:bold;}
+/*************/
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox {padding:0px 20px 20px;}
+
+.soft_workspace .table_workspace .left_50 {width:50%; float:left;}
+
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl,
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .note {line-height:31px; width:100%; float:left; margin-bottom:15px; font-size:14px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl dt {width:100px; line-height:31px; float:left;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl dd {width:580px; line-height:31px; float:left;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl.twolist {width:340px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl.twolist dt {width:100px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl.twolist dd {width:240px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox div {clear:both;}
+
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl dd input.text {border:1px solid #a3a5a5; height:29px; line-height:29px; width:120px;-moz-box-shadow:0px 3px 3px #d8dedf inset; -webkit-box-shadow:0px 3px 3px #d8dedf inset; box-shadow:0px 3px 3px #d8dedf inset; padding-left:5px; width:520px; border-radius:4px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl.twolist dd input.text {width:180px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl.twolist dd input.text_selsct {width:119px; border-left:none;border-radius:0 4px 4px 0; float:left;}
+
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl select {background: #fff;border-radius:4px;border:1px solid #a3a5a5;-webkit-box-shadow:0 1px 0 0 rgba(255,255,255,0.3), inset 0 2px 2px -1px rgba(180,188,191,0.7);	box-shadow:0 1px 0 0 rgba(255,255,255,0.3), inset 0 2px 2px -1px rgba(180,188,191,0.7);	font-size:12px;	height:31px; margin:0;	vertical-align:middle;	padding:5px; float:left;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl select.setext {border-radius:4px 0 0 4px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl select.float_none {float:none; margin-top:-7px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .note .red {color:#F00;}
+
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl dd input.file {background: #fff;border-radius:4px;border:1px solid #a3a5a5;-webkit-box-shadow:0 1px 0 0 rgba(255,255,255,0.3), inset 0 2px 2px -1px rgba(180,188,191,0.7);	box-shadow:0 1px 0 0 rgba(255,255,255,0.3), inset 0 2px 2px -1px rgba(180,188,191,0.7);	font-size:12px; margin:0; height:28px; line-height:21px; padding:4px; vertical-align:middle;}
+
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl dd .options_box {display:inline-block; *zoom:1; *display:inline;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl dd .options_box a.options{
+	background:#efefef;
+	border:#e3e3e3 1px solid;
+	color:#666;
+	cursor:pointer;
+	display:inline-block; *zoom:1; *display:inline;
+	line-height:25px;
+	height: 25px;
+	text-decoration:none;
+	vertical-align:middle;
+	-webkit-font-smoothing: antialiased;
+	padding:0 10px;
+	margin:0 10px 8px 0;
+}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl dd .options_box a.options:hover {background:#d3d3d3;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl dd .options_box a.onthis,
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl dd .options_box a.onthis:hover {border:#ff6000 1px solid; background-image:url(../images/on_corner.png); background-repeat:no-repeat; background-position:right bottom; padding:0px 15px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl dd .phoneNum {width:527px; height:100px; border-radius: 4px; border:1px solid #a3a5a5; resize: none; background:#FFF; line-height:20px; font-size:12px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl dd strong.directions {color:#39C; text-shadow:0 1px #fff;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl dd em.note {display:inline-block; *zoom:1; *display:inline; width:9px; height:9px; background:url(../images/icon.gif) left -630px no-repeat; margin-left:5px; cursor:pointer; float:none; margin-bottom:0;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox iframe.iframe_view {width:678px; height:200px; border:1px solid #a4b9cc; border-radius:4px;}
+
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms {width:233px; height:347px; background:url(../images/iphone_new.gif) no-repeat; float:left;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms .smsBox {width:176px; margin:120px auto 0 auto; background:url(../images/iphone_sms.gif) no-repeat;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms .smsBox .smsBox_text {padding:10px 5px 0 12px; word-break:break-all; max-height:220px; overflow:auto;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms .smsBox_bottom {width:176px; margin:0 auto; height:11px; background:url(../images/iphone_sms.gif) 0 bottom no-repeat;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox {width:100%; float:left; padding-left:2px; clear:none;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_mail_frombox {width:auto; float:none; padding-left:0;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl dt {width:auto;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl dd {}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl dd select {margin-top:0;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dt {float:left; width:auto; margin-right:10px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd {float:left; width:auto;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd select {margin-top:0;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd dl {width:auto;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd dl dt {}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd dl dd {width:300px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl dd .phoneNum {width:400px; display:block;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl dd .note {font-size:12px; margin-top:0px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl dd .note span.num {font-size:18px; font-weight:bold; color:#09F; font-family:Georgia; display:inline-block; *zoom:1; *display:inline; padding:0 4px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl dd .note span.numred {color:#F00;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl dd input.timeSet {width:200px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl dd input.text {width:200px;}
+
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl dd .mms_frame {height:76px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl dd .mms_frame .mms_frame_box {float:left; height:76px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl dd .mms_frame .mms_frame_box a,
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl dd .mms_frame span.add_frame {float:left; width:57px; height:72px; background:#e2ebee; border:2px solid #b4c2c2; display:block; margin-right:5px; cursor:pointer;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl dd .mms_frame .mms_frame_box a:hover {background:#f5f9fa;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl dd .mms_frame span.add_frame {background:#e2ebee url(../images/add_mms.gif) center center no-repeat; cursor:pointer;}
+
+.submitbox {text-align:center;}
+.submitbox.mar {margin-top:20px; padding-bottom:0px;}
+.submitbox.mar input.submit{margin-right:20px;}
+.submitbox input.submit{background-color:#e248a8; color:#fff; cursor:pointer; border-radius:5px; line-height:40px; height:40px; width:130px; text-align:center; margin-right:20px; border:none;}
+.submitbox input.submit.can {background-color:#d44501;}
+
+.submitbox input.submit:hover {background-color:#f058b7!important;}
+.submitbox input.submit.can:hover {background-color:#ff5200!important;}
+
+
+/**************************2013-7-3 End*******************************/
+
+.index_switchBox {padding:0 20px 20px 20px;}
+.index_switchBox .switchBox {width:102px; display:inline-block; *zoom:1; *display:inline; height:73px;}
+.index_switchBox .switchBox a.switch_menu {display:block; width:100px; height:85px; margin:0 1px;
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
+-webkit-box-shadow: #d1d1d1 0px 2px 2px;
+-moz-box-shadow: #d1d1d1 0px 2px 2px;
+box-shadow: #d1d1d1 0px 2px 2px;
+background: #b2bfc3;
+background: -webkit-gradient(linear, 0 0, 0 bottom, from(#b2bfc3), to(#7f8d91));
+background: -webkit-linear-gradient(#b2bfc3, #7f8d91);
+background: -moz-linear-gradient(#b2bfc3, #7f8d91);
+background: -ms-linear-gradient(#b2bfc3, #7f8d91);
+background: -o-linear-gradient(#b2bfc3, #7f8d91);
+background: linear-gradient(#b2bfc3, #7f8d91);
+-pie-background: linear-gradient(#b2bfc3, #7f8d91);
+behavior: url(./PIE.htc);}
+.index_switchBox .switchBox a.switch_menu:hover,
+.index_switchBox .switchBox a.onthis {text-decoration:none;
+background: #a1adb1;
+background: -webkit-gradient(linear, 0 0, 0 bottom, from(#a1adb1), to(#68767a));
+background: -webkit-linear-gradient(#a1adb1, #68767a);
+background: -moz-linear-gradient(#a1adb1, #68767a);
+background: -ms-linear-gradient(#a1adb1, #68767a);
+background: -o-linear-gradient(#a1adb1, #68767a);
+background: linear-gradient(#a1adb1, #68767a);
+-pie-background: linear-gradient(#a1adb1, #68767a);
+behavior: url(./PIE.htc);}
+.index_switchBox .switchBox a.switch_menu_on {
+background: #444a56;
+background: -webkit-gradient(linear, 0 0, 0 bottom, from(#444a56), to(#30373e));
+background: -webkit-linear-gradient(#444a56, #30373e);
+background: -moz-linear-gradient(#444a56, #30373e);
+background: -ms-linear-gradient(#444a56, #30373e);
+background: -o-linear-gradient(#444a56, #30373e);
+background: linear-gradient(#444a56, #30373e);
+-pie-background: linear-gradient(#444a56, #30373e);
+behavior: url(./PIE.htc);}
+.index_switchBox .switchBox a.switch_menu .onthis {height:3px; line-height:1px; overflow:hidden; background:url(../images/switch_onthis.png) center center no-repeat; margin-top:3px;}
+.index_switchBox .switchBox a.switch_menu .onoff {margin-top:3px; height:25px; line-height:17px; font-size:10px; background:url(../images/offon.png) center top no-repeat;}
+.index_switchBox .switchBox a.switch_menu .setup {background:#CCC; width:80px; height:20px; line-height:20px; border:#999 1px solid; margin-left:10px; text-align:center; border-radius:3px;}
+
+.index_switchBox .switchBox a.switch_menu .onoff span.right {float:right; margin-right:5px;}
+.index_switchBox .switchBox a.switch_menu_on .onoff { background-position: center bottom;}
+.index_switchBox .switchBox a.switch_menu_on:hover {
+background: #444a56;
+background: -webkit-gradient(linear, 0 0, 0 bottom, from(#444a56), to(#30373e));
+background: -webkit-linear-gradient(#444a56, #30373e);
+background: -moz-linear-gradient(#444a56, #30373e);
+background: -ms-linear-gradient(#444a56, #30373e);
+background: -o-linear-gradient(#444a56, #30373e);
+background: linear-gradient(#444a56, #30373e);
+-pie-background: linear-gradient(#444a56, #30373e);
+behavior: url(./PIE.htc);}
+.index_switchBox .switchBox a.switch_menu_on .onoff span {color:#9ca3af;}
+
+.soft_workspace .table_workspace_iphone_sms .sms_title_box {top:-17px; position:absolute;}
+.soft_workspace .table_workspace_iphone_sms .sms_title_box .sms_title {font-size:16px; width:130px; height:30px; line-height:30px; background:#efefef; border:#d7d7d7 1px solid; text-align:center; border-left:#e248a8 3px solid; display:inline-block;}
+.soft_workspace .table_workspace_iphone_sms .sms_title_box a {display:inline-block;}
+.soft_workspace .table_workspace_iphone_sms .sms_title_box input[type="button"] {margin-left:10px;}
+.save {display:none;}
+.soft_workspace .table_workspace_iphone_sms .change_box {display:none;}
+.soft_workspace .table_workspace_iphone_sms .change_box_h {display:none;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox.padding-left0 {padding-left:0px; padding-bottom:0px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox.padding-left0 {padding-left:0px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd .sms_auto_open {color:#0C3; font-size:14px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd .sms_auto_close {color:red; font-size:14px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd .phoneNum {width:410px; margin-top:5px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd ul li {float:left; margin-right:20px; margin-bottom:10px; line-height:70px; height:70px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox .checkBox {display:inline-block;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox .checkBox * {vertical-align:middle;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd ul li em { background:url(../images/bg_pop.png) repeat; width:70px; height:70px; top:-70px; position:relative; z-index:100; display:none; cursor:pointer;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd ul li em img { position:absolute; top:5px; left:50px;}
+
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd ul li em img { position:absolute; top:5px; left:50px; height:14px; width:14px;}
+
+
+/********* 首页 **********/
+.soft_workspace .table_workspace .index_switchBox .switchBox a.switch_menu {display:inline-block; width:80px; height:85px; margin:0 1px;
+border:#dadada 1px solid;
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
+-webkit-box-shadow: #d1d1d1 0px 2px 2px;
+-moz-box-shadow: #d1d1d1 0px 2px 2px;
+box-shadow: #d1d1d1 0px 2px 2px;
+background: #f6f8fb;
+background: -webkit-gradient(linear, 0 0, 0 bottom, from(#f6f8fb), to(#f6f8fb));
+background: -webkit-linear-gradient(#f6f8fb #f6f8fb);
+background: -moz-linear-gradient(#f6f8fb, #f6f8fb);
+background: -ms-linear-gradient(#f6f8fb, #f6f8fb);
+background: -o-linear-gradient(#f6f8fb, #f6f8fb);
+background: linear-gradient(#f6f8fb, #f6f8fb);
+-pie-background: linear-gradient(#f6f8fb, #f6f8fb);
+behavior: url(./PIE.htc);}
+.soft_workspace .table_workspace .index_switchBox .switchBox a.switch_menu h4 {color:#656565; padding-top:15px;}
+.soft_workspace .table_workspace .index_switchBox .switchBox a.switch_menu h4.th {position:relative; top:-10px;}
+.soft_workspace .table_workspace .index_switchBox .switchBox a.switch_menu .onoff {margin:15px 0px 5px 9px; width:62px; height:22px; line-height:22px; font-size:10px; background:#75b5e4; color:#FFF; border-radius:3px;}
+.index_switchBox .switchBox a.switch_menu .onoff span {display:block; font-size:10px; text-shadow:0 1px 0 rgba(110,110,110,0.5); text-align:center;}
+.index_switchBox .switchBox a.switch_menu .offon span {display:block; font-size:10px; text-shadow:0 1px 0 rgba(110,110,110,0.5); text-align:center;}
+.soft_workspace .table_workspace .index_switchBox .switchBox a.switch_menu .offon {margin:15px 0px 5px 9px; width:62px; height:22px; line-height:22px; font-size:10px; background:#d9d9d9; color:#2d323e; border-radius:3px;}
+.index_switchBox .switchBox.sy {height:100px; width:16%; cursor:pointer; text-align:center;}
+.index_switchBox .switchBox.syl {height:100px; width:32%; cursor:pointer; text-align:center;}
+.index_switchBox .switchBox a.switch_menu h4 {text-align:center; color:#fff; font-size:12px; font-weight:normal; text-shadow:0 1px 0 rgba(147,147,147,0.5); height:20px; line-height:20px; padding-top:5px;}
+
+
+
+
+.soft_workspace .table_workspace .logistics_switch .lineBox4 {background:url(../images/line_4.gif) no-repeat; width:23px; background-position:0px 38px;}
+.soft_workspace .table_workspace .logistics_switch .lineBox4 em.level1 {top:35px; right:-3px;}
+.soft_workspace .table_workspace .logistics_switch .lineBox4 em.level2 {top:133px; left:15px;}
+.soft_workspace .table_workspace .logistics_switch .lineBox4 em.level3 {top:234px; left:15px;}
+
+.soft_workspace .table_workspace .logistics_switch .lineBox_d {background:url(../images/line_5.gif) repeat-y; float:none; height:20px; margin:5px 20px;}
+.soft_workspace .table_workspace .logistics_switch .lineBox_d em {display:block; width:9px; height:9px; line-height:1px; overflow:hidden; background:url(../images/line_jt_d.gif) no-repeat; position:absolute; right:15px; top:15px;}
+
+.soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu_5 {margin-top:117px;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu_6 {margin-left:55px;}
+
+.soft_workspace .table_workspace .logistics_switch .lineBox_d.lbd {margin-top:-30px; margin-left:85px; height:50px;}
+.soft_workspace .table_workspace .logistics_switch .lineBox_d.lbd em {top:43px;}
+.soft_workspace .table_workspace .logistics_switch .lineBox5 {background:url(../images/line_5.gif) 3px 90px no-repeat;     margin-right:0px;}
+.soft_workspace .table_workspace .logistics_switch .lineBox5 em.level2 {background:url(../images/line_jt_d.gif) no-repeat; left:7px; top:190px;}
+.soft_workspace .table_workspace .logistics_switch .lineBox5 em.level3 {background:url(../images/line_jt_u.gif) no-repeat; left:8px; top:85px;}
+.soft_workspace .table_workspace .logistics_switch .lineBox6 {background:url(../images/line_6.gif) 0px 83px no-repeat; width:40px;}
+.soft_workspace .table_workspace .logistics_switch .lineBox6 em.level1 {top:80px; right:-2px;}
+.soft_workspace .table_workspace .logistics_switch .lineBox6 em.level2 {top:186px; right:-2px;}
+
+.soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu.on {background:#a3eb89;}
+.sh_box {text-align:center; padding:10px 0px; font-size:13px; position:absolute; right:0px; top:0px; cursor:pointer;}
+.sh_box img {margin-right:5px; margin-top:5px;}
+
+
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.hphb dd ul li em {background:url(../images/bg_pop.png) repeat; width:70px; height:70px; top:-70px; position:relative; z-index:100; display:none; cursor:pointer;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.hphb dd ul li em img {position:absolute; top:5px; left:50px;}
+
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft.cx {width:700px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft.cx dt {width:70px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft.cx dd {width:600px;}
+
+
+
+/***************** 2016/03/08 ivan *****************/
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms.dhk {width:320px; height:354px; background:none; overflow:auto;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms.dhk .talk_box {float:left; width:100%;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms.dhk .talk_pre {margin-bottom:20px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms.dhk .talk_pre.fl {float:left;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms.dhk .talk_pre.fr {float:right;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms.dhk .talk_pre .talk_time {padding-left:10px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms.dhk .talk_pre.fr .smsBox {background:url(../images/iphone_sms_b.gif) no-repeat;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms.dhk .talk_pre.fr .smsBox_bottom {background:url(../images/iphone_sms_b.gif) 0 bottom no-repeat;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms.dhk .talk_pre .smsBox {width:176px; margin:0px; background:url(../images/iphone_sms.gif) no-repeat;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms.dhk .talk_pre .smsBox .smsBox_text {padding:10px 15px 0 12px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms.dhk .talk_pre .smsBox_bottom {width:176px; margin:0px; height:11px; background:url(../images/iphone_sms.gif) 0 bottom no-repeat;}
+
+
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox .text_num {color:#666; font-size:14px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox .text_num strong {color:#F00; margin:0 5px;}
+
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox dl dd .phoneNum.dlj {width:200px; position:relative; top:-3px; margin-right:10px; display:none; height:29px; line-height:29px;}
+
+.table_workspace .popbox_frombox dl dd .options_box a.options_news {
+	-webkit-border-radius: 4px;
+    border-radius: 4px;
+    border: none;
+    border-top: 1px solid #fff;
+    background: #d3dbdd;
+    color: #3f4b54;
+    display: inline-block;
+    line-height: 27px;
+    /* height: 29px; */
+    text-shadow: 0 1px rgba(255,255,255,0.7);
+    text-decoration: none;
+    vertical-align: middle;
+    -webkit-font-smoothing: antialiased;
+    padding: 0 10px;
+    margin: 0 10px 8px 0;
+}
+
+
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd ul.chose_pro_list {float:left;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd ul.chose_pro_list li {line-height:normal; height:auto; margin-bottom:0px; margin-left:0px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd ul.chose_pro_list li .pro_img_box {padding:1px; border:#b4b4b4 1px solid;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd ul.chose_pro_list li p {width:110px; overflow:hidden; height:30px; line-height:30px; text-align:center; white-space:nowrap; text-overflow:ellipsis;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd em.onoff_btn {background:url(../images/onoff.png) no-repeat; width:30px; height:14px; display:inline-block; margin-right:10px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd em.onoff_btn.off {background-position:0px -16px;}
+
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd a.button {height:24px; line-height:24px; border-radius:24px; background:#e248a8; border:1px solid #00618f; color:#fff; font-size:14px; cursor:pointer; text-align:center; padding:0 15px; text-decoration:none; display:inline-block;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd a.button:hover {background:#00a4f2;}
+
+.iphone_sms_frombox dl.fleft dd .mail_box {width:900px; text-align:center;}
+.iphone_sms_frombox dl.fleft dd .mail_box .mail_banner {width:760px; height:109px; line-height:109px; background:url(../images/mail_banner.jpg) no-repeat; font-size:24px; display:inline-block; margin-bottom:10px;}
+.iphone_sms_frombox dl.fleft dd .mail_box .mail_content {width:738px; padding:20px 10px; text-align:left; background:#FFF; display:inline-block; border:#8a99a1 1px solid;}
+.iphone_sms_frombox dl.fleft dd .mail_box .mail_content h1 {font-size:16px;}
+.iphone_sms_frombox dl.fleft dd .mail_box .mail_content em {text-align:right; width:100%; display:inline-block;}
+.iphone_sms_frombox dl.fleft dd .mail_box .mail_produts_title {width:760px; height:88px; background:url(../images/pro_tit.jpg) no-repeat; display:inline-block;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd .mail_box ul.mail_produts_list {width:760px; display:inline-block;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd .mail_box ul.mail_produts_list li {background:#f2f2f2; padding:10px; border-bottom:#CCC 1px dotted; height:auto; line-height:normal; margin-right:0px; margin-bottom:0px; text-align:left; width:740px; position:relative;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd .mail_box ul.mail_produts_list li img {float:left; margin-right:10px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd .mail_box ul.mail_produts_list li h1 {font-size:18px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd .mail_box ul.mail_produts_list li .mail_pro_pri {position:absolute; right:10px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd .mail_box ul.mail_produts_list li .mail_pro_pri span {color:#666; text-decoration:line-through;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd .mail_box ul.mail_produts_list li .mail_pro_pri strong {color:#F60; font-size:27px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd .mail_box ul.mail_produts_list li .mail_pro_pri em {display:inline-block; padding:5px; color:#F60; background:#FFF; border:#F60 1px solid; position:absolute; width:auto; height:auto; top:23px; left:-60px;}
+.iphone_sms_frombox dl.fleft dd .mail_box .mail_bottom {width:760px; height:78px; background:url(../images/mail_bottom.jpg) no-repeat; display:inline-block;}
+
+
+/********************* 2016/05/31 ********************/
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd ul.bb_list li {height:auto; width:500px; line-height:30px;}
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox dl.fleft dd ul.bb_list li a {float:right; color:#00F;}
