@@ -429,3 +429,6 @@ behavior: url(./PIE.htc);}
 .soft_workspace .table_workspace .logistics_switch .lineBox.lineBox11 {background: url(../images/line_9.gif) -3px 218px no-repeat;}
 .soft_workspace .table_workspace .logistics_switch .lineBox.lineBox12 {background: url(../images/line_10.gif) center center no-repeat; float:none; width:100%; height:25px; margin-top:-10px;}
 .soft_workspace .table_workspace .logistics_switch .lineBox.lineBox13 {background: url(../images/line_10.gif) 57% center no-repeat; width:50%; height:25px; margin-top:-10px;}
+
+em.onoff_btn {background:url(../images/onoff.png) no-repeat; width:30px; height:14px; display:inline-block; cursor:pointer;}
+em.onoff_btn.off {background-position:left -16px;}

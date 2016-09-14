@@ -859,6 +859,7 @@ AlexTab2.prototype = {
 				$('#'+boxId[self._oldm[tabId]]).hide();
 				$('#'+boxId[h]).show();
                 self._oldm[tabId] = h;
+				//alert(h);
             }
         })
     }
