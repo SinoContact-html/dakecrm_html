@@ -7,91 +7,20 @@
 <script language="javascript" type="text/javascript" src="js/datepicker.js"></script>
 <script language="javascript" type="text/javascript" src="js/eye.js"></script>
 <script language="javascript" type="text/javascript" src="js/common.js"></script>
-<script language="javascript" type="text/javascript" charset="utf-8" src="js/kindeditor/kindeditor-min.js"></script>
-<script language="javascript" type="text/javascript" charset="utf-8" src="js/kindeditor/zh_CN.js"></script>
-<script>
-var editor;
-KindEditor.ready(function(K) {
-	editor = K.create('textarea[name="content"]', {
-		
-	allowFileManager : true
-	});
-});
-
- function insertAtCursor(myField, myValue) {
-            //IE support  
-            if (document.selection) {
-                myField.focus();
-                sel = document.selection.createRange();
-                sel.text = myValue;
-                sel.select();
-            }
-            else if (myField.selectionStart || myField.selectionStart == '0') {
-                var startPos = myField.selectionStart;
-                var endPos = myField.selectionEnd;
-                var restoreTop = myField.scrollTop;
-                myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
-                if (restoreTop > 0) {
-                    myField.scrollTop = restoreTop;
-                }
-                myField.focus();
-                myField.selectionStart = startPos + myValue.length;
-                myField.selectionEnd = startPos + myValue.length;
-            } else {
-                myField.value += myValue;
-                myField.focus();
-            }
-            var textNmu = $('#textarea_sms_text').val().length;
-            var thisText = $('#textarea_sms_text').val();
-            var c_num = MAX_SMS_CONTENT_LENGTH - textNmu;
-            $("#T_Num").html(textNmu);
-            if (c_num < 0){
-                if(parseInt(textNmu)%MAX_SMS_CONTENT_LENGTH==0){
-                    $("#Sms_Num").html(parseInt(textNmu/MAX_SMS_CONTENT_LENGTH));
-                }
-                else{
-                    $("#Sms_Num").html(parseInt(textNmu/MAX_SMS_CONTENT_LENGTH)+1);
-                };
-            }else{
-                $("#Sms_Num").html(1);
-            }
-            $('#iphone_sms_text').html($('#textarea_sms_text').val());
-        }
-</script>
 <link href="css/common_new.css" rel="stylesheet" type="text/css" />
-<link href="css/sms_new.css" rel="stylesheet" type="text/css" />
-<link href="css/edm.css" rel="stylesheet" type="text/css" />
 <link href="css/flexigrid.pack.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" media="screen" type="text/css" href="css/datepicker.css" />
-
+<!--jTable Start-->
+<link rel="stylesheet" media="screen" type="text/css" href="css/jquery-ui.css" />
+<link href="js/jtable.2.3.0/themes/lightcolor/gray/jtable.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/jtable.2.3.0/jquery.jtable.min.js"></script>
+<script type="text/javascript" src="js/jtable.2.3.0/jquery.jtable.zh-CN.js"></script>
+<!--jTable End-->
 <title>無標題文件</title>
 </head>
 
 <body>
-<div class="popbox_core" id="add_gxxcjyxhd">
-	<div class="popbox_head">
-    	<span class="title">对勾选列表项创建营销活动</span>
-        <div class="popbox_head_right"><a class="popbox_close" onclick="ClosePopbox('add_gxxcjyxhd')"></a></div>
-    </div>
-    <div class="soft_workspace" style="padding:0px;">
-    	<div class="table_workspace clearfix border-bottom" style="border:none;">
-        	<div class="soft_workspace" style="padding-bottom:0px;">
-            	<div class="table_workspace_infoBox table_workspace_infoBox_mg0" style="padding:10px 20px;">
-                	<div class="zjmd" style="text-align:center">
-                    	<label><input type="radio" checked="checked" name="gxlb_radio" /><strong>今日到期未购买人数：</strong></label>
-                        <input type="button" value="发短信" /><input type="button" value="发邮件" />
-                    </div>
-                    <div class="zjmd" style="text-align:center">
-                    	<label><input type="radio" name="gxlb_radio" /><strong>本周到期未购买人数：</strong></label>
-                        <input type="button" value="发短信" /><input type="button" value="发邮件" />
-                    </div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-
 <div class="soft_top">
  <div class="top_line_a">
     <span onClick="window.location='充值中心-购买流量包.html'" class="infoShowBox">
@@ -184,7 +113,6 @@ KindEditor.ready(function(K) {
   </div>
 </div>
 <div class="page">
-<div class="slide_box"></div>
   <table class="soft_body" width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr class="soft_body_td">
       <td class="soft_body_left">
@@ -207,88 +135,62 @@ KindEditor.ready(function(K) {
       <td class="soft_body_right">
         <div class="soft_workspace_title">
           <ul class="bread_crumbs">
-            <li class="first"><a href="#">营销管理</a></li><li><a href="#">短信营销</a></li>
+            <li class="first"><a href="#">首页</a></li><li><a href="#">CRM管理中心</a></li><li><a href="#">会员分组</a></li><li><a href="#">导入历史交易数据</a></li>
           </ul>
-          <h3><span class="autosms_1"></span>好评送红包</h3>
+          <h3><span class="member_4"></span>导入历史交易数据</h3>
         </div>
-        <div class="soft_workspace" style="padding:0px;">
-    	<div class="table_workspace clearfix border-bottom margin-bottom20" style="border:none;">
-        	<div class="soft_workspace">
-            	<div class="table_workspace_infoBox table_workspace_infoBox_mg0" style="padding:10px 20px;">
-                	<div class="zjmd">
-                		<strong>购买人数：</strong>
-                        <input type="text" /> ~ <input type="text" />
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <strong>回购人数：</strong>
-                        <input type="text" /> ~ <input type="text" />
-                    </div>
-                    <div class="zjmd">
-                    	<strong>平均回购周期：</strong>
-                        <input type="text" /> ~ <input type="text" />
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                		<strong title="只分析在售商品"><a href="#"><img src="images/wenhao.gif" style="margin:0 5px 5px 0;" /></a>分析指定商品：</strong>
-                        <input type="text" style="width:300px;" placeholder="输入商品名称或商品ID或商品页链接" />
-                    </div>
-                    <div class="zjmd">
-                		<strong>今日到期未购买人数：</strong>
-                        <input type="text" /> ~ <input type="text" />
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <strong>本周到期未购买人数：</strong>
-                        <input type="text" /> ~ <input type="text" />
-                    </div>
-                    <div class="zjmd">
-                		<input type="button" value="立即筛选" />
-                        <input type="button" value="勾选项创建营销活动" onclick="OpenPopbox('add_gxxcjyxhd')" />
-                        <input type="button" value="导出列表记录" />
-                    </div>
-                 </div>
-                 <!--<div class="table_tit_text">
-                 	&nbsp;
-                    <span class="red fr">注：此处统计您当前在达客CRM中的所有交易数据，时间跨度最长为近一年的交易数据</span>
-                 </div>
-                 <div class="table_workspace_infoBox table_workspace_infoBox_mg0" style="padding:10px 20px;">
-                 	<table cellpadding="0" cellspacing="0" width="100%" class="nobord_table">
-                    	<tr>
-                        	<td><strong>包含宝贝关键词商品总计</strong></td>
-                            <td><strong>购买总人数</strong></td>
-                            <td><strong>回购人数</strong></td>
-                            <td><strong>回购率</strong></td>
-                            <td><strong>人均回购次数</strong></td>
-                            <td><strong>平均回购周期（天）</strong></td>
-                            <td><strong>今日到期未购买人数</strong></td>
-                            <td><strong>本周到期未购买人数</strong></td>
-                        </tr>
-                        <tr>
-                        	<td>包含“输入的关键词”</td>
-                            <td>123</td>
-                            <td>123</td>
-                            <td>16.67%</td>
-                            <td>123</td>
-                            <td>123</td>
-                            <td>
-                            	<span>123</span>
-                            	<a href="#">发短信</a>
-                                <a href="#">发邮件</a>
-                                <a href="#">下载</a>
-                            </td>
-                            <td>
-                            	<span>123</span>
-                            	<a href="#">发短信</a>
-                                <a href="#">发邮件</a>
-                                <a href="#">下载</a>
-                            </td>
-                        </tr>
-                    </table>
-                 </div>-->
-                 <div class="table_tit_text">
-                    商品总计：<strong>67</strong>
-                 	<span title="1111111"><a href="#"><img src="images/wenhao.gif" /></a>今日到期未购买总人数：<strong>670</strong></span>
-                    <span title="1111111"><a href="#"><img src="images/wenhao.gif" /></a>本周到期未购买人数：<strong>1670</strong></span>
-                    <p class="red fr" style="display:inline-block; width:310px; margin-top:-5px; position:relative; padding-left:25px;"><span style="position:absolute; left:0;">注：</span>此处统计您进入达客CRM开始的前三个月到当前的数据，时间跨度最长为近一年的交易数据</p>
-                    <span title="1111111"><a href="#"><img src="images/wenhao.gif" /></a>平均回购周期（天）</span>
-                 </div>
-                 <div class="table_workspace_infoBox table_workspace_infoBox_mg0" style="padding:0px; border:none;">
-                    <!--表格组件调用start-->
+        <div class="soft_workspace">
+          <div class="tab_box">
+            <span class="detail_tab active">导入历史交易数据</span>
+            <span style="color:red; font-size:14px; margin-top:10px; position:absolute; top:5px;"><a href="http://bangpai.taobao.com/group/thread/15580018-303811817.htm" style="color: #0000ff;text-decoration:underline; " target="_blank">操作说明</a></span>
+          </div>
+          <div class="tab_box_main">
+            <!--Start-->
+            <div class="table_workspace clearfix border-bottom padding-top20 margin-bottom20">
+              <div class="adm-detail-title">第一步，在您的店铺下载历史订单</div>
+              <div class="table_workspace_kBox">
+              <!----->
+              <input type="submit" onclick="window.open('https://tradearchive.taobao.com/trade/itemlist/list_export_order.htm?spm=0.0.0.0.nkbtL5')" value="下载历史交易记录">　　达客提醒：您只需导入3个月前的交易数据，最近3个月的交易数据，达客CRM已经帮您进行过同步，无需再作操作
+              <!----->
+              </div>
+              <div class="adm-detail-title">第二步，导入数据（请上传CSV文件，文件大小请控制在50MB范围内）</div>
+              <div class="table_workspace_kBox">
+                                <!----->
+                                <div id="file_queue"></div>
+                                <br>
+                                <div style="padding-bottom: 10px;"><span id="fileNameSpan"></span></div>
+                                <span class="input_file">
+                                	<div id="file_upload" class="uploadify" style="height: 30px; width: 50px;"><object id="SWFUpload_0" type="application/x-shockwave-flash" data="/uploadify/uploadify.swf?preventswfcaching=1474511087180" width="50" height="30" class="swfupload" style="position: absolute; z-index: 1;"><param name="wmode" value="transparent"><param name="movie" value="/uploadify/uploadify.swf?preventswfcaching=1474511087180"><param name="quality" value="high"><param name="menu" value="false"><param name="allowScriptAccess" value="always"><param name="flashvars" value="movieName=SWFUpload_0&amp;uploadURL=%2Fcustomer%2FuploadNew%3Bjsessionid%3D916FA9C37117DBD27AA12C4C9B2A670D&amp;useQueryString=false&amp;requeueOnError=false&amp;httpSuccess=&amp;assumeSuccessTimeout=30&amp;params=&amp;filePostName=tradeCsv&amp;fileTypes=*.csv%3B&amp;fileTypesDescription=Csv%20Files&amp;fileSizeLimit=50MB&amp;fileUploadLimit=0&amp;fileQueueLimit=2&amp;debugEnabled=false&amp;buttonImageURL=%2Fcustomer%2F&amp;buttonWidth=50&amp;buttonHeight=30&amp;buttonText=&amp;buttonTextTopPadding=0&amp;buttonTextLeftPadding=0&amp;buttonTextStyle=color%3A%20%23000000%3B%20font-size%3A%2016pt%3B&amp;buttonAction=-110&amp;buttonDisabled=false&amp;buttonCursor=-2"></object><div id="file_upload-button" class="uploadify-button " style="height: 30px; line-height: 30px; width: 50px;"><span class="uploadify-button-text">选择文件</span></div></div>
+                                    <br>
+
+                                </span>&nbsp;&nbsp;
+                                <span id="uploadBtn"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                
+                                <!----->
+                                <br>
+                                <br>
+                                <span style="font-size: 18px;line-height: 20px;color: red;">（注：下载的历史交易数据在上传前请勿打开）</span><br>
+                                <span style="font-size: 12px;line-height: 20px;">
+                                    在淘宝后台下载订单报表和宝贝报表（只需下载3个月前的即可，最近3个月的交易数据，达客CRM会自动同步，无需再作操作 ）
+                                    <br>
+点击选择文件上传，将已下载的订单报表（ExportOrderListxxxxxxxx.csv）与对应的宝贝报表（ExportItemlListxxxxxxxx.csv）文件上传，系统会自动关联。<br>
+                                     <br>
+                                    最终导入到系统中的<span style="font-size: 14px;"><font color="red">数据</font></span>和文件中的数据可能会存在一些<span style="font-size: 14px;"><font color="red">偏差</font></span><br>
+                                (具体原因有： 1.系统会<span style="font-size: 14px;"><font color="red">去掉重复的</font></span>联系人；&nbsp;&nbsp;&nbsp;&nbsp; 2.系统会<span style="font-size: 14px;"><font color="red">过滤掉无效的</font></span>联系人；&nbsp;&nbsp;&nbsp;&nbsp; 3.淘宝后台导出的数据不完整；&nbsp;&nbsp;&nbsp;&nbsp; 4.其他。)</span>
+                            </div>
+            </div>
+            <!--End-->
+          </div>
+          <div class="tab_box" id="tab01">
+            <span class="detail_tab active">已导入成功的文件</span>
+            <span class="detail_tab">查看历史订单统计</span>
+          </div>
+          <div class="tab_box_main" id="ydrcgwj">
+          	<div style="position:absolute; margin-top:-40px; margin-left:400px;">
+                <span id="faqId40" style="display: inline-block;margin-top: 13px;margin-left: 10px;" title="导入的数据有两种状态：上传成功、导入成功。上传成功：指客户数据已经成功上传，等待系统处理；导入成功：系统已经成功处理完上传的客户数据。">状态说明<a href="/usercenter/listFaqInfo?id=40" target="_Blank"><img id="ruleImage" src="images/wenhao.gif" style="margin-top:1px;"></a></span>
+          	</div>
+          <div id="StudentTableContainer"></div>
+          <!--表格组件调用start-->
               <div class="table_tablebox"><!--高度值请根据实际情况修改-->
                 <table class="flexme4" style="display: none"></table>
                 <script type="text/javascript">
@@ -429,23 +331,33 @@ KindEditor.ready(function(K) {
 			</script>
               </div>
               <!--表格组件调用end-->
-                 </div>
-             </div>
-          </div>
-    </div>
-    <script language="javascript" type="text/javascript">
-			  var theTab1_box = new Array('add_sms_setup','add_email_setup','add_xg_setup','add_hdxq');
+			</div>
+            <div class="tab_box_main" id="cklsddtj" style="display:none;">
+            	<div style="position:absolute; margin-top:-35px; margin-left:400px;">
+                	选择年份：<select>
+                    	<option>2016（默认当前年份）</option>
+                        <option>2015</option>
+                        <option>2014</option>
+                        <option>2013</option>
+                        <option>2012</option>
+                        <option>2011</option>
+                        <option>2010</option>
+                    </select>
+                </div>
+            	<div class="table_chart" style="text-align:center; padding:10px 0px; border:1px solid #d3dbdd;">
+                	<img src="images/demo/demo.gif" height="250">
+            	</div>
+            </div>
+        </div>
+        <script language="javascript" type="text/javascript">
+			  var theTab1_box = new Array('ydrcgwj','cklsddtj');
 			  var theTab1 = new AlexTab2('tab01',theTab1_box);
 			  theTab1;
-			  var theTab3_box = new Array('add_system','add_highROI','add_custom');
-			  var theTab3 = new AlexTab2('tab03',theTab3_box);
-			  theTab3;
 		</script>
         <div class="soft_workspace_footer">
           <div class="footer_left">Powered by <a href="http://www.easycontact.cn" target="_blank">EasyContact</a>  Copyright &copy; 2013-2011 SinoContact,Inc</div>
           <div class="footer_right"><a href="http://www.easycontact.cn" target="_blank">www.EasyContact.cn</a>&nbsp;｜&nbsp;<a href="#"><em class="setting"></em>账户设置</a></div>
         </div>
-        
       </td>
     </tr>
   </table>

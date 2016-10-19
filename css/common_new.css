@@ -1851,7 +1851,7 @@ a.button:hover {background:#00a4f2;}
 .soft_workspace .mumber_box .mumber_btns a.btn_box .dr_icon {display:inline-block; width:176px; height:35px; background:#0190d4; border-radius:3px; position:relative;}
 .soft_workspace .mumber_box .mumber_btns a.btn_box .dr_icon img {position:absolute; top:9px; left:9px;}
 .soft_workspace .mumber_box .mumber_btns a.btn_box .dr_icon em {display:inline-block; width:39px; height:35px; background:#000; opacity:0.1; border-right:#fff 1px solid;}
-.soft_workspace .mumber_box .mumber_btns a.btn_box .dr_icon span {color:#FFF; width:136px; margin-left:0px; text-align:center;} 
+.soft_workspace .mumber_box .mumber_btns a.btn_box .dr_icon span {color:#FFF; width:75%; margin-left:0px; text-align:center;} 
 .soft_workspace .mumber_box .mumber_btns a.btn_box span {float:right; margin-left:10px;}
 .soft_workspace .common_funs .common_funs_con .common_funs_item em.index_icon {position:absolute; left:0; width:80px; height:80px; display:inline-block; background-color:#0190d4; border-radius:80px;}
 .soft_workspace .common_funs .common_funs_con .common_funs_item em.index_icon.dx {background-image:url(../images/icon_common_sms.png); background-repeat:no-repeat; background-position:center 15px;}

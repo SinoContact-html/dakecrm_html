@@ -154,8 +154,8 @@ function chooseFileBefore(){
     }
 
 </script>
-<link href="css/common.css" rel="stylesheet" type="text/css" />
-<link href="css/sms.css" rel="stylesheet" type="text/css" />
+<link href="css/common_new.css" rel="stylesheet" type="text/css" />
+<link href="css/sms_new.css" rel="stylesheet" type="text/css" />
 <link href="css/edm.css" rel="stylesheet" type="text/css" />
 <link href="css/flexigrid.pack.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" media="screen" type="text/css" href="css/datepicker.css" />
@@ -447,6 +447,18 @@ function chooseFileBefore(){
   </div>
 </div>
 
+<div class="popbox_core popbox_remind" id="tbSourceUrl_dk" style="width:500px;"><!--此处ID和colseID对应-->
+  <div class="popbox_workspace">
+    <div style="margin:10px 0;">
+    	<strong>原始链接：</strong><input type="text" placeholder="请将原始链接填写至此输入框" style="width:400px;" />
+    </div>
+    <div class="submitbox">
+    		<input class="submit" value="生成并插入短链" type="submit" onclick="getTBShortLink();">
+    		<input class="submit can" value="取消" type="submit" style="margin-left:50px;" onclick="ClosePopbox('tbSourceUrl_dk')">
+    	</div>
+  </div>
+</div>
+
 <script type="text/javascript">
 var isdpy = false;
     		var isbby = false;
@@ -706,7 +718,7 @@ var isdpy = false;
                              <dt>淘宝短链：</dt>
                              <dd>
                                  <div class="options_box">
-                                     <a class="options" href="javascript:void(0)" onclick="OpenPopbox_noMove('tbSourceUrl')">插入淘宝短链接</a>
+                                     <a class="options" href="javascript:void(0)" onclick="OpenPopbox_noMove('tbSourceUrl')">生成淘宝短链</a>
                                  </div>
                              </dd>
                          </dl>
@@ -714,8 +726,7 @@ var isdpy = false;
                              <dt>达客短链：</dt>
                              <dd>
                                  <div class="options_box">
-                                     <a class="options" href="javascript:void(0)">生成短链插入</a>
-                                     <input type="text" id="text_dlj" placeholder="将短链接填写至此输入框内" style="width:200px; margin-top:-5px;">
+                                     <a class="options" href="javascript:void(0)" onclick="OpenPopbox_noMove('tbSourceUrl_dk')">生成达客短链</a>
                                  </div>
                              </dd>
                          </dl>

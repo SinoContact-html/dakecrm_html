@@ -869,13 +869,14 @@ var isdpy = false;
             <span class="detail_tab active">效果分析</span>
             <span class="detail_tab">客户详情</span>
             <span class="detail_tab">商品详情</span>
-            <a class="button" href="活动效果分析_new1.html" style="margin:6px 0 0 10px;">营销活动效果</a>
+            <span class="detail_tab">活动详情</span>
+            <a class="button" href="活动效果分析_new.html" style="margin:6px 0 0 10px;">对照组效果</a>
           </div>
           <div class="tab_box_main" id="add_sms_setup">
     	<div class="table_workspace clearfix border-bottom margin-bottom20">
         	<div class="soft_workspace">
             	<div class="table_workspace_infoBox table_workspace_infoBox_mg0" style="padding:10px 20px;">
-                	<div class="zjmd">
+                	<div class="zjmd" style="padding-bottom:10px; border-bottom:#c4ced2 1px solid;">
                 		<strong>选择来源：</strong>
                         <select>
                         	<option>全部来源分析</option>
@@ -894,12 +895,26 @@ var isdpy = false;
                         </select>
                         <input type="text" /> ~ <input type="text" />
                     </div>
+                    <div style="line-height:50px;">
+                                            <span id="faqId59"><a href="/usercenter/listFaqInfo?id=59" style="text-decoration:none; font-size:16px; font-weight:bold;" target="_Blank"><img id="ruleImage" src="images/wenhao.gif" style="margin-top:-3px;"></a>&nbsp;&nbsp;<strong style="font-size:18px;">本次活动效果（ROI）:</strong></span>                
+                                            <strong style="font-size:18px; color:#F60;"><span class="report_roi_1">1</span>：<span class="report_roi_2">0</span></strong>
+                                            <div style="float: right;" id="sms_feature">
+                                                <input type="button" value="查看淘宝短链效果" onclick="window.open('https://ecrm.taobao.com/channel/short_link_manager.htm');">
+                                                <input type="button" value="查看达客短链效果" style="margin-left:20px;" onclick="OpenPopbox_noMove('add_dkdlxg')">
+                                            </div>
+                                            <div style="display:none;float:right; font-size:14px; border-left:#c4ced2 1px solid; padding-left:40px; margin-top:5px;" id="email_feature">
+                                                邮件打开数：<span style="color:#F90; padding-right:30px;" id="total_view_count">0</span>
+                                                邮件点击数：<span style="color:#F90; padding-right:30px;" id="total_click_count">0</span>
+                                                邮件打开率：<span style="color:#F90" id="viewRate">0%</span>
+                                                邮件点击率：<span style="color:#F90; padding-right:30px;" id="clickRate">0%</span>
+                                            </div>
+                                        </div>
                  </div>
                  <div class="table_workspace_infoBox table_workspace_infoBox_mg0" style="padding:10px 20px;">
                  	<h1 style="font-size:18px; margin-bottom:10px;">数据统计</h1>
                     <table width="100%" style="border:1px solid; border-color:#c4ced2 #dce7ed #dce7ed;">
                     	<tr>
-                            <td width="33%">
+                        	<td width="25%">
                             	<div class="table_workspace_iphone_sms" style="margin:10px 0px; padding:10px 0px; background:none; border:none; border-right:#d7d7d7 1px solid;">
                                 	<div class="popbox_frombox clearfix padding-left0" style="padding-right:0px;">
                                     	<div class="iphone_sms_frombox" style="text-align:center;">
@@ -948,7 +963,56 @@ var isdpy = false;
                                     </div>
                                 </div>
                             </td>
-                            <td width="33">
+                            <td width="25%">
+                            	<div class="table_workspace_iphone_sms" style="margin:10px 0px; padding:10px 0px; background:none; border:none; border-right:#d7d7d7 1px solid;">
+                                	<div class="popbox_frombox clearfix padding-left0" style="padding-right:0px;">
+                                    	<div class="iphone_sms_frombox" style="text-align:center;">
+                                        	<h1 style="font-size:14px; margin-bottom:20px;">拍单客户</h1>
+                                            <div class="new_table_dl new">
+                                                <dl class="fleft" style="color:#F60;">
+                                                    <dt>
+                                                    	<a href="#" style="color:#F60;"><img src="images/wenhao.gif" style="margin-right:5px;" />拍单响应率</a>：
+                                                    </dt>
+                                                    <dd>10%</dd>
+                                                </dl>
+                                                <dl class="fleft">
+                                                    <dt>拍单客户数：</dt>
+                                                    <dd>1000人</dd>
+                                                </dl>
+                                                <dl class="fleft">
+                                                    <dt>拍下订单数：</dt>
+                                                    <dd>800单</dd>
+                                                </dl>
+                                                <dl class="fleft">
+                                                    <dt>拍单总金额：</dt>
+                                                    <dd>8000元</dd>
+                                                </dl>
+                                                <dl class="fleft">
+                                                    <dt>拍下宝贝数：</dt>
+                                                    <dd>1000件</dd>
+                                                </dl>
+                                                <dl class="fleft">
+                                                    <dt>客单价：</dt>
+                                                    <dd>8元</dd>
+                                                </dl>
+                                                <dl class="fleft">
+                                                    <dt>货单价：</dt>
+                                                    <dd>8元</dd>
+                                                </dl>
+                                                <dl class="fleft">
+                                                    <dt>均单价：</dt>
+                                                    <dd>10元</dd>
+                                                </dl>
+                                                <dl class="fleft">
+                                                    <dt>人均拍下商品数：</dt>
+                                                    <dd>1件</dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td width="25%">
                             	<div class="table_workspace_iphone_sms" style="margin:10px 0px; padding:10px 0px; background:none; border:none; border-right:#d7d7d7 1px solid;">
                                 	<div class="popbox_frombox clearfix padding-left0" style="padding-right:0px;">
                                     	<div class="iphone_sms_frombox" style="text-align:center;">
@@ -997,7 +1061,7 @@ var isdpy = false;
                                     </div>
                                 </div>
                             </td>
-                            <td width="33%">
+                            <td width="25%">
                             	<div class="table_workspace_iphone_sms" style="margin:10px 0px; padding:10px 0px; background:none; border:none;">
                                 	<div class="popbox_frombox clearfix padding-left0" style="padding-right:0px;">
                                     	<div class="iphone_sms_frombox" style="text-align:center;">

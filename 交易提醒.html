@@ -1038,6 +1038,42 @@ KindEditor.ready(function(K) {
                             	<input style="margin-top:4px;" type="button" value="模板选择" onclick="OpenPopbox_noMove('add_moban_chose')">
                             </dd>
                         </dl>
+                        <dl class="fleft">
+                            <dt>短信签名：</dt>
+                            <dd>
+                            	<label><input type="radio" name="dxqm" checked="checked" />店铺签名</label>
+                                <label><input type="radio" name="dxqm" />淘宝</label>
+                                <label><input type="radio" name="dxqm" />天猫</label>
+                                <label><input type="radio" name="dxqm" />京东</label>
+                                <label>
+                                	<input type="radio" id="rdo1" name="dxqm" />其他
+                                    <select style="float:none;" onfocus="$('#rdo1').attr('checked','checked');">
+                                    	<option value="1号店">1号店</option>
+                                        <option value="天猫超市">天猫超市</option>
+                                      	<option value="天猫国际">天猫国际</option>
+                                      	<option value="淘点点">淘点点</option>
+                                      	<option value="当当网">当当网</option>
+                                      	<option value="亚马逊">亚马逊</option>
+                                      	<option value="苏宁">苏宁</option>
+                                      	<option value="国美">国美</option>
+                                      	<option value="唯品会">唯品会</option>
+                                      	<option value="聚美优品">聚美优品</option>
+                                      	<option value="美丽说">美丽说</option>
+                                      	<option value="蘑菇街">蘑菇街</option>
+                                      	<option value="楚楚街">楚楚街</option>
+                                      	<option value="洋码头">洋码头</option>
+                                      	<option value="美团">美团</option>
+                                      	<option value="米折网">米折网</option>
+                                      	<option value="卷皮网">卷皮网</option>
+                                      	<option value="贝贝网">贝贝网</option>
+                                      	<option value="有赞商城">有赞商城</option>
+                                      	<option value="穿衣助手">穿衣助手</option>
+                                      	<option value="蜜芽">蜜芽</option>
+                                      	<option value="微店">微店</option>
+                                    </select>
+                                </label>
+                            </dd>
+                        </dl>
                         <dl>
                             <dt>短信内容：</dt>
                             <dd style="width: 680px;">
@@ -1055,13 +1091,12 @@ KindEditor.ready(function(K) {
                                 <textarea id="textarea_sms_text" class="phoneNum" name="sms_content" style="float:left">你看过了许多美景，终于挑选了我。快来付款哦  {$付款链接}  </textarea>
                                 <input style="margin-left: 20px; float: left;" type="button" value="另保存为模板" onclick="OpenRemind_noMove('add_moban')">
                                 <script type="text/javascript">
-                                function preTestSend(){
-                                	var pushSubject="未付款催付 测试";
-                                	var testRecipients=$('#test_recipients').val();
-                                	var pushContent=$('#textarea_sms_text').val();
-                                	testSend(pushSubject,testRecipients,pushContent);
-                                }
+									function preTestSend(){
+										var  popAlert = new PopAlert('提示','请输入短信内容',null,"id");
+										popAlert;
+									}
                                 </script>
+
                                 <div class="note" style="width: 500px;">您当前已输入<span id="T_Num" class="num">41</span>个字符，将按照<span id="Sms_Num" class="num" style="color:red;">1</span>条短信计费。<a class="red" href="#">计费规则<img src="images/wenhao.gif" style="margin-left:5px;" /></a></div>
                                 <input type="hidden" id="templateId" name="templateId">
                                 <input type="hidden" id="flag" name="flag">

@@ -168,22 +168,46 @@
                                         </select>
                                     </div>
                                     <div class="zjmd">
-                                        <strong>R值间隔选择:</strong>
+                                        <strong>M值间隔选择:</strong>
                                         <label>
-                                          <input type="radio" name="asas">10天
+                                          <input type="radio" name="asas">10元
                                         </label>
                                         &nbsp;&nbsp;
                                         <label>
-                                          <input type="radio" name="asas">30天
+                                          <input type="radio" name="asas">20元
+                                        </label>
+                                        &nbsp;&nbsp;
+                                        <label>
+                                          <input type="radio" name="asas">30元
+                                        </label>
+                                        &nbsp;&nbsp;
+                                        <label>
+                                          <input type="radio" name="asas">50元
+                                        </label>
+                                        &nbsp;&nbsp;
+                                        <label>
+                                          <input type="radio" name="asas">100元
+                                        </label>
+                                        &nbsp;&nbsp;
+                                        <label>
+                                          <input type="radio" name="asas">500元
+                                        </label>
+                                        &nbsp;&nbsp;
+                                        <label>
+                                          <input type="radio" name="asas">1000元
+                                        </label>
+                                        &nbsp;&nbsp;
+                                        <label>
+                                          <input type="radio" name="asas">2000元
                                         </label>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <strong>分析指标:</strong>
                                         <label>
-                                          <input type="radio" name="asas">F值
+                                          <input type="radio" name="asas">R值
                                         </label>
                                         &nbsp;&nbsp;
                                         <label>
-                                          <input type="radio" name="asas">M值
+                                          <input type="radio" name="asas">F值
                                         </label>
                                         &nbsp;&nbsp;
                                         <label>
@@ -196,33 +220,24 @@
                                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                             <thead>
                                                 <tr>
-                                                    <td>最近一次成交间隔时间（R）</td>
+                                                    <td>
+                                                    	<select>
+                                                        	<option>累计成交金额</option>
+                                                            <option>平均每次成交金额</option>
+                                                        </select>（M）
+                                                    </td>
                                                     <td>客户数</td>
                                                     <td>占比</td>
-                                                    <td>F=1</td>
-                                                    <td>F=2</td>
-                                                    <td>F=3</td>
-                                                    <td>F=4</td>
-                                                    <td>F≥5</td>
+                                                    <td>R≤30</td>
+                                                    <td>30＜R≤90</td>
+                                                    <td>90＜R≤180</td>
+                                                    <td>180＜R≤360</td>
+                                                    <td>360＜R</td>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>0~10天</td>
-                                                    <td>12345</td>
-                                                    <td class="tleft">
-                                                    	<div class="percentageBox">
-                                                            <div class="percentageData" style="width:6.72%;"><em>6.72%</em></div>
-                                                        </div>
-                                                    </td>
-                                                    <td>76.72%</td>
-                                                    <td>12.39%</td>
-                                                    <td>6.11%</td>
-                                                    <td>6.11%</td>
-                                                    <td>6.11%</td>
-                                                </tr>
-                                                <tr class="erow">
-                                                    <td>10~20天</td>
+                                            	<tr class="erow">
+                                                    <td>10元以下</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">
@@ -236,7 +251,7 @@
                                                     <td>6.11%</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>10~20天</td>
+                                                    <td>0~10元</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">
@@ -250,7 +265,7 @@
                                                     <td>6.11%</td>
                                                 </tr>
                                                 <tr class="erow">
-                                                    <td>20~30天</td>
+                                                    <td>10~20元</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">
@@ -264,7 +279,7 @@
                                                     <td>6.11%</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>30~40天</td>
+                                                    <td>10~20元</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">
@@ -278,7 +293,7 @@
                                                     <td>6.11%</td>
                                                 </tr>
                                                 <tr class="erow">
-                                                    <td>40~50天</td>
+                                                    <td>20~30元</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">
@@ -292,7 +307,7 @@
                                                     <td>6.11%</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>50~60天</td>
+                                                    <td>30~40元</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">
@@ -306,7 +321,7 @@
                                                     <td>6.11%</td>
                                                 </tr>
                                                 <tr class="erow">
-                                                    <td>60~70天</td>
+                                                    <td>40~50元</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">
@@ -320,7 +335,7 @@
                                                     <td>6.11%</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>70~80天</td>
+                                                    <td>50~60元</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">
@@ -334,7 +349,7 @@
                                                     <td>6.11%</td>
                                                 </tr>
                                                 <tr class="erow">
-                                                    <td>80~90天</td>
+                                                    <td>60~70元</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">
@@ -348,7 +363,7 @@
                                                     <td>6.11%</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>90~100天</td>
+                                                    <td>70~80元</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">
@@ -362,7 +377,7 @@
                                                     <td>6.11%</td>
                                                 </tr>
                                                 <tr class="erow">
-                                                    <td>100~110天</td>
+                                                    <td>80~90元</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">
@@ -376,7 +391,7 @@
                                                     <td>6.11%</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>110~120天</td>
+                                                    <td>90~100元</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">
@@ -390,7 +405,7 @@
                                                     <td>6.11%</td>
                                                 </tr>
                                                 <tr class="erow">
-                                                    <td>120~130天</td>
+                                                    <td>100~110元</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">
@@ -404,7 +419,7 @@
                                                     <td>6.11%</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>130~140天</td>
+                                                    <td>110~120元</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">
@@ -418,7 +433,7 @@
                                                     <td>6.11%</td>
                                                 </tr>
                                                 <tr class="erow">
-                                                    <td>140~150天</td>
+                                                    <td>120~130元</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">
@@ -432,7 +447,7 @@
                                                     <td>6.11%</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>150~160天</td>
+                                                    <td>130~140元</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">
@@ -446,7 +461,7 @@
                                                     <td>6.11%</td>
                                                 </tr>
                                                 <tr class="erow">
-                                                    <td>160~170天</td>
+                                                    <td>140~150元</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">
@@ -460,7 +475,7 @@
                                                     <td>6.11%</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>170~180天</td>
+                                                    <td>150~160元</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">
@@ -474,7 +489,7 @@
                                                     <td>6.11%</td>
                                                 </tr>
                                                 <tr class="erow">
-                                                    <td>180~190天</td>
+                                                    <td>160~170元</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">
@@ -488,7 +503,7 @@
                                                     <td>6.11%</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>190~200天</td>
+                                                    <td>170~180元</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">
@@ -502,7 +517,35 @@
                                                     <td>6.11%</td>
                                                 </tr>
                                                 <tr class="erow">
-                                                    <td>200天以上</td>
+                                                    <td>180~190元</td>
+                                                    <td>12345</td>
+                                                    <td class="tleft">
+                                                    	<div class="percentageBox">
+                                                            <div class="percentageData" style="width:6.72%;"><em>6.72%</em></div>
+                                                        </div>
+                                                    </td>
+                                                    <td>76.72%</td>
+                                                    <td>12.39%</td>
+                                                    <td>6.11%</td>
+                                                    <td>6.11%</td>
+                                                    <td>6.11%</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>190~200元</td>
+                                                    <td>12345</td>
+                                                    <td class="tleft">
+                                                    	<div class="percentageBox">
+                                                            <div class="percentageData" style="width:6.72%;"><em>6.72%</em></div>
+                                                        </div>
+                                                    </td>
+                                                    <td>76.72%</td>
+                                                    <td>12.39%</td>
+                                                    <td>6.11%</td>
+                                                    <td>6.11%</td>
+                                                    <td>6.11%</td>
+                                                </tr>
+                                                <tr class="erow">
+                                                    <td>200元以上</td>
                                                     <td>12345</td>
                                                     <td class="tleft">
                                                     	<div class="percentageBox">

@@ -168,7 +168,7 @@
                                         </select>
                                     </div>
                                     <div class="zjmd">
-                                        <strong>R值间隔选择:</strong>
+                                        <strong>回购周期间隔选择：</strong>
                                         <label>
                                           <input type="radio" name="asas">10天
                                         </label>
@@ -178,6 +178,10 @@
                                         </label>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <strong>分析指标:</strong>
+                                        <label>
+                                          <input type="radio" name="asas">R值
+                                        </label>
+                                        &nbsp;&nbsp;
                                         <label>
                                           <input type="radio" name="asas">F值
                                         </label>
@@ -196,14 +200,19 @@
                                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                             <thead>
                                                 <tr>
-                                                    <td>最近一次成交间隔时间（R）</td>
+                                                    <td>
+                                                    	<select>
+                                                        	<option>首次回购周期</option>
+                                                            <option>多次回购周期</option>
+                                                        </select>
+                                                    </td>
                                                     <td>客户数</td>
                                                     <td>占比</td>
-                                                    <td>F=1</td>
-                                                    <td>F=2</td>
-                                                    <td>F=3</td>
-                                                    <td>F=4</td>
-                                                    <td>F≥5</td>
+                                                    <td>R≤30</td>
+                                                    <td>30＜R≤90</td>
+                                                    <td>90＜R≤180</td>
+                                                    <td>180＜R≤360</td>
+                                                    <td>360＜R</td>
                                                 </tr>
                                             </thead>
                                             <tbody>

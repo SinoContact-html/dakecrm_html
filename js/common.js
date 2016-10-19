@@ -1,4 +1,15 @@
+var chargeModuleId = 34 ;
+var tradeRemindModuleId = 46;
+var createPageModuleId = 98 ;
+var createSMSPageModuleId = 93 ;
+//var createMMSPageModuleId = 107 ;
 
+var importCustomerModuled = 9;
+var listCustomerModuled = 9;
+var importHistoryModuled = 59 ;
+
+var autoSmsModuleId = 46;
+var MAX_RECIPIENTS_NUM = 100000;
 
 
 jQuery(document).ready(function($) {
@@ -512,23 +523,49 @@ jQuery(document).ready(function($) {
 	
 	var menuShow = true;
 	$('.slide_box').click(function(e) {
-		if(menuShow){
-        	$('.soft_body_left').animate({width:'0px'});
-			$('.soft_left_side').hide();
-			$(this).addClass('right');
-			$(this).animate({left:'0px'});
-			menuShow = false;
-		}else{
-			$('.soft_body_left').animate({width:'190px'},function(){
-			$('.soft_left_side').show();});
-			$(this).removeClass('right');
-			$(this).animate({left:'191px'});
-			menuShow = true;
-		}
-    });
+			if(menuShow){
+				$('.soft_body_left').animate({width:'0px'});
+				$('.soft_left_side').hide();
+				
+				var csstype=getCookie("csstype");
+				if(csstype!="")
+				{
+					if(csstype=='1'){
+						$(this).css('background','url(../images/slide_right.png) center 30% no-repeat');
+					}else{
+						$(this).css('background','url(../images/slide_right_pink.png) center 30% no-repeat');
+					}
+				}else{
+					$(this).css('background','url(../images/slide_right.png) center 30% no-repeat');
+				}
+				
+				//$(this).css('background','url(../images/slide_right.png) center 30% no-repeat');
+				$(this).animate({left:'0px'});
+				menuShow = false;
+			}else{
+				$('.soft_body_left').animate({width:'190px'},function(){
+				$('.soft_left_side').show();});
+				var csstype=getCookie("csstype");
+				//alert(csstype);
+				if(csstype!="")
+				{
+					if(csstype=='1'){
+						$(this).css('background','url(../images/slide_left.png) center 30% no-repeat');
+					}else{
+						$(this).css('background','url(../images/slide_left_pink.png) center 30% no-repeat');
+					}
+				}else{
+					$(this).css('background','url(../images/slide_left.png) center 30% no-repeat');
+				}
+				
+				//$(this).css('background','url(../images/slide_left.png) center 30% no-repeat');
+				$(this).animate({left:'191px'});
+				menuShow = true;
+			}
+		});
 	
-	var img_index = 0;
-	var imgNumber = $('.banner img').length-2;
+	var img_index = $('.banner img').length-1;
+	var imgNumber = $('.banner img').length-1;
 	
 	setInterval(function(){
 		$('.banner img').eq(img_index).fadeOut();
@@ -592,6 +629,7 @@ jQuery(document).ready(function($) {
         openLevelTwo($(this));
     });
 	
+	
 	$('.che_label').click(function(e) {
         if($(this).find('input[type="checkbox"]').attr("checked")=="checked"){	
 			$(this).parent().addClass('onthis');
@@ -626,24 +664,6 @@ function WindowsSize(){
     }
 }
 
-function OpenPopbox_new(type,title,con){
-	if(type=='a'){
-		$('body').append('<div class="popbox_core sm" id="new_popbox"><div class="popbox_head"><span class="title">'+title+'</span></div><div class="popbox_workspace">'+con+'</div><div class="submitbox"><input class="submit ok_btn" value="确认" type="button" onclick="ClosePopbox(\'new_popbox\')"></div></div>');
-	}else{
-		$('body').append('<div class="popbox_core sm" id="new_popbox"><div class="popbox_head"><span class="title">'+title+'</span></div><div class="popbox_workspace">'+con+'</div><div class="submitbox"><input class="submit ok_btn"  value="确认" type="button" onclick="ClosePopbox(\'new_popbox\')"><input class="submit can" value="取消" type="button" onclick="ClosePopbox(\'new_popbox\')"></div></div>');
-	}
-	var popbox_bg = $('.popbox_bg');
-	$(popbox_bg).height($(document).height());
-	$(popbox_bg).width($(document).width());
-	var boxName = $('#new_popbox');
-	var InfoBoxLeft = ($(window).width()-$(boxName).width()+2)/2;
-	var InfoBoxTop = ($(window).height()-$(boxName).height()+2)/2 + window.scrollY;
-	$(boxName).css({'left':InfoBoxLeft+'px','top':InfoBoxTop+'px'});
-	$(popbox_bg).fadeIn(0);
-	$(boxName).fadeIn(0);
-}
-
-
 function OpenPopbox(id){
     var popbox_bg = $('.popbox_bg');
     $(popbox_bg).height($(document).height());
@@ -663,7 +683,7 @@ function OpenPopbox_noMove(id){
     $(popbox_bg).width($(document).width());
     var boxName = $('#'+id);
     var InfoBoxLeft = ($(window).width()-$(boxName).width()+2)/2;
-	var InfoBoxTop = ($(window).height()-$(boxName).height()+2)/2 + window.scrollY;
+	var InfoBoxTop = ($(window).height()-$(boxName).height()+2)/2 + window.scrollY;;
     //var InfoBoxTop = ((($(window).height()-$(boxName).height())>0?$(window).height()-$(boxName).height():0)+2)/2;
     $(boxName).css({'left':InfoBoxLeft+'px','top':InfoBoxTop+'px'});
     $(popbox_bg).fadeIn(300);
@@ -849,17 +869,17 @@ AlexTab2.prototype = {
 		this._oldm[tabId] = 0;
     },
     tabClick : function(tabId,boxId){
-        self = this;
+        var self = this;
 		var m = $('#'+tabId+' > span');
         $('#'+tabId+' > span').click(function(){
             var h = $(this).index();
+			//alert(self._oldm);
             if(h != self._oldm[tabId]){
                 $(this).addClass('active');
 				$(m[self._oldm[tabId]]).removeClass('active');
 				$('#'+boxId[self._oldm[tabId]]).hide();
 				$('#'+boxId[h]).show();
                 self._oldm[tabId] = h;
-				//alert(h);
             }
         })
     }
@@ -930,8 +950,8 @@ if (!Array.prototype.forEach) {
     };
 }
 
-var createPageModuleId = 51 ;
-var tradeRemindModuleId = 46;
+//var createPageModuleId = 51 ;
+//var tradeRemindModuleId = 46;
 
 function AlexLeftNav(obj){this.init(obj);}
 AlexLeftNav.prototype = {
@@ -987,3 +1007,239 @@ AlexLeftNavFun.prototype = {
 		)
 	}
 }
+function checkSendTime(sendTime){
+    var flag=false;
+    var startTime ;
+    var stopTime ;
+    if(sendTime==null || sendTime=='' ||  sendTime=='undefined'){
+        var  d =  new Date();
+        sendTime = dateToString(d);
+        startTime = sendTime.substring(0,10)+' 08:00:00';
+        stopTime = sendTime.substring(0,10)+' 22:00:00';
+    }else{
+        startTime = sendTime.substring(0,10)+' 08:00:00';
+        stopTime = sendTime.substring(0,10)+' 22:00:00';
+    }
+
+    startTime=startTime.replace(/[-]/g,"/");
+    stopTime=stopTime.replace(/[-]/g,"/");
+    sendTime = sendTime.replace(/[-]/g,"/");
+
+    var a = Date.parse(sendTime) - Date.parse(startTime);
+    var b = Date.parse(stopTime) - Date.parse(sendTime);
+
+    if(a>0 && b>0){
+        flag = true;
+    }else{
+        flag = false;
+        alert("短信发送时间为：早上8:00到晚上22：00");
+    }
+//    return false;
+    return flag;
+}
+
+
+function checkMobile(str){
+    console.log("处理前:"+str);
+    var re= /(1[0-9]{10})/g;
+    var ss=str.match(re);
+    console.log("处理之后:"+ss);
+    if(null == ss ){
+        ss = "";
+    }else{
+        ss = ss.join(",");
+    }
+    return ss;
+}
+
+
+
+function dateToString(strDate){
+    var d=new Date(strDate);  //  获取当前日期
+    var month = (d.getMonth()+1)<10?"0"+ (d.getMonth()+1):(d.getMonth()+1);
+    var day = (d.getDate())<10?"0"+ (d.getDate()):(d.getDate());
+    var hour = (d.getHours())<10?"0"+ (d.getHours()):(d.getHours());
+    var min = (d.getMinutes())<10?"0"+ (d.getMinutes()):(d.getMinutes());
+    var sec = (d.getSeconds())<10?"0"+ (d.getSeconds()):(d.getSeconds());
+    var str=d.getFullYear()+"/"+month+"/"+day+" "+hour+":"+min+":"+sec;
+    return str;
+}
+
+/**
+ * 打开弹出框
+ * @param type 弹出框类型  a alert 其他 confirm
+ * @param title 弹出框标题
+ * @param con 弹出框内容
+ * @param id 弹出框的id
+ * @constructor
+ */
+function OpenPopbox_new(type,title,con,id){
+	if(type=='a'){
+		$('body').append('<div class="popbox_core sm rem" id="new_popbox'+id+'"><div class="popbox_head"><span class="title">'+title+'</span></div><div class="popbox_workspace">'+con+'</div><div class="submitbox"><input class="submit ok_btn" value="确认" type="button" onclick="CloseRemind(\'new_popbox'+id+'\')"></div></div>');
+	}else{
+		$('body').append('<div class="popbox_core sm rem" id="new_popbox'+id+'"><div class="popbox_head"><span class="title">'+title+'</span></div><div class="popbox_workspace">'+con+'</div><div class="submitbox"><input class="submit ok_btn"  value="确认" type="button" onclick="CloseRemind(\'new_popbox'+id+'\')"><input class="submit can can_btn" value="取消" type="button" onclick="CloseRemind(\'new_popbox'+id+'\')"></div></div>');
+	}
+	var popbox_bg = $('.popbox_bg_remind');
+	$(popbox_bg).height($(document).height());
+	$(popbox_bg).width($(document).width());
+	var boxName = $('#new_popbox'+id+'');
+	var InfoBoxLeft = ($(window).width()-$(boxName).width()+2)/2;
+	var InfoBoxTop = ($(window).height()-$(boxName).height()+2)/2 + window.scrollY;
+	$(boxName).css({'left':InfoBoxLeft+'px','top':InfoBoxTop+'px'});
+	$(popbox_bg).fadeIn(0);
+	$(boxName).fadeIn(0);
+}
+
+/**
+ * alert 弹出框
+ * @param title 标题
+ * @param content 内容
+ * @param callback 确认的回调，没有传值null
+ * @param id 弹出框的id
+ * @constructor var popAlert = new PopAlert(title,content,callback,id);popAlert;
+ */
+function PopAlert(title,content,callback,id){this.init(title,content,callback,id);}
+PopAlert.prototype = {
+	init  :function(title,content,callback,id){
+		var self = this;
+		this._title  = title;
+		this._content  = content;
+		this._id = id + '_' + Date.parse(new Date());
+		this._callback (callback);
+	},
+	_callback : function(callback){
+		self = this;
+		OpenPopbox_new('a',this._title,this._content,this._id);
+		if (callback!=null && typeof callback =='function'){
+			$("#new_popbox"+this._id+" .ok_btn").bind("click",callback);
+		}
+	}
+};
+
+/**
+ * 确认有回调的确认框
+ * @param title 确认框的名称
+ * @param content 确认框的内容
+ * @param callback 确认按钮的回调，默认传值null
+ * @param id 确认框的id
+ * @constructor var popConfirm = new PopConfirm(title,content,callback,id);popConfirm;
+ */
+function PopConfirm(title,content,callback,id){this.init(title,content,callback,id);}
+PopConfirm.prototype = {
+	init  :function(title,content,callback,id){
+		var self = this;
+		this._title  = title;
+		this._content  = content;
+		this._id = id + '_' + Date.parse(new Date());
+		this._callback (callback);
+	},
+	_callback : function(callback){
+		self = this;
+		OpenPopbox_new('c',this._title,this._content,this._id);
+		if (callback!=null && typeof callback =='function'){
+			$("#new_popbox"+this._id+" .ok_btn").bind("click",callback);
+		}
+	}
+};
+
+/**
+ * 确认和取消都有回调函数的确认框
+ * @param title 确认框标题
+ * @param content 确认框内容
+ * @param callback 确认框确定的回调  默认传值 null
+ * @param id 确认框的id
+ * @param callback1 确认框取消的回调 默认传值 null
+ * @constructor var popConfirm = new PopConfirmCallBack(title,content,callback,id,callback1);popConfirm;
+ */
+function PopConfirmCallBack(title,content,callback,id,callback1){this.init(title,content,callback,id,callback1);}
+PopConfirmCallBack.prototype = {
+	init  :function(title,content,callback,id,callback1){
+		var self = this;
+		this._title  = title;
+		this._content  = content;
+		this._id  = id+'_'+Date.parse(new Date());
+		this._callback (callback,callback1);
+	},
+	_callback : function(callback,callback1){
+		self = this;
+		OpenPopbox_new('c',this._title,this._content,this._id);
+		if (callback!=null && typeof callback =='function'){
+			$("#new_popbox"+this._id+" .ok_btn").bind("click",callback);
+		}
+		if (callback1!=null && typeof callback1 =='function'){
+			$("#new_popbox"+this._id+" .can_btn").bind("click",callback1);
+		}
+	}
+	
+};
+
+
+
+
+//pink 代表粉红色样式
+function ChangeSkin()
+{
+	var csstype=getCookie("csstype");
+	//alert(csstype);
+	if(csstype!="")
+	{
+		if(csstype=='1'){
+			document.cookie="csstype=2;path=/";
+		}else{
+			document.cookie="csstype=1;path=/";
+		}
+	}else{
+		document.cookie="csstype=2;path=/";
+	}
+	
+	
+	window.location.reload(true);
+	
+}
+
+
+
+function getCookie(c_name)
+{
+if (document.cookie.length>0)
+  {
+  c_start=document.cookie.indexOf(c_name + "=");
+  if (c_start!=-1)
+    { 
+    c_start=c_start + c_name.length+1 ;
+    c_end=document.cookie.indexOf(";",c_start);
+    if (c_end==-1) c_end=document.cookie.length;
+    return unescape(document.cookie.substring(c_start,c_end));
+    } 
+  }
+return "";
+}
+/**
+function getFaqInfo(id,name){
+        //alert(id);
+        name='#'+name;	//alert(name);
+        //$.post('{ctx}/usercenter/getFaqDetail', { faq_id:id } ,function(data){$(name).attr("title",data);alert(data);});  //alert($(name).attr("title"));    
+        $.ajax({
+            url: '${ctx}/usercenter/getFaqDetail',
+            type: 'POST',
+            data : {
+                    faq_id:id
+            },
+            dataType: 'text',
+            success: function(data){//alert(data);
+                $(name).attr("title",data.replace(/<[^>]+>/g,""));
+            }
+        });
+    }
+    //添加faq标签
+    function initFaqTitle(){
+	    $('a').mouseover(function(){
+	         var id=$(this).attr("id");//alert(id);
+	         if('faqId'.indexOf(id)){
+	             var title=$('#'+id).attr('title');
+	             if(title==null||title=='undefined'){//alert(id);
+                     getFaqInfo(id.substring(5),id);
+                 }
+	         }
+	    });
+	}**/
