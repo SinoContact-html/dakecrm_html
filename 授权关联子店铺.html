@@ -1,0 +1,1096 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script language="javascript" type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/flexigrid.pack.js"></script>
+<script language="javascript" type="text/javascript" src="js/datepicker.js"></script>
+<script language="javascript" type="text/javascript" src="js/eye.js"></script>
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<link href="css/common_new.css" rel="stylesheet" type="text/css" />
+<link href="css/flexigrid.pack.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" media="screen" type="text/css" href="css/datepicker.css" />
+<!--jTable Start-->
+<link rel="stylesheet" media="screen" type="text/css" href="css/jquery-ui.css" />
+<link href="js/jtable.2.3.0/themes/lightcolor/gray/jtable.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/jtable.2.3.0/jquery.jtable.min.js"></script>
+<script type="text/javascript" src="js/jtable.2.3.0/jquery.jtable.zh-CN.js"></script>
+
+	
+    <!--  <link href="/css/edm.css" rel="stylesheet" type="text/css" /> -->
+    <title>关联子店铺</title>
+    <script type="text/javascript">
+    	var jTable;
+    	$(document).ready(function() {
+    		if(''!=''){
+    			//alert('');
+    			var  popAlert = new PopAlert('提示','',null,"id");
+    			popAlert;
+    		}
+    		jTable = $('#subAccountContainer').jtable({
+                title: '子账号列表',
+                paging: true, //Enable paging
+                pageSize: 10, //Set page size (default: 10)
+                //selecting: true, //Enable selecting
+                multiselect: true, //Allow multiple selecting
+                actions: {
+                    listAction: '/usercenter/listSubAccount'
+                },
+                fields: {
+                    tid: {
+                        key: true,
+                        create: false,
+                        edit: false,
+                        list: false
+                    },
+                    rowId:{
+                    	title: '序号'
+                    },
+                    username: {
+                        title: '旺旺名',
+                        display: function(data){
+                        	var user_info = data.record.sub_user_info;
+                        	var html="";
+                        	if(user_info!=undefined&&user_info!=""){
+                        		html=JSON.parse(user_info).username;
+                        		if(html.length>8){
+                        			html="<span title=\""+html+"\">"+html.substring(0, 8)+"..."+"</span>";
+                        		}
+                            	if(data.record.status=='1'){
+                            		html=html+"&nbsp;&nbsp;<a style=\"cursor:pointer\" onclick=\"switchUser("+data.record.sub_user_id+")\"><font color=\"blue\">进入该店铺</font></a>"
+                            	}
+                        	}
+                        	return html;
+                        }
+                    },
+                    shopName: {
+                        title: '店铺名称',
+                        display: function(data){
+                        	var user_info = data.record.sub_user_info;
+                        	if(user_info!=undefined&&user_info!=""){
+                        		var shopName=JSON.parse(user_info).shopName;
+                        		if(shopName.length>8){
+                        			shopName="<span title=\""+shopName+"\">"+shopName.substring(0, 8)+"..."+"</span>";
+                        		}
+                        		return shopName;
+                        	}else{
+                        		return "";
+                        	}
+                        	
+                        }
+                    },
+                    status: {
+                        title: '状态',
+                        display: function(data){
+                        	switch(data.record.status){
+                            	case '-1':
+                            		return "已拒绝";
+                                    break;
+                            	case '0':
+                            		return "待接受";
+                                    break;
+                            	case '1':
+                                    return "已接受";
+                                    break;
+                        	}
+                        }
+                    },
+                    operate: {
+                        title: '操作',
+                        display: function(data){
+                        	switch(data.record.status){
+                        	case '-1':
+                                break;
+                        	case '0':
+                                break;
+                        	case '1':
+                                return "<a style=\"cursor:pointer\" onclick=\"cancelAuthor("+data.record.tid+","+data.record.sub_user_id+");\"><font color=\"blue\">取消授权</font</a>";
+                                break;
+                    		}
+                        }
+                    },
+                    changeFlow:{
+                    	title: '转入流量',
+                    	width: '280',
+                    	display: function(data){
+                    		if(data.record.status=='1'){
+                    			var html="<select id=\"type"+data.record.rowId+"\"><option value=\"\">请选择</option><option value=\"sms\">短信</option><option value=\"email\">邮件</option><option value=\"mms\">彩信</option></select>"+
+                				"&nbsp;<input type=\"text\" maxlength=\"8\" id=\"flow"+data.record.rowId+"\" placeholder=\"请输入流量数\"/>"+
+                				"&nbsp;<input type=\"button\" onclick=\"changeFlow('"+data.record.sub_user_id+"','flow"+data.record.rowId+"','type"+data.record.rowId+"')\" value=\"转入\" />";
+                				return html;
+                    		}else{
+                    			return "";
+                    		}
+                    	}
+                    }
+                }
+            });
+            jTable.jtable('load');
+    	});
+    	
+    	function changeFlow(subUserId,flowId,typeId){
+    		var type="#"+typeId;
+    		var flow="#"+flowId
+    		var flowType=$(type).val();
+    		var changeFlowNum=$(flow).val();
+    		if(flowType==null || flowType==undefined || flowType.length==0){
+    			//alert("请选择转入的流量类型");
+    			var  popAlert = new PopAlert('提示','请选择转入的流量类型',null,"id");
+    			popAlert;
+    			return;
+    		}
+    		var intType = /^[0-9]*[1-9][0-9]*$/;
+            var re = new RegExp(intType);
+    		if(changeFlowNum.match(re) == null){
+    			//alert("请输入正确的流量条数");
+    			var  popAlert = new PopAlert('提示','请输入正确的流量条数',null,"id");
+    			popAlert;
+    			return;
+    		}
+    		$.ajax({
+                url: '/usercenter/changeFlow',
+                type: 'POST',
+                dataType: 'text',
+                data:{
+                	"flowType":flowType,
+                	"changeFlowNum":changeFlowNum,
+                	"subUserId":subUserId
+                },
+                success: function(resp){
+                	$(type).val("");
+            		$(flow).val("");
+                	if(resp==null||resp.length==0||resp=="false"){
+                		//alert("系统异常，请稍后重试");
+                		var  popAlert = new PopAlert('提示',"系统异常，请稍后重试",null,"id");
+            			popAlert;
+                	}else{
+                		if(resp=="true"){
+                			//alert("流量转入成功");
+                			var f = function(){
+                				location.href="/usercenter/subAccountManager?moduleId=91";
+                			};
+                			var  popAlert = new PopAlert('提示',"流量转入成功",f,"id");
+                			popAlert;
+                			//location.href="/usercenter/subAccountManager?moduleId=91";
+                		}else if(resp=="notPermit"){
+                			//alert("需在子店铺接受授权后才能转入流量");
+                			var  popAlert = new PopAlert('提示',"需在子店铺接受授权后才能转入流量",null,"id");
+                			popAlert;
+                		}else if(resp=="beyond"){
+                			//alert("余额不足");
+                			var  popAlert = new PopAlert('提示',"余额不足",null,"id");
+                			popAlert;
+                		}else{
+                			//alert("系统异常，请稍后重试");
+                			var  popAlert = new PopAlert('提示',"系统异常，请稍后重试",null,"id");
+                			popAlert;
+                		}
+                	}
+                }
+            });
+    	}
+    	
+    	function cancelAuthor(subAccountId,subUserId){
+    		location.href="/usercenter/cancelSubAccount?subAccountId="+subAccountId+"&subUserId="+subUserId+"&moduleId=91";
+    	}
+    	
+    	function switchUser(subUserId){
+    		location.href="/usercenter/switchSubUser?subUserId="+subUserId;
+    	}
+    	
+    	function checkForm(){
+    		var username=$('#username').val();
+    		if(username==null || username.length==0){
+    			//alert("请输入店铺旺旺");
+    			var  popAlert = new PopAlert('提示','请输入店铺旺旺',null,"id");
+    			popAlert;
+    			return false;
+    		}
+    		return true;
+    	}
+    </script>
+</head>
+
+<body>
+<div class="soft_top">
+    <!-- 顶部菜单 -->
+    
+
+
+
+
+
+
+
+
+
+<!-- 公共头部 -->
+<div class="soft_top">
+    <div class="top_line_a">
+		<span
+                onClick="window.location='/usercenter/rechargeCenter?moduleId=17'"
+                class="infoShowBox"> <span>短信余额：<span>8025</span>
+				&nbsp;&nbsp; 邮件余额：<span>6474777</span>
+				&nbsp;&nbsp;  彩信余额：<span>13</span>
+		</span> </span>
+        <a class="infoShowBox" style="margin-right: 20px;margin-left:20px;"
+           href="/usercenter/rechargeCenter?moduleId=17"><img
+                src="/images/icon_bg.png" />充值</a>
+		<span class="infoShowBox"> <span>&nbsp;&nbsp; 
+            
+            
+            
+                旗舰版
+            
+            
+        &nbsp;&nbsp;&nbsp;&nbsp;</span> </span>
+		<span class="infoShowBox"> <span>软件有效期至：<span>2017-09-29</span>
+		</span> </span>
+        <a class="infoShowBox" style="margin-right: 20px;margin-left:20px;"
+           href="http://fuwu.taobao.com/ser/detail.htm?spm=0.0.0.0.tII52J&service_code=FW_GOODS-1864479"><img
+                src="/images/icon_bg.png" />续费</a>
+				
+				
+        <div class="soft_top_left right">
+			<span class="refresh refresh_noClick importRefresh"
+                  style="display: none;"> <span> 数据导入进度
+					<div class="percentage_box" style="padding: 2px;">
+						<div class="percentage_bg">
+							<div style="width: 0%" class="percentage"></div>
+						</div>
+					</div> </span> 已导入<span class="percentage_tips">0</span>% </span>
+			<span class="infoShowBox info" href="javascript:void(0);" onclick="ChangeSkin()">   
+			<span>选择背景色：</span><em class="color"></em>
+			  </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<span class="infoShowBox info" id="info2"> 新消息&nbsp;<!--<span class="icon"></span>-->
+				<span class="num msg_num">3</span> </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label id="subAccount" style="display: none; color : #cdcdcd; position: relative; height: 25px; line-height: 25px;">
+            </label>
+            
+        </div>
+    </div>
+
+    <!-- 导航开始 -->
+
+
+
+    <div class="top_line_b">
+        <div class="logoBox">
+            <img src="/images/logo.png" />
+        </div>
+        <div class="soft_top_left">
+            
+                
+                
+                    <a class="fastintobox" href="/user/index"><div
+                            class="fib">
+
+                        首页
+                    </div>
+                    </a>
+                
+            
+
+            
+                <a
+                        class="fastintobox "
+                        href="/user/content?moduleId=45">
+
+                    <div class="fib">
+
+                            交易提醒
+
+                    </div> </a>
+            
+                <a
+                        class="fastintobox "
+                        href="/user/content?moduleId=77">
+
+                    <div class="fib">
+
+                            自动营销
+
+                    </div> </a>
+            
+                <a
+                        class="fastintobox "
+                        href="/user/content?moduleId=3">
+
+                    <div class="fib">
+
+                            营销管理
+
+                    </div> </a>
+            
+                <a
+                        class="fastintobox "
+                        href="/user/content?moduleId=2">
+
+                    <div class="fib">
+
+                            会员管理
+
+                    </div> </a>
+            
+                <a
+                        class="fastintobox "
+                        href="/user/content?moduleId=142">
+
+                    <div class="fib">
+
+                            评价管理
+
+                    </div> </a>
+            
+                <a
+                        class="fastintobox "
+                        href="/user/content?moduleId=1">
+
+                    <div class="fib">
+
+                            数据分析
+
+                    </div> </a>
+            
+                <a
+                        class="fastintobox onthis"
+                        href="/user/content?moduleId=4">
+
+                    <div class="fib">
+
+                            我的达客
+
+                    </div> </a>
+            
+            </span>
+
+
+        </div>
+		<div class="soft_top_right">
+			<div class="username">
+				<em class="before"></em>
+				
+					
+						<span title="d[s103896799]"> 
+								
+                                    d[s10…
+                                
+								
+							
+						</span>
+					
+					
+				
+
+				<br/> <a class="loginout" href="/sys/logout">[ 退出登录 ]</a>
+			</div>
+		</div>
+		<div class="contact_box new" style="display: block;" id="box_open">
+			<div class="con_box_title">
+				<strong style="font-size:12px;">联系客服</strong>
+			</div>
+			
+				
+				
+					<div class="kfzk">
+						<img src="/images/blue_arr.png" />
+					</div>
+				
+			
+
+		</div>
+		<div class="contact_box" id="box_close">
+              <div class="con_box_title"><strong style="font-size:14px;">客服热线：02161910347</strong>
+                  <br/><br/><strong style="font-size:14px;">手机联系：13162888912</strong></div>
+              <a target="_blank" href="http://amos.alicdn.com/msg.aw?v=2&amp;uid=达客营销管理平台:abby&amp;site=cntaobao&amp;s=2&amp;charset=utf-8"><img border="0" src="http://amos.alicdn.com/online.aw?v=2&amp;uid=达客营销管理平台:abby&amp;site=cntaobao&amp;s=1&amp;charset=utf-8" alt="点击这里给我发消息"></a>
+              <a target="_blank" href="http://amos.alicdn.com/msg.aw?v=2&amp;uid=达客营销管理平台:fiona&amp;site=cntaobao&amp;s=2&amp;charset=utf-8"><img border="0" src="http://amos.alicdn.com/online.aw?v=2&amp;uid=达客营销管理平台:fiona&amp;site=cntaobao&amp;s=1&amp;charset=utf-8" alt="点击这里给我发消息"></a>
+              <br/><br/>
+              <a target="_blank" href="http://amos.alicdn.com/msg.aw?v=2&amp;uid=达客营销管理平台:frank&amp;site=cntaobao&amp;s=2&amp;charset=utf-8"><img border="0" src="http://amos.alicdn.com/online.aw?v=2&amp;uid=达客营销管理平台:frank&amp;site=cntaobao&amp;s=1&amp;charset=utf-8" alt="点击这里给我发消息"></a>
+              <a target="_blank" href="http://amos.alicdn.com/msg.aw?v=2&amp;uid=达客营销管理平台:jessie&amp;site=cntaobao&amp;s=2&amp;charset=utf-8"><img border="0" src="http://amos.alicdn.com/online.aw?v=2&amp;uid=达客营销管理平台:jessie&amp;site=cntaobao&amp;s=1&amp;charset=utf-8" alt="点击这里给我发消息"></a>
+              <br><br>
+              <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=1192948838&amp;site=qq&amp;menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:1192948838:51" alt="点击这里给我发消息" title="点击这里给我发消息"></a>
+              <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=481730089&amp;site=qq&amp;menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:481730089:51" alt="点击这里给我发消息" title="点击这里给我发消息"></a>
+              <br><br>
+              <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=3346254326&amp;site=qq&amp;menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:3346254326:51" alt="点击这里给我发消息" title="点击这里给我发消息"></a>
+              
+          </div>
+      </div>
+	
+		<div class="info_box_text">
+			<div class="title">
+				消息提醒
+			</div>
+
+
+            <span class="adm-informer-arrow"></span>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var getImportStatusTimer ;
+    var msgId = 0;
+    $(document).ready(function(){      
+        var msg_num = 0 ;
+
+        var str = "<div class='info_box_main info_blue'><div class='box_top details_message' msgId='{msgId}'>{msgSubject}</div><div class='box_worker details_message' msgId='{msgId}'>{msgContent}</div><div class='box_footer'><a href='javascript:void(0)' class='delete_message' msgId='{msgId}'>删除消息</a></div></div><span class='adm-informer-arrow'></span>";
+        var noMsg = "<div class='info_box_main info_blue'><div class='box_top details_message' msgId='{msgId}'></div><div class='box_worker details_message' msgId='{msgId}'>{msgContent}</div><div class='box_footer'><a href='javascript:void(0)' class='delete_message' msgId='{msgId}'></a></div></div><span class='adm-informer-arrow'></span>";
+
+        var query = {'isRead':parseInt(0)};
+
+        //获取子店铺
+        $.ajax({
+            url: '/usercenter/getSubAccountList',
+            type: 'POST',
+            data : {
+            },
+            dataType: 'json',
+            success: function(resp){
+                var aList=eval(resp.subAccountList);
+                if(aList!=null && aList.length>0){
+                    var html="切换子店铺：<select id=\"subAccountSe\" onchange=\"switchUser();\"><option value=\"\">请选择子店铺</option>";
+                    var shopName="";
+                    for(var i=0;i<aList.length;i++){
+                        shopName=JSON.parse(aList[i].sub_user_info).shopName;
+                        if(shopName.length>12){
+                            shopName=shopName.substring(0,12)+"...";
+                        }
+                        html+="<option value=\""+aList[i].sub_user_id+"\">"+shopName+"</option>";
+                    }
+                    html+="<option value=\"-1\">转流量到子店铺</option>";
+                    html+="<select>";
+                    $('#subAccount').html(html);
+                    $('#subAccount').show();
+                }
+            }
+        });
+
+        //获取通知
+        $.ajax({
+            url: '/usercenter/fetchMessage',
+            type: 'POST',
+            data : {
+                query:JSON.stringify(query),
+                page:1,
+                jtPageSize:3,
+                sortname:"create_time",
+                sortorder:"DESC"
+            },
+            dataType: 'json',
+            success: function(responseText){
+                if(responseText != "" && responseText.Records != null){
+                    console.log(responseText);
+                    var rows = responseText.Records;
+                    var rollMsg = '';
+                    for(var i = 0 ; i < rows.length ; i ++){
+                        msg_num ++ ;
+                        var s = str.replaceAll("{msgId}",rows[i]["id"],false).replace("{msgSubject}",rows[i]["msg_subject"]).replace("{msgContent}",rows[i]["msg_content"])
+                        $(".info_box_text").append(s);
+                        rollMsg = rows[i]["msg_content"];
+                        if(rows[i]["msg_type"]==3){
+                            msgId = rows[i]["id"];
+                        }
+                    }
+                    if(null != rollMsg && rollMsg!='' && rollMsg!='undefined'){
+                        $("#rollMsg").html(rollMsg);
+                        $(".remindTxt").show();
+                    }
+                    //更改消息数量
+                    $(".msg_num").html(msg_num);
+                    if(msg_num > 0){
+
+                        $(".msg_num").css("color","red");
+                    }
+
+                    //删除
+
+                    $(".delete_message").click(function(){
+                        var msgId = $(this).attr("msgId");
+                        var obj = $(this);
+                        $.ajax({
+                            url: '/usercenter/deleteMessage',
+                            type: 'POST',
+                            data : {
+                                messageId:msgId
+                            },
+                            dataType: 'text',
+                            success: function(responseText){
+                                if(responseText == "true"){
+                                    $(obj).parent().parent().remove();
+                                    msg_num -- ;
+                                    $(".msg_num").html(msg_num);
+
+                                    if(msg_num == 0){
+                                        $(".info_box_text").append(noMsg.replace("{msgContent}","暂无未读消息"));
+                                        $(".msg_num").css("color","");
+                                    }
+                                }else{
+                                    //alert("删除失败");
+                                    var  popAlert = new PopAlert('提示',"删除失败",null,"id");
+		                            popAlert;
+                                }
+                            }
+                        })
+
+                    })
+
+                    //详情
+                    $(".details_message").css("cursor","pointer");
+
+                    $(".details_message").click(function(){
+                        var msgId = $(this).attr("msgId");
+                        if(msgId != 'undefined'){
+                            location.href="/usercenter/detailsMessage?messageId="+msgId+"&moduleId=20";
+                        }
+                    })
+
+                    if(rows.length <= 0){
+
+                        $(".info_box_text").append(noMsg.replace("{msgContent}","暂无未读消息"));
+                    }
+
+                }else{
+
+                    $(".info_box_text").append(noMsg.replace("{msgContent}","暂无未读消息"));
+                }
+
+
+
+            }
+        })
+
+        //查询用户导入状态
+        $.ajax({
+            url: '/import/getUserImportInfo',
+            type: 'POST',
+            dataType: 'json',
+            success: function(json){{
+                console.log(json);
+
+                if(json.status > 0 && json.isRead == false){
+
+                    //定时获取数据导入状态
+                    tbImportData() ;
+                }
+            }}
+        })
+
+
+        $('#box_close').click(function(e) {
+            $('.contact_box').hide();
+            $('.contact_box.new').show();
+        });
+
+        $('#box_open').click(function(e) {
+            $('.contact_box').show();
+            $('.contact_box.new').hide();
+        });
+
+    })
+
+    function iknow(){
+        $.ajax({
+            url: '/usercenter/iknow',
+            type: 'POST',
+            data:{
+                messageId:parseInt(msgId)
+            },
+            dataType: 'json',
+            success: function(json){{
+                location.reload();
+            }}
+        })
+    }
+
+    //导入淘宝数据
+    function tbImportData(){
+
+        //显示进度条
+        $(".importRefresh").show() ;
+
+        $.ajax({
+            url: '/import/getUserImportInfo',
+            type: 'POST',
+            dataType: 'json',
+            success: function(json){{
+                console.log(json);
+
+                //导入完成
+                if(json.status == 100){
+
+                    if(json.isRead == false){
+
+                        //提示用户
+                        importTips();
+                    }
+
+                    //隐藏进度条
+                    $(".importRefresh").hide() ;
+
+                    //停止定时器
+                    clearTimeout(getImportStatusTimer) ;
+                }else{
+                    $(".percentage").css("width",json.percentage + "%");
+                    $(".percentage_tips").text(json.percentage);
+
+                    //定时获取数据导入状态
+                    getImportStatusTimer = setTimeout('tbImportData()',5000) ;
+                }
+            }}
+        })
+    }
+
+    //导入完成，提醒用户
+    function importTips(){
+        $.ajax({
+            url: '/import/initImportMsg',
+            type: 'POST',
+            dataType: 'text',
+            success: function(text){{
+                //alert(text);
+                var  popAlert = new PopAlert('提示',text,null,"id");
+		        popAlert;
+            }}
+        })
+    }
+
+    function switchUser(){
+        var subId=$('#subAccountSe').val();
+        if(subId!=null&&subId.length>0){
+            if(subId==-1){
+                location.href="/usercenter/subAccountManager?moduleId=91";
+            }else{
+                location.href="/usercenter/switchSubUser?subUserId="+subId;
+            }
+        }
+    }
+    
+    //faq提示显示  chalice 20160729
+    function getFaqInfo(id,name){
+        //alert(id);
+        name='#'+name;	//alert(name);
+        //$.post('{ctx}/usercenter/getFaqDetail', { faq_id:id } ,function(data){$(name).attr("title",data);alert(data);});  //alert($(name).attr("title"));    
+        $.ajax({
+            url: '/usercenter/getFaqDetail',
+            type: 'POST',
+            data : {
+                    faq_id:id
+            },
+            dataType: 'text',
+            success: function(data){//alert(data);
+                $(name).attr("title",data.replace(/<[^>]+>/g,"").replace(/ /g,""));
+            }
+        });
+    }
+    //添加faq标签
+    function initFaqTitle(){
+	   $("span[id^='faqId']").mouseover(function(){
+	         var id="";
+	         id=$(this).attr("id");	        
+	         var title=$('#'+id).attr('title');
+	         if(title==null||title=='undefined'){                
+                  getFaqInfo(id.substring(5),id);
+             }
+	    });
+	    $("i[id^='faqId']").mouseover(function(){
+	         var id="";
+	         id=$(this).attr("id");	        
+	         var title=$('#'+id).attr('title');
+	         if(title==null||title=='undefined'){                
+                  getFaqInfo(id.substring(5),id);
+             }
+	    });
+	}
+</script>
+</div>
+<div class="page">
+    <table class="soft_body" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr class="soft_body_td">
+            <td class="soft_body_left">
+                
+
+
+
+
+
+
+
+
+<!--新UI左边菜单Start -->
+
+<div class="soft_left_side">
+
+	<div class="soft_left_side_menu">
+		<a class="menu_home " href="/user/index"><em></em><span>首页</span></a>
+		<a class="menu_home help" href="http://image.tb.easycontact.cn/crmhtml/CRMjcjc.html" target="_blank" ><em></em>帮助中心</a>
+	</div>
+	
+		<div class="soft_left_side_menu soft_left_side_submenu">
+			<ul class="nav_first_list">
+				
+
+					<li  >
+						
+						<a class="menu_home "   href="/usercenter/tradeSearch?moduleId=139"><span class="cxdpdd"></span>订单查询</a>
+						
+					</li>
+				
+
+					<li  >
+						
+						<a class="menu_home onthis "   href="/usercenter/subAccountManager?moduleId=91"><span class="marketing_7"></span>关联子店铺</a>
+						
+					</li>
+				
+
+					<li  >
+						
+						<a class="menu_home "   href="/usercenter/getPushSendInfoPre?moduleId=16"><span class="mysoft_1"></span>流量报告</a>
+						
+					</li>
+				
+
+					<li  class="level_one"  >
+						<!-- 如果有子菜单 -->
+						<span></span>
+						
+						<a class="menu_home "   href="/usercenter/rechargeCenter?moduleId=17"><span class="mysoft_2"></span>充值中心</a>
+						<!-- 如果有子菜单 -->
+						<ul class="level_two" >
+
+							
+								<a href="/usercenter/getFlowPackage?moduleId=34"><li ><em></em>购买流量包</li></a>
+							
+								<a href="/usercenter/getPurchaseInfo?moduleId=35"><li ><em></em>平台续租</li></a>
+							
+								<a href="/usercenter/getIndents?moduleId=36"><li ><em></em>我的订单</li></a>
+							
+						</ul>
+						
+					</li>
+				
+
+					<li  class="level_one"  >
+						<!-- 如果有子菜单 -->
+						<span></span>
+						
+						<a class="menu_home "   href="/usercenter/accountSetting?moduleId=18"><span class="mysoft_3"></span>账户设置</a>
+						<!-- 如果有子菜单 -->
+						<ul class="level_two" >
+
+							
+								<a href="/usercenter/getBasicInfo?moduleId=37"><li ><em></em>基本信息设置</li></a>
+							
+								<a href="/usercenter/getRemindInfo?moduleId=38"><li ><em></em>提醒设置</li></a>
+							
+						</ul>
+						
+					</li>
+				
+
+					<li  >
+						
+						<a class="menu_home "   href="/usercenter/prepareFeedback?moduleId=19"><span class="mysoft_4"></span>意见反馈</a>
+						
+					</li>
+				
+
+					<li  >
+						
+						<a class="menu_home "   href="/usercenter/listMessage?moduleId=20"><span class="mysoft_5"></span>消息提醒</a>
+						
+					</li>
+				
+
+					<li  >
+						
+						<a class="menu_home "   href="/usercenter/newFunctionList?moduleId=75"><span class="marketing_1"></span>功能更新列表</a>
+						
+					</li>
+				
+
+					<li  >
+						
+						<a class="menu_home "   href="/usercenter/invitation?moduleId=113"><span class="mysoft_cash"></span>邀请赚现金</a>
+						
+					</li>
+				
+			</ul>
+		</div>
+	
+
+
+	
+</div>
+<!-- end -->
+            </td>
+            <td class="soft_body_right">
+				<div class="soft_workspace_title">
+					
+
+
+
+
+
+
+
+
+<ul class="bread_crumbs">
+	<li class="first"><a href="/user/content?moduleId=4">我的达客</a></li>
+	<li><a href="/usercenter/subAccountManager?moduleId=91">关联子店铺</a></li>
+	
+</ul>
+<h3>
+	<span class="marketing_7"></span>
+	
+		
+			关联子店铺
+		
+		
+	
+
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</h3>
+
+				</div>
+                <div class="soft_workspace">
+                	<div class="tab_box" id="tab01">
+                    	<span class="detail_tab active">授权关联子店铺</span>
+                        <span class="detail_tab">流量互转记录</span>
+                	</div>
+                    <div class="tab_box_main" id="sqglzdp">
+                        <div class="table_workspace clearfix border-bottom padding-top20 margin-bottom20">
+                            <div class="dem_setupBox">
+                                <div class="table_workspace_infoBox table_workspace_infoBox_mg0">
+                                <form action="/usercenter/authorSubAccount" method="post" onsubmit="return checkForm();">
+                                <input type="hidden" name="moduleId" value="91"/>
+                                <div class="red">授权关联的子店铺必须订购达客CRM软件；子店铺需登陆系统接受授权后才能生效。</div>
+                                <div class="empower_dp">
+                                    <strong>授权关联的子店铺：</strong>
+                                    <input type="text" id="username" name="username" maxlength="50" placeholder="请输入店铺旺旺..." />
+                                </div>
+                                <div class="submitbox mar"><input class="submit" type="submit" value="确认授权"></div>
+                                </form>
+                                </div>
+                            </div>
+                            <div class="dem_setupBox">
+                            <div id="subAccountContainer" style="min-height: 150px;"></div>
+                            </div>
+                        </div>
+                	</div>
+                    <div class="tab_box_main" id="llhzjl">
+                    	<div style="position:absolute; margin-left:350px; margin-top:-27px;">
+                        	<label style="margin-right:20px;">
+                            	<input style="vertical-align:middle" type="radio" name="aaa" />
+                                <span style="vertical-align:middle">转入到本店</span>
+                            </label>
+                            <label>
+                            	<input style="vertical-align:middle" type="radio" name="aaa" />
+                                <span style="vertical-align:middle">转出到其他店铺</span>
+                        	</label>
+                        </div>
+                    	<div class="table_workspace clearfix border-bottom margin-bottom20">
+                        	<!--表格组件调用start-->
+                              <div class="table_tablebox"><!--高度值请根据实际情况修改-->
+                                <table class="flexme4" style="display: none"></table>
+                                <script type="text/javascript">
+                                $(".flexme4").flexigrid({
+                                    url : 'http://localhost/example4.php',
+                                    dataType : 'json',
+                                    colModel : [ {
+                                        display : '最后发送时间',
+                                        name : '最后发送时间',
+                                        width : 90,
+                                        sortable : true,
+                                        align : 'center'
+                                        }, {
+                                            display : '买家昵称',
+                                            name : '买家昵称',
+                                            width : 120,
+                                            sortable : true,
+                                            align : 'left'
+                                        }, {
+                                            display : '买家手机号',
+                                            name : '买家手机号',
+                                            width : 120,
+                                            sortable : true,
+                                            align : 'left'
+                                        }, {
+                                            display : '互动消息详情',
+                                            name : 'favorite_color',
+                                            width : 80,
+                                            sortable : true,
+                                            align : 'left',
+                                        }, {
+                                            display : '未读消息',
+                                            name : '未读消息',
+                                            width : 80,
+                                            sortable : true,
+                                            align : 'left'
+                                    } ],
+                                    buttons : [ {
+                                        name : 'Add',
+                                        bclass : 'add',
+                                        onpress : Example4
+                                        }
+                                        ,
+                                        {
+                                            name : 'Edit',
+                                            bclass : 'edit',
+                                            onpress : Example4
+                                        }
+                                        ,
+                                        {
+                                            name : 'Delete',
+                                            bclass : 'delete',
+                                            onpress : Example4
+                                        }
+                                        ,
+                                        {
+                                            separator : true
+                                        } 
+                                    ],
+                                    searchitems : [ {
+                                        display : 'EmployeeID',
+                                        name : 'employeeID'
+                                        }, {
+                                            display : 'Name',
+                                            name : 'name',
+                                            isdefault : true
+                                    } ],
+                                    sortname : "iso",
+                                    sortorder : "asc",
+                                    usepager : true,
+                                    title : 'Employees',
+                                    useRp : true,
+                                    rp : 15,
+                                    showTableToggleBtn : true,
+                                    //width : 750,
+                                    height : 200
+                                });
+                    
+                                function Example4(com, grid) {
+                                    if (com == 'Delete') {
+                                        var conf = confirm('Delete ' + $('.trSelected', grid).length + ' items?')
+                                        if(conf){
+                                            $.each($('.trSelected', grid),
+                                                function(key, value){
+                                                    $.get('http://localhost/example4.php', { Delete: value.firstChild.innerText}
+                                                        , function(){
+                                                            // when ajax returns (callback), update the grid to refresh the data
+                                                            $(".flexme4").flexReload();
+                                                    });
+                                            });    
+                                        }
+                                    }
+                                    else if (com == 'Edit') {
+                                        var conf = confirm('Edit ' + $('.trSelected', grid).length + ' items?')
+                                        if(conf){
+                                            $.each($('.trSelected', grid),
+                                                function(key, value){
+                                                    // collect the data
+                                                    var OrgEmpID = value.children[0].innerText; // in case we're changing the key
+                                                    var EmpID = prompt("Please enter the New Employee ID",value.children[0].innerText);
+                                                    var Name = prompt("Please enter the Employee Name",value.children[1].innerText);
+                                                    var PrimaryLanguage = prompt("Please enter the Employee's Primary Language",value.children[2].innerText);
+                                                    var FavoriteColor = prompt("Please enter the Employee's Favorite Color",value.children[3].innerText);
+                                                    var FavoriteAnimal = prompt("Please enter the Employee's Favorite Animal",value.children[4].innerText);
+                    
+                                                    // call the ajax to save the data to the session
+                                                    $.get('http://localhost/example4.php', 
+                                                        { Edit: true
+                                                            , OrgEmpID: OrgEmpID
+                                                            , EmpID: EmpID
+                                                            , Name: Name
+                                                            , PrimaryLanguage: PrimaryLanguage
+                                                            , FavoriteColor: FavoriteColor
+                                                            , FavoritePet: FavoriteAnimal  }
+                                                        , function(){
+                                                            // when ajax returns (callback), update the grid to refresh the data
+                                                            $(".flexme4").flexReload();
+                                                    });
+                                            });    
+                                        }
+                                    }
+                                    else if (com == 'Add') {
+                                        // collect the data
+                                        var EmpID = prompt("Please enter the Employee ID","5");
+                                        var Name = prompt("Please enter the Employee Name","Mark");
+                                        var PrimaryLanguage = prompt("Please enter the Employee's Primary Language","php");
+                                        var FavoriteColor = prompt("Please enter the Employee's Favorite Color","Tan");
+                                        var FavoriteAnimal = prompt("Please enter the Employee's Favorite Animal","Dog");
+                    
+                                        // call the ajax to save the data to the session
+                                        $.get('http://localhost/example4.php', { Add: true, EmpID: EmpID, Name: Name, PrimaryLanguage: PrimaryLanguage, FavoriteColor: FavoriteColor, FavoritePet: FavoriteAnimal  }
+                                            , function(){
+                                                // when ajax returns (callback), update the grid to refresh the data
+                                                $(".flexme4").flexReload();
+                                        });
+                                    }
+                                }
+                            </script>
+                              </div>
+                              <!--表格组件调用end-->
+                        </div>
+                    </div>
+                </div>
+                <script language="javascript" type="text/javascript">
+					var theTab1_box = new Array('sqglzdp','llhzjl');
+					var theTab1 = new AlexTab2('tab01',theTab1_box);
+					theTab1;
+				</script>
+                <div class="soft_workspace_footer">
+					
+
+
+
+
+
+
+
+
+<div class="footer_left">
+	Powered by
+    EasyContact
+	Copyright &copy; 2012-2016 SinoContact,Inc
+</div>
+<div class="footer_right">
+	
+	<!--a href="/usercenter/accountSetting?moduleId=18"><em class="setting"></em>账户设置</a-->
+        <a href="#" class="gogoupup"><em class="setting"></em>返回顶部</a>
+    <script>
+        $('a.gogoupup').click(function(e){
+            var t=0, b=0, c=$(document).scrollTop(), d=100;
+            setRun = setInterval(function(){
+                if(t<d){
+                    t++;
+                    $(document).scrollTop(Math.abs(Math.ceil(Tween.Cubic.easeOut(t,b,c,d))-c));
+                }else{
+                    clearInterval(setRun);
+                }
+            }, 10);
+        });
+        var Tween = {
+            Cubic: {
+                easeOut: function(t,b,c,d){
+                    return c*((t=t/d-1)*t*t + 1) + b;
+                }
+            }
+        }
+    </script>
+</div>
+<div style="display: none;">
+<script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F2a33609c33bf8365ba0e7e5807f2aabc' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

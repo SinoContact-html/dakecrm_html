@@ -243,7 +243,7 @@ KindEditor.ready(function(K) {
                                     <div class="customer_number"><span>客户人数</span><span class="right">178800</span></div>
                                 </div>
                                 <div class="customer_box cup" title="111111111111" id="cus_box5">
-                                    <div class="customer_title"><span>成交客户</span><span class="right">83.12%</span></div>
+                                    <div class="customer_title"><span>1080天< R<1440天</span><span class="right">83.12%</span></div>
                                     <div class="customer_number"><span>客户人数</span><span class="right">831200</span></div>
                                 </div>
                             </div>
@@ -388,8 +388,14 @@ KindEditor.ready(function(K) {
                         <h1 style="font-size:18px; text-align:center;">全部客户趋势</h1>
                         <div class="tab_box_buts" style="margin-top:-21px;"><a class="daochu_btn" href="#" onclick="csvExport()">导出记录</a></div>
                         <div class="clear"></div>
-                        <div class="table_chart" style="text-align:center;">
-                          <img src="images/demo/demo.gif" height="250">
+                        <div class="table_chart" style="text-align:center; position:relative;">
+                          <img id="demo" src="images/demo/demo.gif" height="250" style="opacity:.3;">
+                          <div class="wait_box">
+                          	<h1 style="font-size:20px; line-height:30px;">近12个月的全部客户趋势图</h1>
+                            此图数据为实时获取，加载时间根据数据量大小而有所不同，请您耐心等待。<br/>
+                            <br/>
+                            <input type="button" class="button" value="立即查询" onclick="$('.wait_box').hide();$('#demo').hide();" />
+                          </div>
                         </div>
                      </div> 
             	</div>

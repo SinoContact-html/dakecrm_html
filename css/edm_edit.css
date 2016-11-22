@@ -1,8 +1,8 @@
 @charset "utf-8";
 /* CSS Document */
 
-input[type="submit"] {padding:0 10px; height:31px; line-height:31px; border-radius:4px; background:url(../images/bg_soft_right_top.gif) 0 -100px repeat-x; border:1px solid #8d9a9e; color:#3f4b54; font-size:13px; text-shadow:0 1px 0 rgba(255,255,255,0.5); cursor:pointer;}
-input[type="submit"]:hover {background-position:0 -140px;}
+input[type="submit"] {background-color:#0190d4; color:#fff; cursor:pointer; border-radius:5px; line-height:40px; height:40px; width:130px; text-align:center; margin-right:20px; border:none;}
+input[type="submit"]:hover {background-color:#00adff!important;}
 
 .percentage_box {background:#e6e5be;background:-webkit-linear-gradient(top, rgba(244,233,141,.3), rgba(232,209,62,.3), rgba(225,194,40,.3));background:-moz-linear-gradient(top, rgba(244,233,141,.3), rgba(232,209,62,.3), rgba(225,194,40,.3));background:-ms-linear-gradient(top, rgba(244,233,141,.3), rgba(232,209,62,.3), rgba(225,194,40,.3));background:-o-linear-gradient(top, rgba(244,233,141,.3), rgba(232,209,62,.3), rgba(225,194,40,.3));background:linear-gradient(top, rgba(244,233,141,.3), rgba(232,209,62,.3), rgba(225,194,40,.3));border-radius:5px;border:1px solid;border-color:#d3c6a3 #cabc90 #c1b37f #c9bc8f;-webkit-box-shadow:inset 0 1px 0 #fff;box-shadow:inset 0 1px 0 #fff;color:#716536;font-size:12px;line-height:18px;text-shadow:0 1px 0 rgba(255,255,255, 0.7);padding:20px;}
 .percentage_box .percentage_bg {border-radius:5px; border:1px solid; border-color:#d3c6a3 #cabc90 #c1b37f #c9bc8f; height:20px; background:#fff; box-shadow:inset 0 1px 0 #fff; overflow:hidden;}
@@ -86,32 +86,9 @@ background: linear-gradient(#a3acba, #858f9e);
 .popbox_workspace ul.producr_list_Direct li {display:inline-block; *zoom:1; *display:inline; width:149px; height:149px; padding:5px; background-color:#fff; border:1px solid; border-color:#c4ced2 #dce7ed #dce7ed; margin:0 5px 8px 5px; cursor:pointer;}
 
 .popbox_workspace .submitbox {padding-top:10px; text-align:center;}
-.popbox_workspace .submitbox input.submit{background-color: #86ad00; font-family:"微软雅黑";
-	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.25), inset 0 1px 0 #cbdc00;
-	box-shadow: 0 1px 1px rgba(0,0,0,.25), inset 0 1px 0 #cbdc00;
-	border: solid 1px;
-	border-color:#97c004 #7ea502 #648900;
-	background-image: -webkit-linear-gradient(bottom, #729e00, #97ba00);
-	background-image: -moz-linear-gradient(bottom, #729e00, #97ba00);
-	background-image: -ms-linear-gradient(bottom, #729e00, #97ba00);
-	background-image: -o-linear-gradient(bottom, #729e00, #97ba00);
-	background-image: linear-gradient(bottom, #729e00, #97ba00);
-	color:#fff;
-	text-shadow:0 1px rgba(0,0,0,0.1);
-	-webkit-font-smoothing: antialiased;
-	padding:6px 18px;
-	background-image:none\0;
-	cursor:pointer; border-radius:4px; line-height:18px;}
+.popbox_workspace .submitbox input.submit{background-color:#0190d4; color:#fff; cursor:pointer; border-radius:5px; line-height:40px; height:40px; width:130px; text-align:center; margin-right:20px; border:none;}
 
-.popbox_workspace .submitbox input.submit:hover {background-color:#9ec710!important;
-	background-image: -webkit-linear-gradient(top, #acce11, #8abb0d)!important;
-	background-image: -moz-linear-gradient(top, #acce11, #8abb0d)!important;
-	background-image: -ms-linear-gradient(top, #acce11, #8abb0d)!important;
-	background-image: -o-linear-gradient(top, #acce11, #8abb0d)!important;
-	background-image: linear-gradient(top, #acce11, #8abb0d)!important;
-	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), 0 1px 0 #d5e71a inset;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), 0 1px 0 #d5e71a inset;
-	border-color:#97c004 #7ea502 #648900;}
+.popbox_workspace .submitbox input.submit:hover {background-color:#00adff!important;}
 	
 .pagefen {padding:0 0 0 0; height:28px; clear:both; text-align:center; display:none;}
 .pagefen a {display:inline-block; *zoom:1; *display:inline;	border:1px solid;border-color:#99acb5 #99acb5 #99acb5 #99acb5;border-radius:2px;	-webkit-box-shadow:inset 0 1px 0 #fff;box-shadow:inset 0 1px 0 #fff;color:#5e5e5e;height:18px;font-size:12px;font-weight:bold;line-height:14px;text-shadow:0 1px #fff;	text-decoration:none;text-align:center;	margin:0 6px 0 0;padding-top:5px; vertical-align:top;	min-width:24px; cursor:pointer; background:url(../images/bg_soft_right_top.gif) 0 -105px no-repeat;}

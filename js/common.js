@@ -520,6 +520,7 @@ jQuery(document).ready(function($) {
 	
 	
 	$('.slide_box').height($(document).height()-85);
+
 	
 	var menuShow = true;
 	$('.slide_box').click(function(e) {
@@ -773,6 +774,7 @@ function getQueryStringFromUrl(url,name){//获取连接参数
     return "";
 }
 
+
 function getOs(){
     var popHtml = "<div class=\"popbox_core popbox_remind\" id=\"ieUpdateBox\"><div class=\"popbox_head\"><span class=\"title\">浏览器版本过低，请升级您的浏览器！</span><div class=\"popbox_head_right\"><a class=\"popbox_close\" onclick=\"ClosePopbox('ieUpdateBox')\"></a></div></div><div class=\"popbox_workspace\"><div class=\"percentage_box\"><div id=\"ieUpdateText\" class=\"percentage_text\"></div></div></div></div>";
     if(navigator.appName == "Microsoft Internet Explorer"){
@@ -873,7 +875,6 @@ AlexTab2.prototype = {
 		var m = $('#'+tabId+' > span');
         $('#'+tabId+' > span').click(function(){
             var h = $(this).index();
-			//alert(self._oldm);
             if(h != self._oldm[tabId]){
                 $(this).addClass('active');
 				$(m[self._oldm[tabId]]).removeClass('active');
@@ -887,10 +888,10 @@ AlexTab2.prototype = {
 
 
 //屏蔽IE下console输出
-if(!window.console){
+// if(!window.console){
     window.console={}
     window.console.log=function(){return;}
-}
+// }
 
 //增加replaceAll方法
 String.prototype.replaceAll = function(reallyDo, replaceWith, ignoreCase) {

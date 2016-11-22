@@ -1883,7 +1883,7 @@ a.button:hover {background:#00a4f2;}
 .soft_workspace .table_workspace .customer_cont.im {float:none; width:100%; text-align:center;}
 .soft_workspace .table_workspace .customer_cont.lf50 {float:left; width:50%; text-align:center;}
 .soft_workspace .table_workspace .customer_cont.lf25 {float:left; width:25%; text-align:center;}
-.soft_workspace .table_workspace .customer_cont .customer_box {width:160px; border:#333 1px solid; margin-bottom:10px;}
+.soft_workspace .table_workspace .customer_cont .customer_box {width:180px; border:#333 1px solid; margin-bottom:10px;}
 .soft_workspace .table_workspace .customer_cont.im .customer_box {display:inline-block;}
 .soft_workspace .table_workspace .customer_cont .customer_box.activity {width:230px;}
 .soft_workspace .table_workspace .customer_cont .customer_box.cup {cursor:pointer;}
@@ -1899,8 +1899,8 @@ a.button:hover {background:#00a4f2;}
 .soft_workspace .table_workspace .last_two_col {display:none;}
 .soft_workspace .table_workspace .customer_cont .customer_box .customer_number h1 {font-size:16px; margin-bottom:10px;}
 .soft_workspace .table_workspace .customer_cont .customer_box .customer_number dl {width:100%; padding:5px 0px; height:18px;}
-.soft_workspace .table_workspace .customer_cont .customer_box .customer_number dl dt {display:inline-block; text-align:right; width:57%; margin-right:5%;}
-.soft_workspace .table_workspace .customer_cont .customer_box .customer_number dl dd {display:inline-block; width:38%; text-align:left;}
+.soft_workspace .table_workspace .customer_cont .customer_box .customer_number dl dt {display:inline-block; text-align:right; width:50%; margin-right:5%;}
+.soft_workspace .table_workspace .customer_cont .customer_box .customer_number dl dd {display:inline-block; width:45%; text-align:left;}
 .soft_workspace .table_workspace .customer_cont .customer_box .customer_number dl dd img {margin-top:-3px; margin-left:5px;}
 .soft_workspace .table_workspace .customer_cont .line {border-bottom:#74b5e5 1px solid; margin-top:80px; width:110%; margin-left:-20px;}
 .soft_workspace .table_workspace .data_table {border:#dce7ed 1px solid; margin-top:20px;}
@@ -1922,3 +1922,5 @@ a.button:hover {background:#00a4f2;}
 
 .nobord_table tr td {text-align:center; line-height:35px;}
 .nobord_table tr td a {color:#00F; margin-left:10px;}
+
+.wait_box {width:100%; height:170px; position:absolute; top:0; left:0; font-size:18px; padding-top:80px;}
