@@ -973,6 +973,9 @@ background-image: -webkit-linear-gradient(bottom, #093, #16c14f);
 
 .CustomTableBox table tbody tr td a.menu { display:inline-block; *zoom:1; *display:inline; padding:0 10px; height:26px; line-height:26px; border-radius:4px 4px 4px 4px; background:url(../images/bg_soft_right_top.gif) 0 -100px repeat-x; border:1px solid #8d9a9e; color:#3f4b54; font-size:13px; text-shadow:0 1px 0 rgba(255,255,255,0.5);}
 .CustomTableBox table tbody tr td a.menu:hover {text-decoration:none; background-position:0 -140px;}
+a.flex_menu { display:inline-block; *zoom:1; *display:inline; padding:0 10px; height:26px; line-height:26px; border-radius:4px 4px 4px 4px; background:url(../images/bg_soft_right_top.gif) 0 -100px repeat-x; border:1px solid #8d9a9e; color:#3f4b54 !important; font-size:13px; text-shadow:0 1px 0 rgba(255,255,255,0.5);}
+a.flex_menu:hover {text-decoration:none; background-position:0 -140px;}
+
 
 .CustomTableBox .order_list {background:#fff; padding:20px; border:1px solid #bec7c8; border-width:0 1px 1px 1px; text-shadow:0 1px 0 rgba(255,255,255,0.5);}
 .CustomTableBox .order_list .order_title{line-height:37px; background-color:#e1ebed; padding:5px 20px; border:1px solid #d0d7d8; border-top:1px solid #e0e6e7; border-bottom:1px solid #a9a9a9; border-radius:4px 4px 0 0;-webkit-box-shadow:inset 0 1px 0 #fff/*, inset 0 0 2px -1px rgba(232,19,64, 1)*/;	box-shadow:inset 0 1px 0 #fff/*, inset 0 0 2px -1px rgba(232,19,64, 1)*/; font-weight:bold; font-size:13px;}
@@ -1924,3 +1927,9 @@ a.button:hover {background:#00a4f2;}
 .nobord_table tr td a {color:#00F; margin-left:10px;}
 
 .wait_box {width:100%; height:170px; position:absolute; top:0; left:0; font-size:18px; padding-top:80px;}
+
+
+.soft_left_side .soft_left_side_submenu ul.nav_first_list li a span.zxyx,
+.soft_workspace_title h3 span.zxyx {background:url(../images/zxyx.gif)  no-repeat;}
+.soft_left_side .soft_left_side_submenu ul.nav_first_list li a span.sgsrhmfs,
+.soft_workspace_title h3 span.sgsrhmfs {background:url(../images/sgsrhmfs.gif)  no-repeat;}

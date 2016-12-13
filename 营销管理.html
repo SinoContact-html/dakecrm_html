@@ -773,120 +773,7 @@ var isdpy = false;
               <!--SMS设置Start-->
               <div class="table_workspace clearfix border-bottom padding-top20 margin-bottom20">
               	
-                <div class="table_workspace_iphone_sms" style="margin-bottom:0px;">
-                <!----->
-                	<div class="sms_title_box">
-                		<div class="sms_title">指定分组</div>
-                        <a class="change_btn hh"><input class="setup" type="button" value="修改"></a>
-                    </div>
-                <div class="show_box">
-                	<div class="popbox_frombox clearfix padding-left0">
-                        <div class="iphone_sms_frombox">
-                            <dl style="margin-bottom:0px;">
-                                <dd>
-                                    <div class="options_box" id="groupBox"><a class="options_news">暂无</a></div>
-                                </dd>
-                            </dl>
-                        </div>
-                	</div>
-                </div>
-                <div class="change_box">
-                    <div class="popbox_frombox clearfix" style="padding:0px;">
-                      <div class="iphone_sms_frombox">
-                        <div id="add_sms_event_step2_1" style="">
-                            <div class="adm-detail-title adm-detail-title_pd0" style="display: block; line-height:24px;">
-                            选择组（可多选）
-                             <input type="button" value="清除选择" class="submit" style="float:right; margin-top:0px; margin-bottom:5px;" onclick="removeChecked()"></div>
-                            <div class="table_workspace_infoBox mb20">
-                                <div class="adm-detail-title adm-detail-title_pd0 mb10" style="display: block;">常用分组（通过店铺交易数据筛选）</div>
-                                <div class="newGroupList mb20">
-                                    <label title=""><input type="checkbox" name="allCB11" class="allCB" id="allCB" value="-1" onclick="removeOtherGroupChecked();"><span>&nbsp;所有人</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10025" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;测试</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10020" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;old</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10019" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;new</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10017" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;所有人</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10014" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;ces</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1128" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;10年一月到15年6只购买过一次的客户里找出14年4月1日到8月30日这段时间之内买过一次</span></label>
-                                            <label title="最近交易时间距离今天不超过3个月且购买次数大于2次的客户"><input name="allCB11" class="groupCB" type="checkbox" value="1025" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;近3个月活跃会员</span></label>
-                                            <label title="最近交易时间距离今天超过3个月的客户"><input name="allCB11" class="groupCB" type="checkbox" value="1024" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;近3个月沉睡会员</span></label>
-                                            <label title="最近交易时间距离今天不超过2个月且购买次数大于2次的客户"><input name="allCB11" class="groupCB" type="checkbox" value="1023" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;近2个月活跃会员</span></label>
-                                            <label title="最近交易时间距离今天超过2个月的客户"><input name="allCB11" class="groupCB" type="checkbox" value="1022" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;近2个月沉睡会员</span></label>
-                                            <label title="首次交易时间在一个月内的客户(不包含7天内客户)"><input name="allCB11" class="groupCB" type="checkbox" value="1021" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;近1月新增会员</span></label>
-                                            <label title="首次交易时间在7天内的客户"><input name="allCB11" class="groupCB" type="checkbox" value="1020" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;近7天新增会员</span></label>
-                                </div>
-                                <div class="adm-detail-title adm-detail-title_pd0 mb10" style="display: block;">外部导入用户分组</div>
-                                <div class="newGroupList mb20">
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10031" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;测试20160412</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10028" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zerotest</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10024" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;ggvv</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10023" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;ccss</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10022" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;aaa</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10021" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zerotest1222</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10016" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zero_test_temp_08181504</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10015" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;201505</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10013" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;0717test</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10012" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;0715test22</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10011" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;111112222qqq</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10009" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;测测</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10008" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;QQ测试组</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10007" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;7.6</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10005" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;2015020202</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1127" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;20150625</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1126" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;20160610</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1125" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;birthday_test</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1122" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;11112333</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1120" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;20150423</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1119" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;20150407</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1118" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;EDM测试组</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1117" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;EDM测试组</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1116" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;北边</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1113" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;0310</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1112" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;temp201503092149</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1111" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;temp201503092140</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1110" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;temp201503092134</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1109" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zero_test_temp_1448</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1108" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zero_test_temp_1629</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1107" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zero_test_temp_1556</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1105" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;0306组</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1102" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zero_test_temp_3232</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1096" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;focussend</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1078" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;1211组</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1041" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;试用-过期</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1040" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;付费-过期</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1039" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;付费-使用中</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1038" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;试用未过期</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1032" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;浙江</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1028" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;客户沟通测试组</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1016" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;测试组</span></label>
-                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1015" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;达客用户</span></label>
-                                </div>
-                                <div class="adm-detail-title adm-detail-title_pd0 mb10" style="display: block;">智能分组</div>
-                                <div class="newGroupList mb20">
-                                    <label title="一般会员"><input name="allCB11" class="groupCB" type="checkbox" value="4" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;一般会员</span></label>
-                                    <label title="黄金会员"><input name="allCB11" class="groupCB" type="checkbox" value="3" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;黄金会员</span></label>
-                                    <label title="白金会员"><input name="allCB11" class="groupCB" type="checkbox" value="2" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;白金会员</span></label>
-                                    <label title="钻石会员"><input name="allCB11" class="groupCB" type="checkbox" value="1" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;钻石会员</span></label>
-                                </div>
-                                <div class="adm-detail-title adm-detail-title_pd0 mb10" style="display: block;">会员等级分组</div>
-                                <div class="newGroupList mb20">
-                                    <label title="普通"><input name="allCB11" class="groupCB" type="checkbox" groupname="普通" value="10001" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;普通</span></label>
-                                    <label title="高级"><input name="allCB11" class="groupCB" type="checkbox" groupname="高级" value="10002" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;高级</span></label>
-                                    <label title="VIP"><input name="allCB11" class="groupCB" type="checkbox" groupname="VIP" value="10003" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;VIP</span></label>
-                                    <label title="至尊VIP"><input name="allCB11" class="groupCB" type="checkbox" groupname="至尊VIP" value="10004" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;至尊VIP</span></label>
-                                </div>
-                            </div>
-                            <div class="submitbox np">
-                            <input type="submit" class="submit close" value="保存">
-                            <input type="submit" class="submit can" value="取消">
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="fenzu_tips">
-                	<img src="images/icon_tips.png" style="margin-right:5px;" />如果您还需要对选定的组，做进一步筛选，请设置下列“按指定条件筛选”栏。
-                </div>
+                
                 <div class="table_workspace_iphone_sms" style="margin-bottom:0px;">
                 	<div class="sms_title_box">
                 		<div class="sms_title">指定条件</div>
@@ -1218,6 +1105,120 @@ var isdpy = false;
                                 </div>
                             </div>
                        </div>
+                </div>
+                <div class="table_workspace_iphone_sms" style="margin-bottom:0px; margin-top:30px;">
+                <!----->
+                	<div class="sms_title_box">
+                		<div class="sms_title">指定分组</div>
+                        <a class="change_btn hh"><input class="setup" type="button" value="修改"></a>
+                    </div>
+                <div class="show_box">
+                	<div class="popbox_frombox clearfix padding-left0">
+                        <div class="iphone_sms_frombox">
+                            <dl style="margin-bottom:0px;">
+                                <dd>
+                                    <div class="options_box" id="groupBox"><a class="options_news">暂无</a></div>
+                                </dd>
+                            </dl>
+                        </div>
+                	</div>
+                </div>
+                <div class="change_box">
+                    <div class="popbox_frombox clearfix" style="padding:0px;">
+                      <div class="iphone_sms_frombox">
+                        <div id="add_sms_event_step2_1" style="">
+                            <div class="adm-detail-title adm-detail-title_pd0" style="display: block; line-height:24px;">
+                            选择组（可多选）
+                             <input type="button" value="清除选择" class="submit" style="float:right; margin-top:0px; margin-bottom:5px;" onclick="removeChecked()"></div>
+                            <div class="table_workspace_infoBox mb20">
+                                <div class="adm-detail-title adm-detail-title_pd0 mb10" style="display: block;">常用分组（通过店铺交易数据筛选）</div>
+                                <div class="newGroupList mb20">
+                                    <label title=""><input type="checkbox" name="allCB11" class="allCB" id="allCB" value="-1" onclick="removeOtherGroupChecked();"><span>&nbsp;所有人</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10025" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;测试</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10020" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;old</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10019" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;new</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10017" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;所有人</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10014" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;ces</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1128" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;10年一月到15年6只购买过一次的客户里找出14年4月1日到8月30日这段时间之内买过一次</span></label>
+                                            <label title="最近交易时间距离今天不超过3个月且购买次数大于2次的客户"><input name="allCB11" class="groupCB" type="checkbox" value="1025" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;近3个月活跃会员</span></label>
+                                            <label title="最近交易时间距离今天超过3个月的客户"><input name="allCB11" class="groupCB" type="checkbox" value="1024" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;近3个月沉睡会员</span></label>
+                                            <label title="最近交易时间距离今天不超过2个月且购买次数大于2次的客户"><input name="allCB11" class="groupCB" type="checkbox" value="1023" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;近2个月活跃会员</span></label>
+                                            <label title="最近交易时间距离今天超过2个月的客户"><input name="allCB11" class="groupCB" type="checkbox" value="1022" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;近2个月沉睡会员</span></label>
+                                            <label title="首次交易时间在一个月内的客户(不包含7天内客户)"><input name="allCB11" class="groupCB" type="checkbox" value="1021" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;近1月新增会员</span></label>
+                                            <label title="首次交易时间在7天内的客户"><input name="allCB11" class="groupCB" type="checkbox" value="1020" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;近7天新增会员</span></label>
+                                </div>
+                                <div class="adm-detail-title adm-detail-title_pd0 mb10" style="display: block;">外部导入用户分组</div>
+                                <div class="newGroupList mb20">
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10031" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;测试20160412</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10028" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zerotest</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10024" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;ggvv</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10023" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;ccss</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10022" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;aaa</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10021" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zerotest1222</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10016" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zero_test_temp_08181504</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10015" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;201505</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10013" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;0717test</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10012" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;0715test22</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10011" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;111112222qqq</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10009" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;测测</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10008" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;QQ测试组</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10007" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;7.6</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="10005" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;2015020202</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1127" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;20150625</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1126" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;20160610</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1125" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;birthday_test</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1122" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;11112333</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1120" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;20150423</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1119" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;20150407</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1118" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;EDM测试组</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1117" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;EDM测试组</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1116" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;北边</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1113" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;0310</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1112" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;temp201503092149</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1111" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;temp201503092140</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1110" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;temp201503092134</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1109" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zero_test_temp_1448</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1108" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zero_test_temp_1629</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1107" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zero_test_temp_1556</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1105" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;0306组</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1102" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;zero_test_temp_3232</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1096" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;focussend</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1078" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;1211组</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1041" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;试用-过期</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1040" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;付费-过期</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1039" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;付费-使用中</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1038" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;试用未过期</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1032" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;浙江</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1028" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;客户沟通测试组</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1016" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;测试组</span></label>
+                                            <label title=""><input name="allCB11" class="groupCB" type="checkbox" value="1015" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;达客用户</span></label>
+                                </div>
+                                <div class="adm-detail-title adm-detail-title_pd0 mb10" style="display: block;">智能分组</div>
+                                <div class="newGroupList mb20">
+                                    <label title="一般会员"><input name="allCB11" class="groupCB" type="checkbox" value="4" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;一般会员</span></label>
+                                    <label title="黄金会员"><input name="allCB11" class="groupCB" type="checkbox" value="3" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;黄金会员</span></label>
+                                    <label title="白金会员"><input name="allCB11" class="groupCB" type="checkbox" value="2" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;白金会员</span></label>
+                                    <label title="钻石会员"><input name="allCB11" class="groupCB" type="checkbox" value="1" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;钻石会员</span></label>
+                                </div>
+                                <div class="adm-detail-title adm-detail-title_pd0 mb10" style="display: block;">会员等级分组</div>
+                                <div class="newGroupList mb20">
+                                    <label title="普通"><input name="allCB11" class="groupCB" type="checkbox" groupname="普通" value="10001" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;普通</span></label>
+                                    <label title="高级"><input name="allCB11" class="groupCB" type="checkbox" groupname="高级" value="10002" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;高级</span></label>
+                                    <label title="VIP"><input name="allCB11" class="groupCB" type="checkbox" groupname="VIP" value="10003" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;VIP</span></label>
+                                    <label title="至尊VIP"><input name="allCB11" class="groupCB" type="checkbox" groupname="至尊VIP" value="10004" onclick="javascript:$('.allCB').attr('checked',false);"><span>&nbsp;至尊VIP</span></label>
+                                </div>
+                            </div>
+                            <div class="submitbox np">
+                            <input type="submit" class="submit close" value="保存">
+                            <!--<input type="submit" class="submit can" value="取消">-->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="fenzu_tips" style="padding:10px 20px;">
+                	<img src="images/icon_tips.png" style="margin-right:5px;" />如果您还需要对选定的组，做进一步筛选，请设置下列“按指定条件筛选”栏。
                 </div>
                 <div class="sxjg">
                 	<p style="margin-bottom:10px;"><strong>筛选会员：</strong>根据您当前所指定的条件，筛选目标客户；由于执行筛选条件涉及的数据量过大，可能会导致筛选结果变慢，请耐心等待。</p>
