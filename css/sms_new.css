@@ -62,7 +62,7 @@ behavior: url(./PIE.htc);}*/
 .soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu_down {margin-left:45px; width:80px; position:relative; z-index:99;}
 .soft_workspace .table_workspace .logistics_switch .switchBox .switch_menu_3 {margin-top:50px;}
 .soft_workspace .table_workspace .logistics_switch .switchBox a h4 {text-align:center; color:#74b5e5; font-size:12px; font-weight:normal; line-height:20px; padding-top:5px; height:40px; width:80px;}
-.soft_workspace .table_workspace .logistics_switch .switchBox a h4.longer {width:200px; margin-left:-58px; color:#d0550b;}
+.soft_workspace .table_workspace .logistics_switch .switchBox a h4.longer {width:200px; margin-left:-58px;}
 .soft_workspace .table_workspace .logistics_switch .switchBox a.off h4 {color:#afafaf;}
 /*.soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu:hover h4,
 .soft_workspace .table_workspace .logistics_switch .switchBox a.switch_menu.onthis h4 {color:#fff; text-shadow:0 2px 0 #666;}

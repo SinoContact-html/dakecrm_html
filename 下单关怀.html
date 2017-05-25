@@ -1,0 +1,3715 @@
+
+
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>下单关怀(到付)</title>
+
+    
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+<script language="javascript" type="text/javascript" src="js/jquery-1.7.1.min.js?v=201608121050"></script>
+<script language="javascript" type="text/javascript" src="js/eye.js?v=201608121050"></script>
+<script language="javascript" type="text/javascript" src="js/common.js?v=201608121050"></script>
+<script language="javascript" type="text/javascript" src="js/dake-prototype.js?v=201608121050"></script>
+<script language="javascript" type="text/javascript" src="js/common_develop.js?v=201608121050"></script>
+<script language="javascript" type="text/javascript" src="js/variable_config.js?v=201608121050"></script>
+<script language="javascript" type="text/javascript" src="js/validator.js?v=201608121050"></script>
+<!-- Jim add Start -->
+<script language="javascript" type="text/javascript" src="js/flexigrid.pack.js?v=201608121050"></script>
+<script language="javascript" type="text/javascript" src="js/datepicker.js?v=201608121050"></script>
+<!-- Jim add end 
+<link href="/css/common_new.css" rel="stylesheet" type="text/css" />
+<link href="/css/sms_new.css" rel="stylesheet" type="text/css" />
+<link href="/css/customize.css" rel="stylesheet" type="text/css" />
+-->
+
+<link href="css/com_menu.css?v=201608121050" rel="stylesheet" type="text/css" />
+
+<link href="css/customize.css?v=201608121050" id="getCtx" rel="stylesheet" type="text/css" />
+
+<link href="css/edm.css?v=201608121050" rel="stylesheet" type="text/css" />       
+<link href="css/common_new.css?v=201608121050"  type="text/css" rel="stylesheet"/>
+<link href="css/sms_new.css?v=201608121050"  type="text/css" rel="stylesheet"/>
+
+
+
+
+
+
+    <script type="text/javascript" src="js/marketing.js?v=201608121050"></script>
+    <script language="javascript" type="text/javascript" src="js/jquery-ui.js"></script>
+<link rel="stylesheet" media="screen" type="text/css" href="css/jquery-ui.css" />
+    <link href="js/jtable/themes/lightcolor/gray/jtable.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jtable/jquery.jtable.js"></script>
+<script type="text/javascript" src="js/jtable/jquery.jtable.zh-CN.js"></script>
+    
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  function insertSmsContentNew(){
+    $.ajax({
+      url: '/user/getUserSignInfo',
+      type: 'POST',
+      data:{
+
+      },
+      dataType: 'json',
+      async: false,
+      success: function(resp){
+        console.log(resp);
+        var type= '';
+        var sign ;
+        var is_unsubscribe = 'yes';
+        var is_pre_sign = 'yes';
+        var custom_sign_flag = resp.custom_sign_flag;
+        var unsubscribe_content = ' 退订回N';
+        var first_content_length = '70';
+        var other_content_length = '67';
+        var content = "";
+        sign = "【万誉会】";
+
+        if (is_unsubscribe!=null && is_unsubscribe!='' && is_unsubscribe=="yes"){
+          content = $("#textarea_sms_text").val()+unsubscribe_content;
+        }
+        if (is_pre_sign!=null && is_pre_sign!='' && is_pre_sign=="yes"){
+          content =  sign + content;
+        }else{
+          content =  content + sign;
+        }
+        console.log(content);
+        $("#iphone_sms_text").html(content);
+        var textNmu = $("#iphone_sms_text").html().length;
+        $("C_Num").html(first_content_length);
+        $("#T_Num").html(textNmu);
+        if(textNmu-parseInt(first_content_length)>0){
+          if(parseInt(textNmu)%parseInt(other_content_length)==0){
+            $("#Sms_Num").html(parseInt((textNmu)/other_content_length));
+          }
+          else{
+            $("#Sms_Num").html(parseInt((textNmu)/other_content_length+1));
+          }
+        }else{
+          $("#Sms_Num").html(1);
+        }
+
+      }});
+
+  }
+  function insertSmsContentNew2(){
+    $.ajax({
+      url: '/user/getUserSignInfo',
+      type: 'POST',
+      data:{
+
+      },
+      dataType: 'json',
+      success: function(resp){
+        console.log(resp);
+        var type= '';
+        var sign ;
+        var is_unsubscribe = 'yes';
+        var is_pre_sign = 'yes';
+        var custom_sign_flag = resp.custom_sign_flag;
+        var unsubscribe_content = ' 退订回N';
+        var first_content_length = '70';
+        var other_content_length = '67';
+        var content = "";
+        sign = "【万誉会】";
+
+        if (is_unsubscribe!=null && is_unsubscribe!='' && is_unsubscribe=="yes"){
+          content = $("#textarea_sms_text2").val()+unsubscribe_content;
+        }
+        if (is_pre_sign!=null && is_pre_sign!='' && is_pre_sign=="yes"){
+          content =  sign + content;
+        }else{
+          content =  content + sign;
+        }
+        console.log(content);
+        $("#iphone_sms_text2").html(content);
+        var textNmu = $("#iphone_sms_text2").html().length;
+        $("C_Num2").html(first_content_length);
+        $("#T_Num2").html(textNmu);
+        if(textNmu-parseInt(first_content_length)>0){
+          if(parseInt(textNmu)%parseInt(other_content_length)==0){
+            $("#Sms_Num2").html(parseInt((textNmu)/other_content_length));
+          }
+          else{
+            $("#Sms_Num2").html(parseInt((textNmu)/other_content_length+1));
+          }
+        }else{
+          $("#Sms_Num2").html(1);
+        }
+
+      }});
+
+  }
+
+</script>
+    <style>
+        .jtableAlign
+        {
+            text-align: center;
+        }
+    </style>
+    <script language="javascript" type="text/javascript" src="js/calendar/WdatePicker.js"></script>
+    <script language="javascript" type="text/javascript" charset="utf-8" src="js/kindeditor/kindeditor-min.js"></script>
+    <script language="javascript" type="text/javascript" charset="utf-8" src="js/kindeditor/zh_CN.js"></script>
+    <script type="text/javascript">
+        var editor;
+        KindEditor.ready(function(K) {
+            editor = K.create('textarea[name="content"]', {
+
+                allowFileManager : true
+            });
+        });
+
+        $(document).ready(function(){
+
+
+            //文本框初始化
+            insertSmsContentNew();
+            //为文本框绑定事件
+            $('textarea#textarea_sms_text').keyup(function(){
+                insertSmsContentNew();
+            });
+        })
+
+        function insertAtCursor(myField, myValue) {
+            //IE support
+            if (document.selection) {
+                myField.focus();
+                sel = document.selection.createRange();
+                sel.text = myValue;
+                sel.select();
+            }
+            else if (myField.selectionStart || myField.selectionStart == '0') {
+                var startPos = myField.selectionStart;
+                var endPos = myField.selectionEnd;
+                var restoreTop = myField.scrollTop;
+                myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+                if (restoreTop > 0) {
+                    myField.scrollTop = restoreTop;
+                }
+                myField.focus();
+                myField.selectionStart = startPos + myValue.length;
+                myField.selectionEnd = startPos + myValue.length;
+            } else {
+                myField.value += myValue;
+                myField.focus();
+            }
+
+            if(myField.id!=null && myField.id =='textarea_sms_text'){
+                insertSmsContentNew();
+
+            }else{
+                insertSmsContentNew2();
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+
+
+
+
+
+
+
+
+
+
+
+<div class="popbox_core rem" id="add_Contacts"><!--此处ID和colseID对应-->
+
+	<input type="hidden" name="popOpenId">
+	<div class="popbox_head">
+    	<span class="title">添加指定商品</span>
+    </div>
+    <div class="popbox_workspace">
+    	<div>
+    		<span>商品链接或ID：</span>
+    		<input class="text search_item" type="text" placeholder="输入链接或id..." style="width:490px;" />
+            <div class="options_box"><a class="options" href="javascript:void(0)" onClick="addItemFromIdOrUrl();">搜索</a></div>
+        </div>
+        <div class='clear'></div>
+        <div>
+        	<span>&nbsp;&nbsp;&nbsp;&nbsp;商品关键词：</span>
+        	<input class="text search_item_title" id="search_item_title" type="text" placeholder="输入关键词..." style="width:490px;" />
+            <div class="options_box"><a class="options" href="javascript:void(0)" onClick="searchKey();">搜索</a></div>
+        </div>
+        <div class='clear'></div>
+        <div class="store_pro clearfix">
+          <div class="store_pro_box">
+        	<ul>
+            	<li><p><strong>店铺中的商品</strong></p></li>
+            </ul>
+            <ul class="new_search_item_ul">
+                
+            </ul>
+          </div>
+          <div class="pro_middle">>></div>
+          <div class="store_pro_box">
+            <ul class="pro_right" style="margin-left: 0px;">
+            	<li><p><strong>已选中的商品</strong>
+            	<span id="deletePage"></span>
+            	</p></li>
+            </ul>
+            <ul class="pro_right new_add_item_ul" style="margin-left: 0px;">
+                
+            </ul>
+          </div>
+          </div>
+          <div class="clear"></div>
+        <div class="soft_workspace" style="margin:0px;">
+        <div class="pagefen" style="padding:0px; margin:0px; float:left;">
+            <span>共<strong><label id="allItemSize">0</label></strong>款商品</span>
+            <span id="allItemPage" style="display: none"></span>
+          </div>
+          <div class="pagefen" style="padding:0px; margin:0px; float:right; margin-top:-28px; margin-right:20px;">
+            <span>已选<strong><label id="itemSize">0</label></strong>个宝贝</span>
+            <span id="choosedItemPage" style="display: none"></span>
+          </div>
+          <div class="clear"></div>
+          </div>
+        <div class="submitbox">
+    		<input class="submit" value="确定" type="button" onClick="saveItems();CloseRemind('add_Contacts')" />
+    	</div>
+    </div>
+</div>
+<script type="text/javascript">
+function addItemFromIdOrUrl(){
+	var searchStr = $(".search_item").val() ;
+    var searchItemId ;
+    var flag =true ;
+
+    if(searchStr != ''){
+        //如果用户填写的是URL，从URL中解析出item id
+        searchItemId = getItemIdFromUrlOrId(searchStr) ;
+    }else{
+        //alert("请输入宝贝ID/链接");
+        var  popAlert = new PopAlert('提示',"请输入宝贝ID/链接",null,"id");
+        popAlert;
+        return ;
+    }
+
+	var ids = "";
+	//查询之前保存过的宝贝id，如果已经出现，则之前保存过
+	$("input[name='chooseIds']").each(function(){
+		ids +=  $(this).val();
+	});
+	//查询当前添加的
+	$(".new_add_item_ul li").each(function(){
+		var tid = $(this).attr("id");
+		if(tid!=null && tid!='' && typeof (tid)!='undefined' && ids.indexOf(tid.substring(3)+",")==-1){
+			ids += tid +",";
+		}
+	});
+
+	if(ids.indexOf(searchItemId+",")>-1){
+		//alert("已经添加过该宝贝");
+		var  popAlert = new PopAlert('提示',"已经添加过该宝贝",null,"id");
+		popAlert;
+		flag = false ;
+		return ;
+	}
+    if(searchItemId != NaN && searchItemId > 0){
+        //自定义宝贝重复验证
+        $(".new_add_item_ul input").each(function(){
+            if(searchItemId == $(this).val()){
+                //alert("已经添加过该宝贝");
+                $(".search_item").val("");
+                flag = false ;
+                var  popAlert = new PopAlert('提示',"已经添加过该宝贝",null,"id");
+                popAlert;
+            }
+        })
+        if(flag){
+            var item = getItemFromItemId(searchItemId) ;
+            if(item != null){
+                //show
+                showItem(item,$(".new_add_item_ul"),"item_choose_dl_"+$("input[name='popOpenId']").val()) ;
+                $(".search_item").val("");
+            }else{
+                //alert("未查询到该宝贝");
+                var  popAlert = new PopAlert('提示',"未查询到该宝贝",null,"id");
+                popAlert;
+                return ;
+            }
+        }
+    }else{
+        //alert("宝贝ID/链接不正确");
+        var  popAlert = new PopAlert('提示',"宝贝ID/链接不正确",null,"id");
+        popAlert;
+        return ;
+    }
+}
+
+//根据宝贝ID获取宝贝对象
+function getItemFromItemId(id){
+    var item ;
+    $.ajax({
+        url: '/communication/getItemFromId',
+        type: 'POST',
+        dataType: 'json',
+        data:{
+            'numIid' : id
+        },
+        async : false ,
+        success: function(json){
+//            console.log(json);
+            item = json ;
+        }
+    });
+
+    return item ;
+}
+
+var total=0;
+var perSize=3;
+var nowPage=1;
+var keyIds = {};
+
+//显示宝贝
+function showItem(item,ul){
+    var str="<li id=\"li_{id}\" class=\"left itemLi\"><a href=\"javascript:void(0)\">"+
+    		"<div class=\"pro_img\">"+
+    		"<em></em><img src=\"{pic_url}\"/>"+
+    		"</div>"+
+    		"<div class=\"pro_name\"><a href=\"{detail_url}\" target=\"_blank\">{title}</a><br/>商品id：{id}"+
+    		"</div>"+
+    		"<div class=\"pro_pic\"><span>￥{price}</span><a onclick=\"deleteItem({id});refreshSearch();refreshChoosed();\"><img src=\"/images/del.png\" /></a></div>"+
+    		"<div class=\"clear\"></div>"+
+    		"</a></li>";
+    str = str.replaceAll("{id}",item.num_iid,false);
+    str = str.replaceAll("{pic_url}",item.pic_url,false);
+    str = str.replaceAll("{title}",item.title.substring(0,14),false);
+    str = str.replaceAll("{detail_url}",item.detail_url,false);
+    str = str.replaceAll("{price}",item.price,false);
+    $(ul).prepend(str) ;
+    
+    str="<input type=\"hidden\" id=\"input_{id}\" name=\"itemId\" value=\"{id}\"/>";
+    str = str.replaceAll("{id}",item.num_iid,false);
+    $('#choosedItemSpan').prepend(str);
+    
+    str="<li id=\"cli_{id}\" "+
+    "onmouseover=\"$(this).find('em').css('display','block');\" onmouseout=\"$(this).find('em').css('display','none');\" >"+
+    "<img width=\"70\" height=\"70\" src=\"{pic_url}\" /><em>"+
+    "<a onclick=\"deleteItem({id});refreshSearch();refreshChoosed();\"><img src=\"/images/del.png\" /></a></em></li>";
+    str = str.replaceAll("{id}",item.num_iid,false);
+    str = str.replaceAll("{pic_url}",item.pic_url,false);
+    str = str.replaceAll("{title}",item.title,false);
+    $('#stroe_pro').prepend(str);
+    
+    total=$('.itemLi').size();
+    if(total>perSize){
+    	fetchChoosed(nowPage);
+    	addDeletePage();
+    }else{
+    	cancelDeletePage();
+    	var html="";
+    	html=getChoosedItemPageHtml();
+    	$('#choosedItemPage').html(html);
+    	$('#choosedItemPage').show();
+    }
+    $('#itemSize').html(total);
+}
+//显示宝贝
+function showItem(item,ul,uid){
+    var str="<li id=\"li_{id}\" class=\"left itemLi\"><a href=\"javascript:void(0)\">"+
+    		"<div class=\"pro_img\">"+
+    		"<em></em><img src=\"{pic_url}\"/>"+
+    		"</div>"+
+    		"<div class=\"pro_name\"><a href=\"{detail_url}\" target=\"_blank\">{title}</a><br/>商品id：{id}"+
+    		"</div>"+
+    		"<div class=\"pro_pic\"><span>￥{price}</span><a onclick=\"deleteItem({id});refreshSearch();refreshChoosed();\"><img src=\"/images/del.png\" /></a></div>"+
+    		"<div class=\"clear\"></div>"+
+    		"</a></li>";
+    str = str.replaceAll("{id}",item.num_iid,false);
+    str = str.replaceAll("{pic_url}",item.pic_url,false);
+    str = str.replaceAll("{title}",item.title.substring(0,14),false);
+    str = str.replaceAll("{detail_url}",item.detail_url,false);
+    str = str.replaceAll("{price}",item.price,false);
+    $(ul).prepend(str) ;
+
+    str="<input type=\"hidden\" id=\"input_{id}\" name=\"itemId\" value=\"{id}\"/>";
+    str = str.replaceAll("{id}",item.num_iid,false);
+    $('#choosedItemSpan').prepend(str);
+
+    str="<li id=\"cli_{id}\" "+
+    "onmouseover=\"$(this).find('em').css('display','block');\" onmouseout=\"$(this).find('em').css('display','none');\" >"+
+    "<img width=\"70\" height=\"70\" src=\"{pic_url}\" /><em>"+
+    "<a onclick=\"deleteItem({id});refreshSearch();refreshChoosed();\"><img src=\"/images/del.png\" /></a></em></li>";
+    str = str.replaceAll("{id}",item.num_iid,false);
+    str = str.replaceAll("{pic_url}",item.pic_url,false);
+    str = str.replaceAll("{title}",item.title,false);
+	$("."+uid+" .item_choose_ul").each(function(){
+		var id  = $(this).attr("id").substring(3);
+		if(id ==item.num_iid ){
+			console.log("重复");
+		}
+	});
+    $("."+uid+" .item_choose_ul").prepend(str);
+
+    total=$('.itemLi').size();
+    if(total>perSize){
+    	fetchChoosed(nowPage);
+    	addDeletePage();
+    }else{
+    	cancelDeletePage();
+    	var html="";
+    	html=getChoosedItemPageHtml();
+    	$('#choosedItemPage').html(html);
+    	$('#choosedItemPage').show();
+    }
+    $('#itemSize').html(total);
+}
+
+function fetchChoosed(pageNo){
+	//隐藏所有页
+	$('.itemLi').hide();
+	//显示当前页
+	nowPage=pageNo;
+	var showBegin=(nowPage-1)*perSize;
+	var showEnd=nowPage*perSize;
+	for(;showBegin<showEnd;showBegin++){
+		$('.itemLi').eq(showBegin).show();
+	}
+	total=$('.itemLi').size();
+    if(total>perSize){
+    	addDeletePage();
+    }else{
+    	cancelDeletePage();
+    }
+	var html=getChoosedItemPageHtml();
+	$('#choosedItemPage').html(html);
+	$('#choosedItemPage').show();
+}
+
+function addDeletePage(){
+	var str="<a href=\"javascript:void(0)\" onclick=\"deletePage();\">"+
+	"<img src=\"/images/del.png\" /><span>清空当前页</span></a>";
+	$('#deletePage').html(str);
+}
+
+function cancelDeletePage(){
+	var str="";
+	$('#deletePage').html(str);
+}
+    
+function deletePage(){
+	var begin=(nowPage-1)*perSize;
+	var end=nowPage*perSize-1;
+	var lid;
+	var id;
+	while(begin<=end){
+		lid=$('.itemLi').eq(end).attr('id');
+		if(lid!= undefined){
+			id=lid.substring(3,lid.length);
+			for(k in keyIds){
+	            if(k==id){
+	            	delete keyIds[k];
+	            	break;
+	            }
+	        }
+			var attr='#li_'+id;
+			$(attr).remove();
+			attr='#cli_'+id;
+			$(attr).remove();
+			attr='#input_'+id;
+			$(attr).remove();
+		}
+		end--;
+	}
+	$('#itemSize').html($('.itemLi').size());
+	if(nowPage>1){
+		fetchChoosed(nowPage-1);
+	}else{
+		fetchChoosed(nowPage);
+	}
+	refreshSearch();
+}
+    
+function refreshChoosed(){
+	fetchChoosed(nowPage);
+}
+    
+function getChoosedItemPageHtml(){
+	var html="";
+	var totalPages=0;
+	var startPage=1;
+	var endPage=1;
+	var showPageCount=3;
+	total=$('.itemLi').size();
+	if(total%perSize==0){
+		totalPages=parseInt(total/perSize);
+	}else{
+		totalPages=parseInt(total/perSize)+1;
+	}
+	if(showPageCount > totalPages)
+	{
+	endPage = totalPages;
+	}
+	else
+	{
+	if(nowPage < (parseInt(showPageCount / 2)))
+	{
+	endPage = showPageCount;
+	}
+	else
+	{
+	if(showPageCount%2==0){
+	startPage = nowPage - parseInt(showPageCount/ 2);
+	endPage = nowPage + parseInt(showPageCount/ 2);
+	}else{
+	startPage = nowPage - parseInt(showPageCount/ 2)+1;
+	endPage = nowPage + parseInt(showPageCount/ 2)+1;
+	}
+	if(endPage > totalPages)
+	{
+	endPage = totalPages;
+	startPage = endPage - showPageCount + 1;
+	}
+	}
+	}
+
+	
+	if(nowPage>=1&&totalPages>=1){
+	html=html+"<a href=\"javascript:void(0);\" onclick=\"fetchChoosed(";
+	if(nowPage== 1)
+	html=html+nowPage;
+	else
+	html=html+(nowPage-1);
+	html=html+");\"><em class=\"prev\"></em></a>"
+	}
+	
+	var i = startPage;
+	for(;i <= endPage; i++)
+	{
+	if(nowPage == i)
+	{
+	html=html+"<a class=\"onthis\" href=\"";
+	}
+	else
+	{
+	html=html+"<a href=\"";
+	}
+	html=html+"javascript:void(0);\" onclick=\"fetchChoosed("+i+");\">"+i+"</a>";
+	}
+
+	if(nowPage <= totalPages)
+	{
+	html=html+"<a href=\"javascript:void(0);\" onclick=\"fetchChoosed(";
+	if(nowPage == totalPages)
+	{
+	html=html+nowPage;
+	}
+	else{
+	html=html+(nowPage + 1);
+	}
+	html=html+");\"><em class=\"next\"></em></a>";
+	}
+	return html;
+}
+    
+function deleteItem(id){
+	for(k in keyIds){
+        if(k==id){
+        	delete keyIds[k];
+        	break;
+        }
+    }
+	$("input[name='chooseIds']").each(function(){
+		$(this).val($(this).val().replace(id+",",''));
+	});
+	var attr='#li_'+id;
+	$(attr).remove();
+	attr='#cli_'+id;
+	$(attr).remove();
+	attr='#input_'+id;
+	$(attr).remove();
+	$('#itemSize').html($('.itemLi').size());
+}
+    
+function myCheck(id){
+    if(keyIds[id]!=undefined){
+        if(keyIds[id]=="checked"){
+            keyIds[id]="";
+        }else{
+            keyIds[id]="checked";
+        }
+    }else{
+        keyIds[id]="checked";
+    }
+}
+
+var itemTotal=0;
+var pageNo=1;
+function searchKey(){
+	fetch(1);
+}
+    
+function fetch(pageNum){
+	pageNo=pageNum;
+    $(".new_search_item_ul").empty();
+    $("#allItemPage").html("");
+    $("#allItemPage").show();
+
+    var title = $("#search_item_title").val().trim();
+    if(typeof(title)=="undefined" || title.length==0){
+        //alert("请输入关键词");
+        var  popAlert = new PopAlert('提示',"请输入关键词",null,"id");
+        popAlert;
+        return;
+    }
+    var itemIds="";
+    for(k in keyIds){
+    	itemIds = itemIds + k+",";
+    }
+    if(itemIds.length>1){
+    	itemIds=itemIds.substring(0,itemIds.length-1);
+    }
+    $.ajax({
+        url: '/communication/getItemsByKeyWords',
+        type: 'POST',
+        data:{
+            pageNo:pageNo,
+            keyWords:$("#search_item_title").val(),
+            type:1,
+            filterItemIds:itemIds,
+			pageSize:perSize
+        },
+        dataType: 'json',
+        success: function(resp){
+        	itemTotal=resp.total;
+        	$('#allItemSize').html(itemTotal);
+        	var html=getAllItemPageHtml();
+        	$("#allItemPage").html(html);
+            showItemsKeys(resp.rows,$(".new_search_item_ul"),"search",'');
+            $(".new_search_item_ul  input").each(function(){
+                if(keyIds[$(this).val()]!=undefined){
+                    if(keyIds[$(this).val()]=="checked"){
+                        $(this).attr("checked","checked");
+                    }else{
+                        $(this).removeAttr("checked");
+                    }
+                }
+            });
+
+        }
+    });
+}
+
+function getAllItemPageHtml(){
+	console.log('pageNo');
+	console.log(pageNo);
+	var html="";
+	var totalPages=0;
+	var startPage=1;
+	var endPage=1;
+	var showPageCount=3;
+	if(itemTotal%perSize==0){
+		totalPages=parseInt(itemTotal/perSize);
+	}else{
+		totalPages=parseInt(itemTotal/perSize)+1;
+	}
+	console.log('totalPages');
+	console.log(totalPages);
+	if(showPageCount > totalPages)
+	{
+	endPage = totalPages;
+	}
+	else
+	{
+	if(pageNo < (parseInt(showPageCount / 2)))
+	{
+	endPage = showPageCount;
+	}
+	else
+	{
+	if(showPageCount%2==0){
+	startPage = pageNo - parseInt(showPageCount/ 2);
+	endPage = pageNo + parseInt(showPageCount/ 2);
+	}else{
+	startPage = pageNo - parseInt(showPageCount/ 2)+1;
+	endPage = pageNo + parseInt(showPageCount/ 2)+1;
+	}
+	if(endPage > totalPages)
+	{
+	endPage = totalPages;
+	startPage = endPage - showPageCount + 1;
+	}
+	}
+	}
+
+	
+	if(pageNo>=1&&totalPages>=1){
+	html=html+"<a href=\"javascript:void(0);\" onclick=\"fetch(";
+	if(pageNo== 1)
+	html=html+pageNo;
+	else
+	html=html+(pageNo-1);
+	html=html+");\"><em class=\"prev\"></em></a>"
+	}
+	
+	var i = startPage;
+	for(;i <= endPage; i++)
+	{
+	if(pageNo == i)
+	{
+	html=html+"<a class=\"onthis\" href=\"";
+	}
+	else
+	{
+	html=html+"<a href=\"";
+	}
+	html=html+"javascript:void(0);\" onclick=\"fetch("+i+");\">"+i+"</a>";
+	}
+
+	if(pageNo <= totalPages)
+	{
+	html=html+"<a href=\"javascript:void(0);\" onclick=\"fetch(";
+	if(pageNo == totalPages)
+	{
+	html=html+pageNo;
+	}
+	else{
+	html=html+(pageNo + 1);
+	}
+	html=html+");\"><em class=\"next\"></em></a>";
+	}
+	return html;
+}
+    
+//显示宝贝列表
+function showItemsKeys(items,ul,type,selectedItems){
+	items.forEach(function(item){
+		showItemNew(item,ul,type,selectedItems) ;
+		})
+}
+
+//显示宝贝
+function showItemNew(item,ul,type,selectedItems){
+	var str= "<li class=\"left\">"+
+	"<div class=\"pro_img\"><label>"+
+	"<input type=\"checkbox\" onclick=\"myCheck({id});addItem({id});refreshSearch();refreshChoosed();\"/>"+
+	"<em></em><img src=\"{pic_url}\"/>"+
+	"</label></div>"+
+	"<div class=\"pro_name\"><a href=\"{detail_url}\" target=\"_blank\">{title}</a><br/>商品id：{id}"+
+	"</div>"+
+	"<div class=\"pro_pic\"><span>￥{price}</span></div>"+
+	"<div class=\"clear\"></div>"+
+	"</li>";
+	if(type == 'MAIN'){
+		str = str.replaceAll("{type}","RADIO",false) ;
+		str = str.replaceAll("{delete}","",false) ;
+		}else{
+            str = str.replaceAll("{type}","CHECKBOX",false) ;
+            str = str.replaceAll("{delete}","<label style='margin-left:10px;'><a style='color:blue;' href=\"javascript:void(0)\" onclick=\"deleteItem('{id}');\">删除</a></label>",false) ;
+        }
+	if(selectedItems.indexOf(item.num_iid) != -1){
+		str = str.replaceAll("{checked}","checked=checked",false);
+        }else{
+            str = str.replaceAll("{checked}","",false);
+        }
+
+        str = str.replaceAll("{id}",item.num_iid,false);
+        str = str.replaceAll("{marketing_type}",type,false);
+        str = str.replaceAll("{pic_url}",item.pic_url,false);
+        str = str.replaceAll("{title}",item.title.substring(0,14),false);
+        str = str.replaceAll("{detail_url}",item.detail_url,false);
+        str = str.replaceAll("{price}",item.price,false);
+        $(ul).append(str);
+    }
+    
+    function addItem(searchItemId){
+		var flag = true;
+		var ids = "";
+		//查询之前保存过的宝贝id，如果已经出现，则之前保存过
+		$("input[name='chooseIds']").each(function(){
+			ids +=  $(this).val();
+		});
+		//查询当前添加的
+		$(".new_add_item_ul li").each(function(){
+			var tid = $(this).attr("id");
+			if(tid!=null && tid!='' && typeof (tid)!='undefined' && ids.indexOf(tid.substring(3)+",")==-1){
+				ids += tid +",";
+			}
+		});
+
+		if(ids.indexOf(searchItemId+",")>-1){
+			//alert("已经添加过该宝贝");
+			var  popAlert = new PopAlert('提示',"已经添加过该宝贝",null,"id");
+	        popAlert;
+			flag = false ;
+			return ;
+		}
+
+		if(flag){
+			$.ajax({
+				url: '/communication/getItemByItemId',
+				type: 'POST',
+				data:{
+					itemId:searchItemId,
+				},
+				dataType: 'json',
+				success: function(resp){
+					console.log(resp.rows);
+					resp.rows.forEach(function(item){
+						showItem(item,$(".new_add_item_ul"),"item_choose_dl_"+$("input[name='popOpenId']").val()) ;
+					})
+				}
+			});
+		}
+
+    }
+    
+    function refreshSearch(){
+        $("#allItemPage").html("");
+        $("#allItemPage").show();
+
+        var title = $("#search_item_title").val().trim();
+        if(typeof(title)=="undefined" || title.length==0){
+            return;
+        }
+        var itemIds="";
+        for(k in keyIds){
+        	itemIds = itemIds + k+",";
+        }
+        if(itemIds.length>1){
+        	itemIds=itemIds.substring(0,itemIds.length-1);
+        }
+        $.ajax({
+            url: '/communication/getItemsByKeyWords',
+            type: 'POST',
+            data:{
+                pageNo:pageNo,
+                keyWords:$("#search_item_title").val(),
+                type:1,
+                filterItemIds:itemIds,
+				pageSize:perSize
+            },
+            dataType: 'json',
+            success: function(resp){
+            	itemTotal=resp.total;
+            	$('#allItemSize').html(itemTotal);
+            	var html=getAllItemPageHtml();
+            	$("#allItemPage").html(html);
+                $(".new_search_item_ul").empty();
+                showItemsKeys(resp.rows,$(".new_search_item_ul"),"search",'');
+                $(".new_search_item_ul  input").each(function(){
+                    if(keyIds[$(this).val()]!=undefined){
+                        if(keyIds[$(this).val()]=="checked"){
+                            $(this).attr("checked","checked");
+                        }else{
+                            $(this).removeAttr("checked");
+                        }
+                    }
+                });
+            }
+        });
+    }
+   
+    function saveItems(){
+		resetItemByPop();
+    }
+
+function resetItemByPop(){
+	var id =  $("input[name='popOpenId']").val();
+	var ids = '';
+
+	$(".new_add_item_ul li").each(function(){
+		ids = ids + $(this).attr("id").substring(3)+","
+	});
+	$(".item_choose_dl_"+id+" input[name='chooseIds']").val(ids)
+}
+
+
+
+function addNewItemBlock(){
+
+	var i = $("#item_choose_div dl").size();
+	if(i == 0){
+		var temp = " <dl class=\"fleft item_choose_dl_"+i+"\" style=\"width:780px; padding-left:10px; border:#d3dbdd 1px solid;\">";
+		temp = temp +"     <input type=\"hidden\" name=\"chooseIds\">";
+		temp = temp +"<dt style=\"margin-bottom:10px;\">已选定商品：</dt>" ;
+		temp = temp +"<dd style=\"width:800px;\">" ;
+		
+		temp = temp +" <ul id=\"stroe_pro\" class=\"item_choose_ul\" style=\"float:left;\">" ;
+		temp = temp +" <li><div class=\"options_box\"><a class=\"options\" onclick=\"showItemByPop("+i+");OpenRemind_noMove('add_Contacts');clearSearch();\" href=\"javascript:void(0)\">添加商品</a></div></li>" ;
+		temp = temp +" </ul>" ;
+		/*        temp = temp +" <div style=\"float:left; clear:none; text-align:center;\">" ;
+		 temp = temp +" <strong>指定发送的内容：</strong><br>" ;
+		 temp = temp +"<div class=\"options_box\" style=\"margin-top:30px;\"><a class=\"options\" onclick=\"OpenPopbox_noMove('add_SMS');showItemContent("+i+");\" href=\"javascript:void(0)\">编辑内容</a></div>" ;
+		 temp = temp +"</div>" ;
+		 temp = temp +"<div style=\"float:left; clear:none; width:200px;\" class=\"sms_content_items zdfsnr\">"+smsContent+"</div>" ;*/
+		temp = temp +"</dd>" ;
+		temp = temp +"</dl>" ;
+		$("#item_choose_div").append(temp);
+
+		clearSearch();
+	}
+
+//	showItemByPop(0);
+}
+function showItemByPop(id){
+	debugger;
+	$("input[name='popOpenId']").val(id);
+	$(".new_add_item_ul").empty();
+	$(".search_item").val("");
+	var itemids = $(".item_choose_dl_"+id+" input[name='chooseIds']").val().split(",");
+	for(var i = 0;i<itemids.length;i++){
+		var searchItemId = itemids[i];
+		if(searchItemId != NaN && searchItemId > 0){
+			//自定义宝贝重复验证
+			$(".new_add_item_ul input").each(function(){
+				if(searchItemId == $(this).val()){
+					flag = false ;
+				}
+			})
+			if(flag){
+				var item = getItemFromItemId(searchItemId) ;
+				if(item != null){
+					//show
+					showItem(item,$(".new_add_item_ul"),id) ;
+
+				}
+			}
+		}
+	}
+}
+function clearSearch(){
+	$(".new_search_item_ul").empty();
+	$("#allItemPage").html("");
+	$('#allItemSize').html('0');
+}
+
+function showChoosedItem(item,ul){
+	var str="<li><img width=\"70\" height=\"70\" src=\"{pic_url}\" /></li>";
+	str = str.replaceAll("{pic_url}",item.pic_url,false);
+	$(ul).prepend(str) ;
+}
+</script>
+
+
+
+<div class="popbox_core popbox_remind" id="space_Contacts"><!--此处ID和colseID对应-->
+    <div class="popbox_head">
+        <span class="title">选择所在省份</span>
+        <label id="selectAll"><input type="checkbox" /><span>全选</span></label>
+        <label id="noSelectAll"><input type="checkbox" /><span>全不选</span></label>
+        
+    </div>
+    <div class="popbox_workspace">
+        <div>
+            <label class="area_check"><input type="checkbox" /><strong>华东</strong></label>
+            <label><input type="checkbox" name="buyer_area_details" value="上海" /><span>上海</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="浙江" /><span>浙江</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="江苏" /><span>江苏</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="安徽" /><span>安徽</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="江西" /><span>江西</span></label>
+        </div>
+        <div>
+            <label class="area_check"><input type="checkbox" /><strong>华北</strong></label>
+            <label><input type="checkbox" name="buyer_area_details" value="北京" /><span>北京</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="天津" /><span>天津</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="河北" /><span>河北</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="山西" /><span>山西</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="山东" /><span>山东</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="内蒙古" /><span>内蒙古</span></label>
+        </div>
+        <div>
+            <label class="area_check"><input type="checkbox" /><strong>华中</strong></label>
+            <label><input type="checkbox" name="buyer_area_details" value="湖北" /><span>湖北</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="湖南" /><span>湖南</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="河南" /><span>河南</span></label>
+        </div>
+        <div>
+            <label class="area_check"><input type="checkbox" /><strong>华南</strong></label>
+            <label><input type="checkbox" name="buyer_area_details" value="广东" /><span>广东</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="广西" /><span>广西</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="福建" /><span>福建</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="海南" /><span>海南</span></label>
+        </div>
+        <div>
+            <label class="area_check"><input type="checkbox" /><strong>东北</strong></label>
+            <label><input type="checkbox" name="buyer_area_details" value="辽宁" /><span>辽宁</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="吉林" /><span>吉林</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="黑龙江" /><span>黑龙江</span></label>
+        </div>
+        <div>
+            <label class="area_check"><input type="checkbox" /><strong>西北</strong></label>
+            <label><input type="checkbox" name="buyer_area_details" value="陕西" /><span>陕西</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="新疆" /><span>新疆</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="青海" /><span>青海</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="宁夏" /><span>宁夏</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="甘肃" /><span>甘肃</span></label>
+        </div>
+        <div>
+            <label class="area_check"><input type="checkbox" /><strong>西南</strong></label>
+            <label><input type="checkbox" name="buyer_area_details" value="四川" /><span>四川</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="云南" /><span>云南</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="贵州" /><span>贵州</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="西藏" /><span>西藏</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="重庆" /><span>重庆</span></label>
+        </div>
+        <div>
+            <label class="area_check"><input type="checkbox" /><strong>港澳台</strong></label>
+            <label><input type="checkbox" name="buyer_area_details" value="香港" /><span>香港</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="澳门" /><span>澳门</span></label>
+            <label><input type="checkbox" name="buyer_area_details" value="台湾" /><span>台湾</span></label>
+        </div>
+        <div>
+            <label class="area_check"><input type="checkbox" /><strong>海外</strong></label>
+            <label><input type="checkbox" name="buyer_area_details" value="海外" /><span>海外</span></label>
+        </div>
+        <div class="submitbox">
+            <input class="submit" value="确认" type="button" onClick="CloseRemind('space_Contacts')" />
+            <input class="submit can" value="取消" type="button" style="margin-left:50px;" onClick="CloseRemind('space_Contacts')" />
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('#selectAll').click(function(e) {
+            $('.popbox_workspace input[type=checkbox]').prop('checked',true);
+            $('.popbox_head input[type=checkbox]').prop('checked',false);
+            $(this).find('input[type=checkbox]').prop('checked',true);
+        });
+
+        $('#noSelectAll').click(function(e) {
+            $('.popbox_workspace input[type=checkbox]').prop('checked',false);
+            $('.popbox_head input[type=checkbox]').prop('checked',false);
+            $(this).find('input[type=checkbox]').prop('checked',true);
+        });
+
+        $('.area_check').click(function(e) {
+            $(this).parent().siblings('label').find('input[type=checkbox]').prop('checked', !$(this).find("input").first().is(":checked"));
+        });
+    </script>
+</div>
+
+
+
+<div class="popbox_core rem" id="add_template_new" style="width:500px;">
+    <div class="popbox_workspace" style="width:450px;">
+        <div style="text-align:center; margin:30px 0px;">请为保存的模板命名：<input type="text" style=" width: 180px;" id="templateNameNew" name="templateNameNew" maxlength="20" placeholder="请输入模板名称，最大长度20"></div>
+        <div class="submitbox">
+            <input class="submit" value="保存" type="submit" onClick="saveTemplateNew()">
+            <input class="submit" value="取消" type="submit" style="margin-left:50px;" onClick="CloseRemind('add_template_new')">
+        </div>
+    </div>
+</div>
+
+<div class="popbox_core" id="add_xdghpz" style="width:80%;">
+    <div class="popbox_head">
+        <span class="title">下单关怀配置</span>
+        <div class="popbox_head_right"><a class="popbox_close" onClick="ClosePopbox('add_xdghpz')"></a></div>
+    </div>
+    <div class="soft_workspace" style="padding:0px; height:500px; overflow:auto;">
+        <div class="table_workspace clearfix border-bottom padding-top20" style="border:none;">
+            <div class="table_workspace_iphone_sms">
+                <div class="sms_title_box">
+                    <div class="sms_title">短信内容</div>
+                    <a class="change_btn hh"><input class="setup" type="button" value="修改"></a>
+                </div>
+                <div class="show_box">
+                    <div class="popbox_frombox clearfix padding-left0">
+                        <div class="iphone_sms_frombox">
+                            <dl class="fleft">
+                                <dt>短信内容：</dt>
+                                <dd class="task_send_content"></dd>
+                            </dl>
+                            <div class="text_num">当前短信内容<strong><span class="num T_Num">0</span></strong>个字符，将按<strong><span class="num Sms_Num"  style="color:red;">0</span></strong>条短信收费！</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="change_box">
+                    <div class="popbox_frombox clearfix">
+                        <div class="iphone_sms">
+                            <div class="smsBox">
+                                <div class="smsBox_text" id="iphone_sms_text"></div>
+                            </div>
+                            <div class="smsBox_bottom"></div>
+                        </div>
+                        <div class="iphone_sms_frombox" style="width:500px; margin-left:20px;">
+                            
+                            
+
+
+
+
+
+<dl class="fleft">
+    <dt>短信模板：</dt>
+    <dd>
+        <input style="margin-top:4px;" type="button" value="模板选择" onClick="txtId='textarea_sms_text';OpenRemind_noMove('add_moban_chose')">
+    </dd>
+</dl>
+
+                            
+                            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+
+
+<dl>
+    <dt>短信内容：</dt>
+    <dd style="width: 680px;">
+
+        
+
+            <div class="template_variables">
+            </div>
+        
+        <textarea id="textarea_sms_text" class="phoneNum" name="sms_content" style="float:left"></textarea>
+        
+            <input style="margin-left: 20px; float: left;" id="add_template_btn" type="button" value="另保存为模板" onClick="OpenPopbox_noMove('add_template_new')"/>
+        
+
+        
+        <div class="note" style="width: 600px;margin-top: 15px;">
+            输入测试号码，立即测试短信内容
+            <br/>
+            <input type="text" class="text"  maxlength="120" style="width: 395px;"  value="" id="test_recipients" placeholder="请输入测试手机号，多个号码以 “,” 号隔开"/>
+            <input style="margin-left: 20px; " type="button"  value="立即测试" onClick="preTestSend();" class="submit"/>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function (){
+               //初始化faq标签
+               initFaqTitle();
+            });
+            function preTestSend(){
+          		 if (!checkSmsContentNew($("#iphone_sms_text").text())) {
+               	  return;
+           	 	}
+                var pushSubject="交易提醒 测试";
+                var testRecipients=$('#test_recipients').val();
+                var pushContent=$('#textarea_sms_text').val();
+                testSend(pushSubject,testRecipients,pushContent);
+            }
+                           //检查短信内容是否正常
+		function checkSmsContentNew(text) {
+//		var content = $("#textarea_sms_text").text();
+            var content = text;
+            var contentlength = content.length;
+            var leftIndex = content.split("【").length;
+            var rightIndex = content.split("】").length;
+
+            //内容中必须包含“【”“】”
+            if (typeof leftIndex != undefined && leftIndex != 2) {
+                var  popAlert = new PopAlert('提示','短信内容中，除了签名外，请勿使用\"【 \"　或  \"】\"字符。',null,"id");
+                popAlert;
+                return false;
+            }
+            //内容中必须包含“【”“】”
+            if (typeof rightIndex != undefined && rightIndex != 2) {
+
+                var  popAlert = new PopAlert('提示','短信内容中，除了签名外，请勿使用\"【 \"　或  \"】\"字符。',null,"id");
+                popAlert;
+                return false;
+            }
+          //内容为空
+			if(contentlength <= 0){
+				var  popAlert = new PopAlert('提示','请输入短信内容',null,"id");
+				popAlert;
+				return false;
+			}
+            return true;
+        }     
+        </script>
+
+        <div class="note" style="width: 500px;">
+                     您当前已输入<span id="T_Num" class="num">0</span>个字符，将按照<span id="Sms_Num" class="num"  style="color:red;">0</span>条短信计费。<span id="faqId9"> <font color="red">计费规则</font><a href="/usercenter/listFaqInfo?id=9"  target="_Blank"><img id="ruleImage"  src="/images/wenhao.gif" style="margin-top:-3px;margin-left:5px;" /></a></span></div>
+        <input type="hidden" id="templateId" name="templateId" />
+        <input type="hidden" id="flag" name="flag" />
+    </dd>
+</dl>
+
+                            
+                            
+
+
+
+<dl class="fleft">
+    <dt>卖家签名：</dt>
+    <dd>
+        <input class="text" value="【万誉会】" type="text" name="sign_name" maxlength="50" readonly>
+        <input type="button" value="修改签名" onClick="window.open('/usercenter/getBasicInfo?moduleId=37')"/>
+    </dd>
+</dl>
+                        </div>
+                        <div class="submitbox np">
+                            <input type="submit" class="submit close save_send_content_btn" value="保存">
+                            <input type="submit" class="submit can close" value="取消">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table_workspace_iphone_sms">
+                <!-- -->
+                <div class="sms_title_box">
+                    <div class="sms_title">基本条件</div>
+                    <a class="change_btn hh"><input class="setup" type="button" value="修改"></a>
+                </div>
+                <div class="show_box">
+                    <div class="popbox_frombox clearfix padding-left0">
+                        <div class="iphone_sms_frombox">
+                            <dl class="fleft">
+                                <dt>任务名称：</dt>
+                                <dd class="task_name"></dd>
+                            </dl>
+                            <dl class="fleft">
+                                <dt>任务类型：</dt>
+                                <dd class="task_sub_status"></dd>
+                            </dl>
+                            <dl class="fleft">
+                                <dt>提醒类型：</dt>
+                                <dd class="task_reminder_type"></dd>
+                            </dl>
+                            <dl class="fleft" style="margin-bottom:0px">
+                                <dt>发送手机号码：</dt>
+                                <dd class="task_send_mobile"></dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="change_box">
+                    <div class="popbox_frombox clearfix" style="padding:0px;">
+                        <div class="iphone_sms_frombox">
+                            <dl class="fleft">
+                                <dt title="11111111111"><a href="#" style="text-decoration:none; margin-right:0px;"><img src="/images/wenhao.gif" style="position:absolute; left:10px; margin-top:7px;" /></a>任务名称：</dt>
+                                <dd>
+                                    <input type="text" name="name" style="width:300px;" />
+                                </dd>
+                            </dl>
+                            <dl class="fleft">
+                                <dt>任务类型：</dt>
+                                <dd>
+                                    <label><input type="radio" name="sub_status" value="Open" onClick="$('#m_text').hide();" checked="checked" />持续开启</label>
+                                    <label><input type="radio" name="sub_status" value="Interval" onClick="$('#m_text').show();" />指定时段</label>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span id="m_text" style="display:none;"><input type="text" name="sub_start_time" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" /> ~ <input type="text" name="sub_end_time" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" /></span>
+                                </dd>
+                            </dl>
+                            <dl class="fleft">
+                                <dt>提醒类型：</dt>
+                                <dd>
+                                    <label><input type="radio" name="reminder_type" value="Constantly" onClick="$('.send_box').show();$('.time_box').hide();" checked="checked" />实时提醒</label>
+                                    <label><input type="radio" name="reminder_type" value="Timing" onClick="$('.send_box').hide();$('.time_box').show();" />定时提醒</label>
+                                    <label style="float:none;"><input name="is_send_next_day" type="checkbox" />超出发送时间，次日提醒</label>
+                                </dd>
+                            </dl>
+                            <dl class="fleft time_box" style="display:none;">
+                                <dd>
+                                    <div>
+                                        <label><input type="checkbox" name="send_time_array" value="8:00" />8:00</label>
+                                        <label><input type="checkbox" name="send_time_array" value="9:00" />9:00</label>
+                                        <label><input type="checkbox" name="send_time_array" value="10:00" />10:00</label>
+                                        <label><input type="checkbox" name="send_time_array" value="11:00" />11:00</label>
+                                        <label><input type="checkbox" name="send_time_array" value="12:00" />12:00</label>
+                                        <label><input type="checkbox" name="send_time_array" value="13:00" />13:00</label>
+                                        <label><input type="checkbox" name="send_time_array" value="14:00" />14:00</label>
+                                        <label><input type="checkbox" name="send_time_array" value="15:00" />15:00</label>
+                                        <label><input type="checkbox" name="send_time_array" value="16:00" />16:00</label>
+                                        <label><input type="checkbox" name="send_time_array" value="17:00" />17:00</label>
+                                        <label><input type="checkbox" name="send_time_array" value="18:00" />18:00</label>
+                                        <label><input type="checkbox" name="send_time_array" value="19:00" />19:00</label>
+                                        <label><input type="checkbox" name="send_time_array" value="20:00" />20:00</label>
+                                        <label><input type="checkbox" name="send_time_array" value="21:00" />21:00</label>
+                                        <label><input type="checkbox" name="send_time_array" value="22:00" />22:00</label>
+                                        <label><input type="checkbox" name="send_time_array" value="23:00" />23:00</label>
+                                        
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl class="fleft send_box">
+                                <dt>发送时间：</dt>
+                                <dd>
+                                    <input type="text" name="send_time_start" onClick="WdatePicker({dateFmt:'HH:mm'})" /> ~ <input type="text" name="send_time_end" onClick="WdatePicker({dateFmt:'HH:mm'})" />
+                                </dd>
+                            </dl>
+                            <dl class="fleft send_box">
+                                <dt title="11111111111"><a href="#" style="text-decoration:none; margin-right:0px;"><img src="/images/wenhao.gif" style="position:absolute; left:10px; margin-top:7px;" /></a>午休时间：</dt>
+                                <dd>
+                                    <input type="text" name="limit_send_time_start" onClick="WdatePicker({dateFmt:'HH:mm'})" /> ~ <input type="text" name="limit_send_time_end" onClick="WdatePicker({dateFmt:'HH:mm'})" />
+                                </dd>
+                            </dl>
+                            <dl class="fleft">
+                                <dt>发送手机号码：</dt>
+                                <dd>
+                                    <label><input type="radio" name="send_mobile" value="buyer_mobile" checked="checked" />收件人手机号</label>
+ 
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="submitbox np">
+                            <input type="submit" class="submit close save_base_filter_btn" value="保存">
+                            <input type="submit" class="submit can close" value="取消">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table_workspace_iphone_sms">
+                <div class="sms_title_box">
+                    <div class="sms_title">高级条件</div>
+                    <a class="change_btn hh"><input class="setup" type="button" value="修改"></a>
+                </div>
+                <div class="show_box">
+                    <div class="popbox_frombox clearfix padding-left0">
+                        <div class="iphone_sms_frombox" style="width:49%;">
+                            <dl class="fleft">
+                                <dt>实付金额：</dt>
+                                <dd class="task_payment"></dd>
+                            </dl>
+                            <dl class="fleft">
+                                <dt>商品件数：</dt>
+                                <dd class="task_item_count"></dd>
+                            </dl>
+                            <dl class="fleft">
+                                <dt>发送地域：</dt>
+                                <dd>
+                                    <div class="options_box task_buyer_area">
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl class="fleft">
+                                <dt>订单类型：</dt>
+                                <dd class="task_trade_type"></dd>
+                            </dl>
+                        </div>
+                        <div class="iphone_sms_frombox" style="width:50%">
+                            <dl class="fleft" >
+                                <dt>订单来源：</dt>
+                                <dd>
+                                    <div class="options_box task_trade_from">
+                                    </div>
+                                </dd>
+                            </dl>
+    
+                            <dl class="fleft gaoji">
+                                <dt>屏蔽标旗会员：</dt>
+                                <dd class="seller_flag_op task_seller_flag"></dd>
+                            </dl>
+                            <dl class="fleft">
+                                <dt style="margin-bottom:10px;">已选定商品：</dt>
+                                <dd>
+                                    <ul class="choosedItem" id="wxd"></ul>
+                                    <span><font id="gengduo" color="red" size="3px"></font></span>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="change_box">
+                    <div class="popbox_frombox clearfix padding-left0">
+                        <div class="iphone_sms_frombox" style="width:800px;">
+                            
+                            <dl class="fleft">
+                                <dt>实付金额：</dt>
+                                <dd><input type="text" name="payment_start" /> ~ <input type="text" name="payment_end" /> 元</dd>
+                            </dl>
+                            <dl class="fleft">
+                                <dt>商品件数：</dt>
+                                <dd><input type="text" name="item_count_start" /> ~ <input type="text" name="item_count_end" /> 件</dd>
+                            </dl>
+                            <dl class="fleft">
+                                <dt>发送地域：</dt>
+                                <dd>
+                                    <div class="options_box buyer_area_options">
+                                        <label><input type="radio" name="buyer_area" value=""/>不限</label>
+                                        <label><input type="radio" name="buyer_area" value="-1" onClick="OpenRemind('space_Contacts')"/>自定义</label>
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl class="fleft">
+                                <dt>订单类型：</dt>
+                                <dd>
+                                    <label><input type="radio" name="trade_type" value="" checked="checked"/>不限</label>
+                                    <label><input type="radio" name="trade_type" value="1"/>预售</label>
+                                    <label><input type="radio" name="trade_type" value="2"/>非预售</label>
+                                </dd>
+                            </dl>
+                            <dl class="fleft">
+                                <dt>订单来源：</dt>
+                                <dd>
+                                    <div class="options_box trade_from_options">
+                                        
+                                        <label><input type="checkbox" name="trade_from" value="TAOBAO" href="javascript:void(0)"/>PC端</label>
+                                        <label><input type="checkbox" name="trade_from" value="WAP" href="javascript:void(0)"/>移动端</label>
+                                        <label><input type="checkbox" name="trade_from" value="JHS" href="javascript:void(0)"/>聚划算</label>
+                                    </div>
+                                </dd>
+                            </dl>
+ 
+                            <dl class="fleft">
+                                <dt>屏蔽标旗订单会员：</dt>
+                                <dd>
+                                    <label style="margin-top:10px;margin-right:10px;"><input type="checkbox" class="seller_flag" name="seller_flag" value="1"><img src="/images/cq/op_memo_1.png" width="11"></label>
+                                    <label style="margin-top:10px;margin-right:10px;"><input type="checkbox" class="seller_flag" name="seller_flag" value="2"><img src="/images/cq/op_memo_2.png" width="11"></label>
+                                    <label style="margin-top:10px;margin-right:10px;"><input type="checkbox" class="seller_flag" name="seller_flag" value="3"><img src="/images/cq/op_memo_3.png" width="11"></label>
+                                    <label style="margin-top:10px;margin-right:10px;"><input type="checkbox" class="seller_flag" name="seller_flag" value="4"><img src="/images/cq/op_memo_4.png" width="11"></label>
+                                    <label style="margin-top:10px;margin-right:10px;"><input type="checkbox" class="seller_flag" name="seller_flag" value="5"><img src="/images/cq/op_memo_5.png" width="11"></label>
+                                </dd>
+                            </dl>
+                            
+                            <dl class="fleft">
+                                <dt>指定宝贝：</dt>
+                                <dd>
+                                    
+                                    
+                                </dd>
+                            </dl>
+                            <div id="item_choose_div">
+                            </div>
+                        </div>
+                        <div class="submitbox np">
+                            <input type="submit" class="submit close save_trade_filter_btn" value="保存">
+                            <input type="submit" class="submit can close" value="取消">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--SMS设置End-->
+        </div>
+        <div class="submitbox np" style="margin-top:-20px; margin-bottom:20px;"><input type="submit" class="submit" onClick="ClosePopbox('add_xdghpz')" value="返回"></div>
+    </div>
+</div>
+
+
+<div class="soft_top">
+    <!-- 顶部菜单 -->
+    
+
+
+
+
+
+
+
+
+
+<!-- 公共头部 -->
+<div class="soft_top">
+    <div class="top_line_a">
+		<span
+                onClick="window.location='/usercenter/rechargeCenter?moduleId=17'"
+                class="infoShowBox"> <span>短信余额：<span>15842</span>
+				&nbsp;&nbsp; 邮件余额：<span>6540</span>
+				&nbsp;&nbsp;  彩信余额：<span>0</span>
+		</span> </span>
+        <a class="infoShowBox" style="margin-right: 20px;margin-left:20px;"
+           href="/usercenter/getFlowPackage?moduleId=34"><img
+                src="images/icon_bg.png" />充值</a>
+		<span class="infoShowBox"> <span>&nbsp;&nbsp; 
+            
+            
+            
+                旗舰版
+            
+            
+        &nbsp;&nbsp;&nbsp;&nbsp;</span> </span>
+		<span class="infoShowBox"> <span>软件有效期至：<span>2017-09-29</span>
+		</span> </span>
+        <a class="infoShowBox" style="margin-right: 20px;margin-left:20px;"
+           href="http://fuwu.taobao.com/ser/detail.htm?spm=0.0.0.0.tII52J&service_code=FW_GOODS-1864479"><img
+                src="images/icon_bg.png" />续费</a>
+				
+				
+        <div class="soft_top_left right">
+			<span class="refresh refresh_noClick importRefresh"
+                  style="display: none;"> <span> 数据导入进度
+					<div class="percentage_box" style="padding: 2px;">
+						<div class="percentage_bg">
+							<div style="width: 0%" class="percentage"></div>
+						</div>
+					</div> </span> 已导入<span class="percentage_tips">0</span>% </span>
+			<span class="infoShowBox info" href="javascript:void(0);" onClick="ChangeSkin()">   
+			<span>选择背景色：</span><em class="color"></em>
+			  </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<span class="infoShowBox info" id="info2"> 新消息&nbsp;<!--<span class="icon"></span>-->
+				<span class="num msg_num">3</span> </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label id="subAccount" style="display: none; color : #cdcdcd; position: relative; height: 25px; line-height: 25px;">
+            </label>
+            
+                <a
+                        href="/usercenter/switchParentUser?parentUserId=5369"
+                        class="infoShowBox special"
+                        style="color: #FFF; position: relative; margin-left: 20px; padding-right: 5px;">切回主账户</a>
+            
+        </div>
+    </div>
+
+    <!-- 导航开始 -->
+
+
+
+    <div class="top_line_b">
+        <div class="logoBox">
+            <img src="images/logo.png" />
+        </div>
+        <div class="soft_top_left">
+            
+                
+                
+                    <a class="fastintobox" href="/user/index"><div
+                            class="fib">
+
+                        首页
+                    </div>
+                    </a>
+                
+            
+
+            
+                <a
+                        class="fastintobox onthis"
+                        href="/autosms/tradeCreateRemind?moduleId=130">
+
+                    <div class="fib">
+
+                            交易提醒
+
+                    </div> </a>
+            
+                <a
+                        class="fastintobox "
+                        href="/communication/preAddEmailWeekly?moduleId=78">
+
+                    <div class="fib">
+
+                            自动营销
+
+                    </div> </a>
+            
+                <a
+                        class="fastintobox "
+                        href="/communication/createCustomSMSMarketing_preContent?moduleId=93">
+
+                    <div class="fib">
+
+                            营销管理
+
+                    </div> </a>
+            
+                <a
+                        class="fastintobox "
+                        href="/customer/listCustomerDynamic?moduleId=9">
+
+                    <div class="fib">
+
+                            会员管理
+
+                    </div> </a>
+            
+                <a
+                        class="fastintobox "
+                        href="/tradeRate/autoTradeRateSetting?moduleId=143">
+
+                    <div class="fib">
+
+                            评价管理
+
+                    </div> </a>
+            
+                <a
+                        class="fastintobox "
+                        href="/analysis/RFM?moduleId=162">
+
+                    <div class="fib">
+
+                            数据分析
+
+                    </div> </a>
+            
+                <a
+                        class="fastintobox "
+                        href="/usercenter/tradeSearch?moduleId=139">
+
+                    <div class="fib">
+
+                            我的达客
+
+                    </div> </a>
+            
+            </span>
+
+
+        </div>
+		<div class="soft_top_right">
+			<div class="username">
+				<em class="before"></em>
+				
+					
+						<span title="d[s103896799]"> 
+								
+                                    d[s10…
+                                
+								
+							
+						</span>
+					
+					
+				
+
+				<br/> <a class="loginout" href="/sys/logout">[ 退出登录 ]</a>
+			</div>
+		</div>
+		<div class="contact_box new" style="display: block;" id="box_open">
+			<div class="con_box_title">
+				<strong style="font-size:12px;">联系客服</strong>
+			</div>
+			
+				
+				
+					<div class="kfzk">
+						<img src="images/blue_arr.png" />
+					</div>
+				
+			
+
+		</div>
+		<div class="contact_box" id="box_close">
+              <div class="con_box_title"><strong style="font-size:14px;">客服热线：02161910347</strong>
+                  <br/><br/><strong style="font-size:14px;">手机联系：13162888912</strong></div>
+              <a target="_blank" href="http://amos.alicdn.com/msg.aw?v=2&amp;uid=达客营销管理平台:abby&amp;site=cntaobao&amp;s=2&amp;charset=utf-8"><img border="0" src="http://amos.alicdn.com/online.aw?v=2&amp;uid=达客营销管理平台:abby&amp;site=cntaobao&amp;s=1&amp;charset=utf-8" alt="点击这里给我发消息"></a>
+              <a target="_blank" href="http://amos.alicdn.com/msg.aw?v=2&amp;uid=达客营销管理平台:fiona&amp;site=cntaobao&amp;s=2&amp;charset=utf-8"><img border="0" src="http://amos.alicdn.com/online.aw?v=2&amp;uid=达客营销管理平台:fiona&amp;site=cntaobao&amp;s=1&amp;charset=utf-8" alt="点击这里给我发消息"></a>
+              <br/><br/>
+              <a target="_blank" href="http://amos.alicdn.com/msg.aw?v=2&amp;uid=达客营销管理平台:frank&amp;site=cntaobao&amp;s=2&amp;charset=utf-8"><img border="0" src="http://amos.alicdn.com/online.aw?v=2&amp;uid=达客营销管理平台:frank&amp;site=cntaobao&amp;s=1&amp;charset=utf-8" alt="点击这里给我发消息"></a>
+              <a target="_blank" href="http://amos.alicdn.com/msg.aw?v=2&amp;uid=达客营销管理平台:jessie1&amp;site=cntaobao&amp;s=2&amp;charset=utf-8"><img border="0" src="http://amos.alicdn.com/online.aw?v=2&amp;uid=达客营销管理平台:jessie1&amp;site=cntaobao&amp;s=1&amp;charset=utf-8" alt="点击这里给我发消息"></a>
+              <br><br>
+              <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=1192948838&amp;site=qq&amp;menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:1192948838:51" alt="点击这里给我发消息" title="点击这里给我发消息"></a>
+              <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=481730089&amp;site=qq&amp;menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:481730089:51" alt="点击这里给我发消息" title="点击这里给我发消息"></a>
+              <br><br>
+              <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=3346254326&amp;site=qq&amp;menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:3346254326:51" alt="点击这里给我发消息" title="点击这里给我发消息"></a>
+              
+          </div>
+      </div>
+	
+		<div class="info_box_text">
+			<div class="title">
+				消息提醒
+			</div>
+
+
+            <span class="adm-informer-arrow"></span>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var getImportStatusTimer ;
+    var msgId = 0;
+    $(document).ready(function(){      
+        var msg_num = 0 ;
+
+        var str = "<div class='info_box_main info_blue'><div class='box_top details_message' msgId='{msgId}'>{msgSubject}</div><div class='box_worker details_message' msgId='{msgId}'>{msgContent}</div><div class='box_footer'><a href='javascript:void(0)' class='delete_message' msgId='{msgId}'>删除消息</a></div></div><span class='adm-informer-arrow'></span>";
+        var noMsg = "<div class='info_box_main info_blue'><div class='box_top details_message' msgId='{msgId}'></div><div class='box_worker details_message' msgId='{msgId}'>{msgContent}</div><div class='box_footer'><a href='javascript:void(0)' class='delete_message' msgId='{msgId}'></a></div></div><span class='adm-informer-arrow'></span>";
+
+        var query = {'isRead':parseInt(0)};
+
+        //获取子店铺
+        $.ajax({
+            url: '/usercenter/getSubAccountList',
+            type: 'POST',
+            data : {
+            },
+            dataType: 'json',
+            success: function(resp){
+                var aList=eval(resp.subAccountList);
+                if(aList!=null && aList.length>0){
+                    var html="切换子店铺：<select id=\"subAccountSe\" onchange=\"switchUser();\"><option value=\"\">请选择子店铺</option>";
+                    var shopName="";
+                    for(var i=0;i<aList.length;i++){
+                        shopName=JSON.parse(aList[i].sub_user_info).shopName;
+                        if(shopName.length>12){
+                            shopName=shopName.substring(0,12)+"...";
+                        }
+                        html+="<option value=\""+aList[i].sub_user_id+"\">"+shopName+"</option>";
+                    }
+                    html+="<option value=\"-1\">转流量到子店铺</option>";
+                    html+="<select>";
+                    $('#subAccount').html(html);
+                    $('#subAccount').show();
+                }
+            }
+        });
+
+        //获取通知
+        $.ajax({
+            url: '/usercenter/fetchMessage',
+            type: 'POST',
+            data : {
+                query:JSON.stringify(query),
+                page:1,
+                jtPageSize:3,
+                sortname:"create_time",
+                sortorder:"DESC"
+            },
+            dataType: 'json',
+            success: function(responseText){
+                if(responseText != "" && responseText.Records != null){
+                    console.log(responseText);
+                    var rows = responseText.Records;
+                    var rollMsg = '';
+                    for(var i = 0 ; i < rows.length ; i ++){
+                        msg_num ++ ;
+                        var s = str.replaceAll("{msgId}",rows[i]["id"],false).replace("{msgSubject}",rows[i]["msg_subject"]).replace("{msgContent}",rows[i]["msg_content"])
+                        $(".info_box_text").append(s);
+                        rollMsg = rows[i]["msg_content"];
+                        if(rows[i]["msg_type"]==3){
+                            msgId = rows[i]["id"];
+                        }
+                    }
+                    if(null != rollMsg && rollMsg!='' && rollMsg!='undefined'){
+                        $("#rollMsg").html(rollMsg);
+                        $(".remindTxt").show();
+                    }
+                    //更改消息数量
+                    $(".msg_num").html(msg_num);
+                    if(msg_num > 0){
+
+                        $(".msg_num").css("color","red");
+                    }
+
+                    //删除
+
+                    $(".delete_message").click(function(){
+                        var msgId = $(this).attr("msgId");
+                        var obj = $(this);
+                        $.ajax({
+                            url: '/usercenter/deleteMessage',
+                            type: 'POST',
+                            data : {
+                                messageId:msgId
+                            },
+                            dataType: 'text',
+                            success: function(responseText){
+                                if(responseText == "true"){
+                                    $(obj).parent().parent().remove();
+                                    msg_num -- ;
+                                    $(".msg_num").html(msg_num);
+
+                                    if(msg_num == 0){
+                                        $(".info_box_text").append(noMsg.replace("{msgContent}","暂无未读消息"));
+                                        $(".msg_num").css("color","");
+                                    }
+                                }else{
+                                    //alert("删除失败");
+                                    var  popAlert = new PopAlert('提示',"删除失败",null,"id");
+		                            popAlert;
+                                }
+                            }
+                        })
+
+                    })
+
+                    //详情
+                    $(".details_message").css("cursor","pointer");
+
+                    $(".details_message").click(function(){
+                        var msgId = $(this).attr("msgId");
+                        if(msgId != 'undefined'){
+                            location.href="/usercenter/detailsMessage?messageId="+msgId+"&moduleId=20";
+                        }
+                    })
+
+                    if(rows.length <= 0){
+
+                        $(".info_box_text").append(noMsg.replace("{msgContent}","暂无未读消息"));
+                    }
+
+                }else{
+
+                    $(".info_box_text").append(noMsg.replace("{msgContent}","暂无未读消息"));
+                }
+
+
+
+            }
+        })
+
+        //查询用户导入状态
+        $.ajax({
+            url: '/import/getUserImportInfo',
+            type: 'POST',
+            dataType: 'json',
+            success: function(json){{
+                console.log(json);
+
+                if(json.status > 0 && json.isRead == false){
+
+                    //定时获取数据导入状态
+                    tbImportData() ;
+                }
+            }}
+        })
+
+
+        $('#box_close').click(function(e) {
+            $('.contact_box').hide();
+            $('.contact_box.new').show();
+        });
+
+        $('#box_open').click(function(e) {
+            $('.contact_box').show();
+            $('.contact_box.new').hide();
+        });
+
+    })
+
+    function iknow(){
+        $.ajax({
+            url: '/usercenter/iknow',
+            type: 'POST',
+            data:{
+                messageId:parseInt(msgId)
+            },
+            dataType: 'json',
+            success: function(json){{
+                location.reload();
+            }}
+        })
+    }
+
+    //导入淘宝数据
+    function tbImportData(){
+
+        //显示进度条
+        $(".importRefresh").show() ;
+
+        $.ajax({
+            url: '/import/getUserImportInfo',
+            type: 'POST',
+            dataType: 'json',
+            success: function(json){{
+                console.log(json);
+
+                //导入完成
+                if(json.status == 100){
+
+                    if(json.isRead == false){
+
+                        //提示用户
+                        importTips();
+                    }
+
+                    //隐藏进度条
+                    $(".importRefresh").hide() ;
+
+                    //停止定时器
+                    clearTimeout(getImportStatusTimer) ;
+                }else{
+                    $(".percentage").css("width",json.percentage + "%");
+                    $(".percentage_tips").text(json.percentage);
+
+                    //定时获取数据导入状态
+                    getImportStatusTimer = setTimeout('tbImportData()',5000) ;
+                }
+            }}
+        })
+    }
+
+    //导入完成，提醒用户
+    function importTips(){
+        $.ajax({
+            url: '/import/initImportMsg',
+            type: 'POST',
+            dataType: 'text',
+            success: function(text){{
+                //alert(text);
+                var  popAlert = new PopAlert('提示',text,null,"id");
+		        popAlert;
+            }}
+        })
+    }
+
+    function switchUser(){
+        var subId=$('#subAccountSe').val();
+        if(subId!=null&&subId.length>0){
+            if(subId==-1){
+                location.href="/usercenter/subAccountManager?moduleId=91";
+            }else{
+                location.href="/usercenter/switchSubUser?subUserId="+subId;
+            }
+        }
+    }
+    
+    //faq提示显示  chalice 20160729
+    function getFaqInfo(id,name){
+        //alert(id);
+        name='#'+name;	//alert(name);
+        //$.post('{ctx}/usercenter/getFaqDetail', { faq_id:id } ,function(data){$(name).attr("title",data);alert(data);});  //alert($(name).attr("title"));    
+        $.ajax({
+            url: '/usercenter/getFaqDetail',
+            type: 'POST',
+            data : {
+                    faq_id:id
+            },
+            dataType: 'text',
+            success: function(data){//alert(data);
+                $(name).attr("title",data.replace(/<[^>]+>/g,"").replace(/ /g,""));
+            }
+        });
+    }
+    //添加faq标签
+    function initFaqTitle(){
+	   $("span[id^='faqId']").mouseover(function(){
+	         var id="";
+	         id=$(this).attr("id");	        
+	         var title=$('#'+id).attr('title');
+	         if(title==null||title=='undefined'){                
+                  getFaqInfo(id.substring(5),id);
+             }
+	    });
+	    $("i[id^='faqId']").mouseover(function(){
+	         var id="";
+	         id=$(this).attr("id");	        
+	         var title=$('#'+id).attr('title');
+	         if(title==null||title=='undefined'){                
+                  getFaqInfo(id.substring(5),id);
+             }
+	    });
+	}
+</script>
+</div>
+<div class="page">
+    <div class="slide_box"></div>
+    <table class="soft_body" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr class="soft_body_td">
+            <td class="soft_body_left">
+                
+
+
+
+
+
+
+
+
+<!--新UI左边菜单Start -->
+
+<div class="soft_left_side">
+
+	<div class="soft_left_side_menu">
+		<a class="menu_home " href="/user/index"><em></em><span>首页</span></a>
+		<a class="menu_home help" href="http://image.tb.easycontact.cn/crmhtml/CRMjcjc.html" target="_blank" ><em></em>帮助中心</a>
+	</div>
+	
+		<div class="soft_left_side_menu soft_left_side_submenu">
+			<ul class="nav_first_list">
+				
+					<li  class="level_one"  >
+						<!-- 如果有子菜单 -->
+						<span></span>
+						
+						<a class="menu_home "   href="javascript:void(0);"><span class="xdgh"></span>下单提醒</a>
+						<!-- 如果有子菜单 -->
+						<ul class="level_two"  style="display: block;" >
+
+							
+								<a href="/autosms/tradeCreateRemind?moduleId=130"><li ><em></em>下单关怀</li></a>
+							
+								<a href="/trade-notification/index?moduleId=151"><li  class="onthis" ><em></em>下单关怀(到付)</li></a>
+							
+						</ul>
+						
+					</li>
+				
+					<li  class="level_one"  >
+						<!-- 如果有子菜单 -->
+						<span></span>
+						
+						<a class="menu_home "   href="javascript:void(0);"><span class="autosms_3"></span>催付提醒</a>
+						<!-- 如果有子菜单 -->
+						<ul class="level_two" >
+
+							
+								<a href="/autosms/tradeRemind?moduleId=63"><li ><em></em>未付款催付</li></a>
+							
+								<a href="/trade-notification/firstRemind?moduleId=195"><li ><em></em>未付款催付(任务)</li></a>
+							
+								<a href="/autosms/secondTradeRemind?moduleId=117"><li ><em></em>二次催付</li></a>
+							
+								<a href="/trade-notification/preSaleRemind?moduleId=196"><li ><em></em>预售订单催付(任务)</li></a>
+							
+								<a href="/autosms/preSaleRemind?moduleId=64"><li ><em></em>预售订单催付</li></a>
+							
+								<a href="/trade-notification/secondRemind?moduleId=197"><li ><em></em>二次催付(任务)</li></a>
+							
+								<a href="/autosms/jhsTradeRemind?moduleId=138"><li ><em></em>聚划算催付</li></a>
+							
+								<a href="/trade-notification/jhsRemind?moduleId=198"><li ><em></em>聚划算催付(任务)</li></a>
+							
+						</ul>
+						
+					</li>
+				
+					<li  >
+						
+						<a class="menu_home "   href="/autosms/payCare?moduleId=116"><span class="fkgh"></span>付款关怀</a>
+						
+					</li>
+				
+					<li  class="level_one"  >
+						<!-- 如果有子菜单 -->
+						<span></span>
+						
+						<a class="menu_home "   href="javascript:void(0);"><span class="autosms_5"></span>物流提醒</a>
+						<!-- 如果有子菜单 -->
+						<ul class="level_two" >
+
+							
+								<a href="/autosms/shipmentsRemind?moduleId=65"><li ><em></em>发货提醒</li></a>
+							
+								<a href="/autosms/delayShipmentRemind?moduleId=136"><li ><em></em>延时发货提醒</li></a>
+							
+								<a href="/autosms/getLogisticsError?moduleId=125"><li ><em></em>物流异常通知</li></a>
+							
+								<a href="/autosms/sendGoodToUser?moduleId=118"><li ><em></em>派件提醒</li></a>
+							
+								<a href="/autosms/arriveRemind?moduleId=66"><li ><em></em>到达所在城市通知</li></a>
+							
+								<a href="/autosms/signRemind?moduleId=67"><li ><em></em>签收提醒</li></a>
+							
+						</ul>
+						
+					</li>
+				
+					<li  class="level_one"  >
+						<!-- 如果有子菜单 -->
+						<span></span>
+						
+						<a class="menu_home "   href="javascript:void(0);"><span class="tkgh"></span>退款关怀</a>
+						<!-- 如果有子菜单 -->
+						<ul class="level_two" >
+
+							
+								<a href="/autosms/refuseApplyRemind?moduleId=133"><li ><em></em>申请退款</li></a>
+							
+								<a href="/autosms/refuseWaitGoodsRemind?moduleId=134"><li ><em></em>同意退款</li></a>
+							
+								<a href="/autosms/refuseWaitModifiedRemind?moduleId=167"><li ><em></em>拒绝退款</li></a>
+							
+								<a href="/autosms/refuseSuccessRemind?moduleId=168"><li ><em></em>退款成功</li></a>
+							
+								<a href="/autosms/listSmsRefuse?moduleId=135"><li ><em></em>退款关怀列表</li></a>
+							
+						</ul>
+						
+					</li>
+				
+					<li  class="level_one"  >
+						<!-- 如果有子菜单 -->
+						<span></span>
+						
+						<a class="menu_home "   href="javascript:void(0);"><span class="autosms_8"></span>评价提醒</a>
+						<!-- 如果有子菜单 -->
+						<ul class="level_two" >
+
+							
+								<a href="/autosms/payRemind?moduleId=68"><li ><em></em>评价提醒</li></a>
+							
+								<a href="/trade-notification/rateRemind?moduleId=199"><li ><em></em>评价提醒(任务)</li></a>
+							
+								<a href="/autosms/goodRateRemind?moduleId=69"><li ><em></em>好评感谢</li></a>
+							
+								<a href="/trade-notification/goodRateRemind?moduleId=200"><li ><em></em>好评感谢(任务)</li></a>
+							
+								<a href="/autosms/badRateRemind?moduleId=70"><li ><em></em>差评安抚</li></a>
+							
+								<a href="/trade-notification/badRateRemind?moduleId=201"><li ><em></em>差评安抚(任务)</li></a>
+							
+						</ul>
+						
+					</li>
+				
+					<li  class="level_one"  >
+						<!-- 如果有子菜单 -->
+						<span></span>
+						
+						<a class="menu_home "   href="javascript:void(0);"><span class="autosms_2"></span>售后关怀</a>
+						<!-- 如果有子菜单 -->
+						<ul class="level_two" >
+
+							
+								<a href="/autosms/customerCareFirst?moduleId=53"><li ><em></em>短信售后关怀</li></a>
+							
+								<a href="/autosms/listSmsCareReport?moduleId=54"><li ><em></em>短信关怀列表</li></a>
+							
+						</ul>
+						
+					</li>
+				
+					<li  >
+						
+						<a class="menu_home "   href="/autosms/birthdayCare?moduleId=92"><span class="member_6"></span>生日关怀</a>
+						
+					</li>
+				
+					<li  class="level_one"  >
+						<!-- 如果有子菜单 -->
+						<span></span>
+						
+						<a class="menu_home "   href="javascript:void(0);"><span class="mysoft_chjia"></span>抽奖关怀</a>
+						<!-- 如果有子菜单 -->
+						<ul class="level_two" >
+
+							
+								<a href="/autosms/goConfigLotteryInfo?moduleId=112"><li ><em></em>抽奖关怀</li></a>
+							
+								<a href="/autosms/preGetLotteryWinList?moduleId=115"><li ><em></em>中奖记录查询</li></a>
+							
+						</ul>
+						
+					</li>
+				
+					<li  class="level_one"  >
+						<!-- 如果有子菜单 -->
+						<span></span>
+						
+						<a class="menu_home "   href="javascript:void(0);"><span class="autosms_11"></span>卖家订单提醒</a>
+						<!-- 如果有子菜单 -->
+						<ul class="level_two" >
+
+							
+								<a href="/autosms/newTradeRemind?moduleId=71"><li ><em></em>新增订单</li></a>
+							
+								<a href="/autosms/limitShipmentRemind?moduleId=169"><li ><em></em>未发货报警</li></a>
+							
+								<a href="/autosms/badAlarmRemind?moduleId=170"><li ><em></em>差评报警</li></a>
+							
+						</ul>
+						
+					</li>
+				
+					<li  >
+						
+						<a class="menu_home "   href="/autosms/userAutoSmsTemplate?moduleId=90"><span class="marketing_8"></span>短信模板管理</a>
+						
+					</li>
+				
+			</ul>
+		</div>
+	
+
+
+	
+</div>
+<!-- end -->
+            </td>
+            <td class="soft_body_right">
+                <div class="soft_workspace_title">
+                    <ul class="bread_crumbs">
+                        <li class="first"><a href="#">营销管理</a></li><li><a href="#">下单关怀（货到付款专用）买家成功下单后，立即触发短信提醒；能有效减少货到付款订单拒收的情况。</a></li>
+                    </ul>
+                    <h3><span class="autosms_1"></span>好评送红包</h3>
+                </div>
+                <div class="soft_workspace">
+                	<div class="menu_title">所有通知环节<div class="sh_box"><img src="images/blue_arr_u.gif" width="9" />收起</div></div>
+                    <div class="tab_box_main">
+              <!--图表及高亮字段显示区Start-->
+              <div class="table_workspace clearfix border-bottom padding-top20 padding-bottom20 mb20">
+                <!--交易环节开关Start-->
+                <div class="logistics_switch">
+                  <div class="switchBox">
+                  	<a href="#">
+                      <div class="switch_menu switch_menu_1"></div>
+                      <h4>下单关怀</h4>
+                    </a>
+                  </div>
+                  <div class="lineBox lineBox4">
+                    <em class="level1">&nbsp;</em><em class="level2">&nbsp;</em><em class="level3">&nbsp;</em>
+                  </div>
+                  <div class="switchBox">
+                  	<a href="#">
+                      <div class="switch_menu jhs"></div>
+                      <h4>聚划算催付</h4>
+                    </a>
+                    <a href="#">
+                      <div class="switch_menu wfk"></div>
+                      <h4>未付款催付</h4>
+                    </a>
+                    <a href="#">
+                    	<div class="switch_menu wfk"></div>
+                      <h4>预售订单催付</h4>
+                    </a>
+                  </div>
+                  <div class="lineBox duan">
+                    <em>&nbsp;</em>
+                  </div>
+                  <div class="switchBox">
+                  	<a href="#">
+                    	<div class="switch_menu eccf switch_menu_1"></div>
+                      <h4>二次催付</h4>
+                    </a>
+                  </div>
+                  <div class="lineBox duan">
+                    <em>&nbsp;</em>
+                  </div>
+                  <div class="switchBox">
+                    <a class="off" href="交易提醒-发货提醒.html">
+                    	<div class="switch_menu fkgh switch_menu_1"></div>
+                      <h4>付款关怀</h4>
+                    </a>
+                  </div>
+                  <div class="lineBox duan">
+                    <em>&nbsp;</em>
+                  </div>
+                  <div class="switchBox">
+                  	<a class="switch_menu_down" href="交易提醒-物流提醒.html">
+                    	<div class="switch_menu ysfh"></div>
+                      <h4>延时发货提醒</h4>
+                    </a>
+                    <a href="交易提醒-物流提醒.html">
+                    	<div class="switch_menu fhtz"></div>
+                      <h4>发货通知</h4>
+                    </a>
+                    <a class="switch_menu_down" href="交易提醒-物流提醒.html">
+                    	<div class="switch_menu wlyctz"></div>
+                      <h4>物流异常通知</h4>
+                    </a>
+                  </div>
+                  <div class="lineBox lineBox5">
+                    <em>&nbsp;</em>
+                    <em class="level2">&nbsp;</em>
+                    <em class="level3">&nbsp;</em>
+                  </div>
+                  <div class="switchBox">
+                    <a class="off" href="交易提醒-提醒确认付款.html">
+                    	<div class="switch_menu ddcs switch_menu_1"></div>
+                      <h4>到达所在<br/>城市通知</h4>
+                    </a>
+                  </div>
+                  <div class="lineBox duan">
+                    <em>&nbsp;</em>
+                  </div>
+                  <div class="switchBox">
+                    <a href="交易提醒-好评提醒.html">
+                    	<div class="switch_menu pijtx switch_menu_1"></div>
+                      <h4>派件提醒</h4>                     
+                    </a>
+                  </div>
+                  <div class="lineBox duan">
+                    <em>&nbsp;</em>
+                  </div>
+                  <div class="switchBox">
+                  	<a class="switch_menu_down" href="交易提醒-物流提醒.html">
+                    	<div class="switch_menu tkgh"></div>
+                      <h4 class="longer">退款关怀</h4>
+                    </a>
+                    <a href="交易提醒-好评提醒.html">
+                    	<div class="switch_menu qstx"></div>
+                      <h4>签收提醒</h4>
+                    </a>
+                    <a class="switch_menu_down" href="交易提醒-物流提醒.html">
+                    	<div class="switch_menu cjgh"></div>
+                      <h4>抽奖关怀</h4>
+                    </a>
+                  </div>
+                  <div class="lineBox lineBox5">
+                    <em>&nbsp;</em>
+                    <em class="level2">&nbsp;</em>
+                    <em class="level3">&nbsp;</em>
+                  </div>
+                  <div class="switchBox">
+                    <a href="交易提醒-好评提醒.html">
+                    	<div class="switch_menu pjtx switch_menu_1"></div>
+                      <h4>评价提醒</h4>
+                    </a>
+                  </div>
+                  <div class="lineBox lineBox2">
+                    <em class="level1">&nbsp;</em>
+                    <em class="level2">&nbsp;</em>
+                  </div>
+                  <div class="switchBox">
+                    <a href="交易提醒-好评感谢.html">
+                    	<div class="switch_menu hptx switch_menu_3"></div>
+                      <h4>好评感谢</h4>
+                    </a>
+                    <a href="交易提醒-差评安抚.html">
+                    	<div class="switch_menu cptx"></div>
+                      <h4>差评安抚</h4>
+                    </a>
+                  </div>
+                  <div class="lineBox lineBox6">
+                    <em class="level1">&nbsp;</em><em class="level2">&nbsp;</em>
+                  </div>
+                  <div class="switchBox">
+                    <a href="交易提醒-好评提醒.html">
+                    	<div class="switch_menu shgh switch_menu_3"></div>
+                      <h4 class="longer">售后关怀</h4>
+                    </a>
+                    <a href="交易提醒-好评提醒.html">
+                    	<div class="switch_menu srgh"></div>
+                      <h4>生日关怀</h4>
+                    </a>
+                  </div>
+                </div>
+                <!--交易环节开关End-->
+              </div>
+              
+              <script type="text/javascript">
+			  	var isOpen = true;
+			  	$('.sh_box').click(function(e) {
+					if(isOpen){
+                    	$(this).find('img').attr('src','images/blue_arr_d.gif');
+						isOpen = false;
+					}else{
+						$(this).find('img').attr('src','images/blue_arr_u.gif');
+						isOpen = true;
+					}
+					$('.logistics_switch').slideToggle();
+                });
+			  </script>
+              <!--图表及高亮字段显示区End-->
+          </div>
+          <div class="tab_box" id="tab01">
+            <span class="detail_tab active">短信设置<img src="images/wenhao.gif" /></span>
+            <span class="detail_tab">邮件设置</span>
+            <span class="detail_tab">短信催付记录</span>
+            <span class="detail_tab">短信催付效果</span>
+          </div>
+          <div class="tab_box_main" id="add_email_setup" style="display:none;">
+              <!--SMS设置Start-->
+              <div class="table_workspace clearfix border-bottom padding-top20 margin-bottom20">
+                <div class="adm-detail-title">邮件未付款催付设置</div>
+                <div class="table_workspace_iphone_sms">
+                <!----->
+                    <div class="popbox_frombox clearfix">
+                      <div class="iphone_sms_frombox iphone_mail_frombox">
+                        <dl class="fleft">
+                          <dt>自动发送：</dt>
+                          <dd>
+                            <label><input type="radio" name="eeeee" value="单选" />&nbsp;是</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label><input type="radio" name="eeeee" checked="checked" value="单选" />&nbsp;否</label>
+                          </dd>
+                        </dl>
+                        <div><textarea name="content" style="width:810px; height:200px; visibility:hidden; display:block;"></textarea></div>
+                      </div>
+                    </div>
+                    <div class="percentage_box">
+                      <div class="percentage_text">
+                        <strong class="fontsize14">说明：</strong>
+                        <p style="padding-top:5px;">用于买家拍下宝贝后，一定时间内未付款，有利于提高拍下宝贝的付款率。</p>
+                        <ul class="pl12" style="padding-top:5px;">
+                          <li>1,&nbsp;发送时段说明：为防止短消息在夜间给买家造成不必要的困扰，可以打开发送时段限制，默认晚上10点至隔天上午9点为限制时段。</li>
+                        </ul>
+                      </div>
+                    </div>
+                <!----->
+                </div>
+                <div class="submitbox"><input class="submit" type="submit" value="确认"></div>
+              </div>
+              <!--SMS设置End-->
+          </div>
+          <div class="tab_box_main" id="add_xg_setup" style="display:none;">
+          	  <div class="table_workspace clearfix border-bottom padding-top20 margin-bottom20">
+              	 <div class="adm-detail-title">好评提醒效果统计</div>
+                 <div class="table_top Rounded" style="margin:10px 20px 0px 20px;"><!--需要圆角时加上class:Rounded-->
+                                <div class="table_left">
+                                    <a class="menu onthis" href="javascript:void(0)" type="1">今天</a>
+                                    <a class="menu" href="javascript:void(0)" type="2">最近7天</a>
+                                    <a class="menu" href="javascript:void(0)" type="3">最近一个月</a>
+                                    
+                                    <script type="text/javascript">
+										$('.table_left a').click(function(e) {
+                                            $('.table_left a').removeClass('onthis');
+											$(this).addClass('onthis');
+                                        });
+									</script>
+
+                                    <div class="widgetField">
+                                    <span style="float:left; margin-right:5px;">自定义时间：</span>
+                                    <input id="query_time_start" class="radius" type="text" value="" onclick="WdatePicker({startDate:'%y-%M-01',maxDate:'%y-%M-%d'})"></div>
+                                    
+                                    <div class="widgetField">&nbsp;-&nbsp;</div>
+                                    <div class="widgetField">
+                                        <input id="query_time_end" type="text" value="" onclick="WdatePicker({maxDate:'%y-%M-%d'})">
+                                    </div>
+                                    <a id="Submit_Time" href="javascript:void(0)" class="menu submit" type="4">确定</a>
+                                </div>
+                            </div>
+                    <div class="table_workspace_iphone_sms" style="margin-top:0px;">
+                    	注：如不设置查询时间，系统默认统计前一日的提醒效果。
+                        <table width="100%" border="0" style="text-align:center;">
+  <tr height="50px;">
+    <td>时间</td>
+    <td>发送量（条）</td>
+    <td>评价链接点击量（次）</td>
+    <td>总评价数</td>
+    <td>好评成功数</td>
+    <td>好评成功率</td>
+  </tr>
+  <tr>
+    <td>2015.7.21 ~ 2015.7.23</td>
+    <td>100</td>
+    <td>100</td>
+    <td>100</td>
+    <td>80</td>
+    <td>80%</td>
+  </tr>
+</table>
+                    </div>
+              </div>
+          </div>
+          <div class="tab_box_main" id="add_auto_evaluate" style="display:none;">
+              <!--SMS设置Start-->
+              <div class="table_workspace clearfix border-bottom padding-top20 margin-bottom20">
+                <div class="adm-detail-title">自动评价</div>
+                <div class="table_workspace_iphone_sms">
+                	<div class="popbox_frombox clearfix padding-left0">
+                        <div class="iphone_sms_frombox" style="width:900px;">
+                            <dl class="fleft">
+                              <dt>评价开关：</dt>
+                              <dd>
+                                <label><input type="radio" name="ggggg" value="单选" />&nbsp;开启</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="radio" name="ggggg" checked="checked" value="单选" />&nbsp;关闭</label>
+                                <span class="red">注：评价提醒功能开启后，才能开启自动评价功能！</span>
+                              </dd>
+                            </dl>
+                            <dl class="fleft">
+                              <dt><span class="red">官方规定：</span></dt>
+                              <dd>
+                                天猫店（商城店）无需开启自动评价（天猫店会在买家评价后自动给好评）；
+                                <br/>集市店（淘宝店）需要交易双方互评之后，才能获取到评价信息；
+                                <br/>方便您及时为交易给出好评，建议您开启自动评价功能。
+                              </dd>
+                            </dl>
+                            <dl class="fleft">
+                              <dt>选择回评方式：</dt>
+                              <dd>
+                              	<label><input type="radio" name="hhhhh" value="单选" />&nbsp;当交易完成后，自动给对方好评。</label>
+                                <br/>
+                                <label><input type="radio" name="hhhhh" checked="checked" value="单选" />&nbsp;当客户评价后，自动给对方好评。</label>
+                              </dd>
+                            </dl>
+                            <dl class="fleft">
+                          		<dt>设置评价内容：</dt>
+                          		<dd><textarea id="textarea_sms_text" class="phoneNum">非常爽快的客户，必须好评！</textarea></dd>
+                        	</dl>
+                         </div>
+                     </div>
+                <!----->
+                </div>
+              </div>
+           </div>
+          <div class="tab_box_main" id="add_sms_setup">
+                    <div class="table_workspace clearfix border-bottom padding-top20 margin-bottom20" style="padding:20px;">
+                        <div class="soft_workspace" style="padding:0px;">
+                            <div class="table_workspace_infoBox table_workspace_infoBox_mg0" style="padding:10px 20px; margin:0;">
+                                <div class="zjmd">
+                                    <input type="button" value="+新建提醒任务" onClick="createTask()" /><br/>
+                                    <strong>任务名称：</strong>
+                                    <input type="text" style="width:300px;" name="query_name" />
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <strong>任务状态：</strong>
+                                    <select name="query_status">
+                                        <option value="">全部</option>
+                                        <option value="OPEN">已开启</option>
+                                        <option value="CLOSE">未开启</option>
+                                    </select>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <strong>任务类型：</strong>
+                                    <select name="query_sub_status">
+                                        <option value="">全部</option>
+                                        <option value="Open">持续开启</option>
+                                        <option value="Interval">指定时段</option>
+                                    </select>
+                                </div>
+                                <div class="zjmd">
+                                    <strong>创建任务时间：</strong>
+                                    <input type="text" name="query_create_time_start" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" /> ~ <input type="text" name="query_create_time_end" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" />
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <strong>最近一次保存任务时间：</strong>
+                                    <input type="text" name="query_update_time_start" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" /> ~ <input type="text" name="query_update_time_end" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
+                                    <input type="button" value="立即查询" id="query_btn" />
+                                </div>
+                            </div>
+                            
+                            <div class="table_workspace_infoBox table_workspace_infoBox_mg0" style="padding:0px; border:none;">
+                                <!--表格组件调用start-->
+                                <div class="table_tablebox"><!--高度值请根据实际情况修改-->
+                                    <div class="jquery_table_box">
+                                        <div id="listtableContainer" style="min-height: 200px;"></div>
+                                    </div>
+                                    <script type="text/javascript">
+                                        var jTable;
+
+                                        jTable = $('#listtableContainer').jtable({
+                                            title: '订单提醒任务列表',
+                                            paging: true, //Enable paging
+                                            pageSize: 10, //Set page size (default: 10)
+                                            selecting: false, //Enable selecting
+                                            multiselect: false, //Allow multiple selecting
+                                            actions: {
+                                                listAction: '/trade-notification/listTask'
+                                            },
+                                            fields: {
+                                                id: {
+                                                    key: true,
+                                                    create: false,
+                                                    edit: false,
+                                                    list: false
+                                                },
+                                                name: {
+                                                    title: '任务名称',
+                                                    display: function(data){
+                                                        return data.record.name;
+                                                    }
+                                                },
+                                                /*plan_description: {
+                                                 title: '计划描述',
+                                                 display: function(data){
+                                                 return data.record.plan_description;
+                                                 }
+                                                 },*/
+                                                status_text: {
+                                                    title: '任务状态',
+                                                    width: "5%",
+                                                    listClass:"jtableAlign",
+                                                    display: function(data){
+                                                        var offFlag = data.record.status_text == "关闭" ? " off" : "";
+                                                        return "<em class=\"onoff_btn"+offFlag+"\" data-value=\""+data.record.id+"\"></em>";
+                                                    }
+                                                },
+                                                sub_status_text: {
+                                                    title: '任务类型',
+                                                    display: function(data){
+                                                        return data.record.sub_status_text;
+                                                    }
+                                                },
+                                                send_content: {
+                                                    title: '发送内容',
+                                                    width:"15%",
+                                                    display: function(data){
+                                                        if(data.record.send_content.length > 30){
+                                                            return "<span title=\""+ data.record.send_content + "\">" + data.record.send_content.substring(0, 30) + "...</span>";
+                                                        }
+                                                        return data.record.send_content;
+                                                    }
+                                                },
+                                                create_time:{
+                                                    title:'创建时间',
+                                                    display: function(data){
+                                                        if(data.record.create_time!=null&&data.record.create_time.length > 16){
+                                                            return data.record.create_time.substring(0,16);
+                                                        }else{
+                                                            return data.record.create_time;
+                                                        }
+                                                    }
+                                                },
+                                                update_time: {
+                                                    title: '更新时间',
+                                                    display: function(data){
+                                                        if(data.record.update_time!=null&&data.record.update_time.length > 16){
+                                                            return data.record.update_time.substring(0,16);
+                                                        }else{
+                                                            return data.record.update_time;
+                                                        }
+                                                    }
+                                                },
+                                                level: {
+                                                    title: '优先级',
+                                                    width:"8%",
+                                                    display: function(data){
+                                                        return "<input type=\"text\" size=\"4\" style=\"height: 23px;\" value=\""+data.record.level+"\" style=\"IME-MODE: disabled; WIDTH: 60px; HEIGHT: 15px\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" maxlength=\"5\" id=\"id_"+data.record.id+"\" data-old-value=\""+data.record.id+"\" />   <a href=\"javascript:void(0)\" class=\"edit_level\" data-value=\""+data.record.id+"\">保存</a>";
+                                                    }
+                                                },
+                                                operations:{
+                                                    title: '操作',
+                                                    display: function(data){
+                                                        var temp = "<a href='javascript:void(0);' onclick='edit(\""+data.record.id+"\")'>编辑</a>"
+                                                                + "   <a href='javascript:void(0);' onclick='del(\""+data.record.id+"\")'>删除</a>";
+
+                                                        return temp;
+                                                    }
+                                                }
+
+                                            }
+                                        });
+
+                                        jTable.jtable('load',
+                                                {
+                                                }
+                                        );
+
+                                    </script>
+                                </div>
+                                <!--表格组件调用end-->
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="soft_workspace_footer">
+                    
+
+
+
+
+
+
+
+
+<div class="footer_left">
+	Powered by
+    EasyContact
+	Copyright &copy; 2012-2016 SinoContact,Inc
+</div>
+<div class="footer_right">
+	
+	<!--a href="/usercenter/accountSetting?moduleId=18"><em class="setting"></em>账户设置</a-->
+        <a href="#" class="gogoupup"><em class="setting"></em>返回顶部</a>
+    <script>
+        $('a.gogoupup').click(function(e){
+            var t=0, b=0, c=$(document).scrollTop(), d=100;
+            setRun = setInterval(function(){
+                if(t<d){
+                    t++;
+                    $(document).scrollTop(Math.abs(Math.ceil(Tween.Cubic.easeOut(t,b,c,d))-c));
+                }else{
+                    clearInterval(setRun);
+                }
+            }, 10);
+        });
+        var Tween = {
+            Cubic: {
+                easeOut: function(t,b,c,d){
+                    return c*((t=t/d-1)*t*t + 1) + b;
+                }
+            }
+        }
+    </script>
+</div>
+<div style="display: none;">
+<script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F2a33609c33bf8365ba0e7e5807f2aabc' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+                </div>
+
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script type="text/javascript">
+    var currentTaskID = -1;
+
+    /**
+     * 创建任务
+     */
+    function createTask(){
+        //创建TASK
+        $.ajax({
+            url: '/trade-notification/createTask',
+            type: 'POST',
+            data:{
+                tradeNotificationType: 'TradeCreate_COD'
+            },
+            dataType: 'json',
+            success: function(msg){
+                if(msg){
+                    currentTaskID = msg.data;
+                    load();
+                    edit(currentTaskID);
+                }else{
+                    var p = new PopAlert('提示','创建失败，请重试',null,'id');
+                    p;
+                }
+            }
+        });
+    }
+
+    /**
+     * 编辑任务
+     */
+    function edit(id){
+        //创建TASK
+        $.ajax({
+            url: '/trade-notification/getTask',
+            type: 'POST',
+            data:{
+                tradeNotificationTaskId: id
+            },
+            dataType: 'json',
+            success: function(msg){
+                if(msg){
+                    currentTaskID = id;
+                    popContent(msg.data);
+                    //打开窗口
+                    OpenPopbox('add_xdghpz');
+                }else{
+                    var p = new PopAlert('提示','创建失败，请重试',null,'id');
+                    p;
+                }
+            }
+        });
+    }
+
+    /**
+     * 删除任务
+     */
+    function del(id){
+        //删除TASK
+        $.ajax({
+            url: '/trade-notification/deleteTask',
+            type: 'POST',
+            data:{
+                tradeNotificationTaskId: id
+            },
+            dataType: 'json',
+            success: function(msg){
+                if(msg){
+
+                    load();
+                }else{
+                    var p = new PopAlert('提示','删除失败，请重试',null,'id');
+                    p;
+                }
+            }
+        });
+    }
+
+    /**
+     * 更新发送内容
+     */
+    $(".save_send_content_btn").click(function(){
+        var task = {};
+        task["send_content"] = $("#textarea_sms_text").val();
+
+        //更新TASK
+        $.ajax({
+            url: '/trade-notification/updateTaskSendContent',
+            type: 'POST',
+            data:{
+                tradeNotificationTaskId: currentTaskID,
+                data: JSON.stringify(task)
+            },
+            dataType: 'json',
+            success: function(msg){
+                if(msg){
+                    popContent1(task);
+                }else{
+                    var p = new PopAlert('提示','更新失败，请重试',null,'id');
+                    p;
+                }
+            }
+        });
+    })
+
+    /**
+     * updateTaskBaseFilter
+     * 更新基本条件
+     */
+    $(".save_base_filter_btn").click(function(){
+        debugger;
+        var task = {};
+        var sendJson = {};
+        task["name"] = $("input[name='name']").val();
+        task["sub_status"] = $("input[name='sub_status']:checked").val();
+        if(task["sub_status"] == "Interval"){
+            task["sub_start_time"] = $("input[name='sub_start_time']").val();
+            task["sub_end_time"] = $("input[name='sub_end_time']").val();
+        }
+
+        sendJson["reminder_type"] = $("input[name='reminder_type']:checked").val();
+        if(sendJson["reminder_type"] == "Timing"){
+
+            sendJson["send_time_array"] = $("input[name='send_time_array']:checked").map(function() {
+                return $(this).val();
+            }).get();
+        }else if(sendJson["reminder_type"] == "Constantly"){
+
+            sendJson["send_time_start"] = $("input[name='send_time_start']").val();
+            sendJson["send_time_end"] = $("input[name='send_time_end']").val();
+            sendJson["limit_send_time_start"] = $("input[name='limit_send_time_start']").val();
+            sendJson["limit_send_time_end"] = $("input[name='limit_send_time_end']").val();
+        }
+        sendJson["is_send_next_day"] = $("input[name='is_send_next_day']").is(":checked");
+        sendJson["send_mobile"] = $("input[name='send_mobile']:checked").val();
+
+        task["send_json"] = sendJson;
+
+        //更新TASK
+        $.ajax({
+            url: '/trade-notification/updateTaskBaseFilter',
+            type: 'POST',
+            data:{
+                tradeNotificationTaskId: currentTaskID,
+                data: JSON.stringify(task)
+            },
+            dataType: 'json',
+            success: function(msg){
+                if(msg){
+
+                    popContent2(task);
+                }else{
+                    var p = new PopAlert('提示','更新失败，请重试',null,'id');
+                    p;
+                }
+            }
+        });
+    })
+
+    /**
+     * updateTaskBaseFilter
+     * 更新订单过滤条件
+     */
+    $(".save_trade_filter_btn").click(function(){
+        var task = {};
+        var tradeJson = {};
+
+        tradeJson["payment_start"] = $("input[name='payment_start']").val();
+        tradeJson["payment_end"] = $("input[name='payment_end']").val();
+
+        tradeJson["item_count_start"] = $("input[name='item_count_start']").val();
+        tradeJson["item_count_end"] = $("input[name='item_count_end']").val();
+
+        tradeJson["buyer_area"] = $("input[name='buyer_area']:checked").val();
+        if(tradeJson["buyer_area"] == "-1"){
+
+            tradeJson["buyer_area_details"] = $("input[name='buyer_area_details']:checked").map(function() {
+                return $(this).val();
+            }).get();
+        }
+
+        tradeJson["trade_type"] = $("input[name='trade_type']:checked").val();
+        tradeJson["trade_from"] = $("input[name='trade_from']:checked").map(function() {
+            return $(this).val();
+        }).get();
+
+        tradeJson["buyer_grade"] = $("input[name='buyer_grade']:checked").map(function() {
+            return $(this).val();
+        }).get();
+
+        tradeJson["seller_flag"] = $("input[name='seller_flag']:checked").map(function() {
+            return $(this).val();
+        }).get();
+
+        tradeJson["items"] = $("input[name='chooseIds']").val();
+
+        task["trade_json"] = tradeJson;
+
+        console.log(task);
+
+        //更新TASK
+        $.ajax({
+            url: '/trade-notification/updateTaskTradeFilter',
+            type: 'POST',
+            data:{
+                tradeNotificationTaskId: currentTaskID,
+                data: JSON.stringify(task)
+            },
+            dataType: 'json',
+            success: function(msg){
+                if(msg){
+
+                    popContent3(task);
+                }else{
+                    var p = new PopAlert('提示','更新失败，请重试',null,'id');
+                    p;
+                }
+            }
+        });
+    })
+
+
+    /**
+     * 刷新jtable
+     */
+    function load(){
+
+        var data = {};
+        data["query_name"] = $("input[name='query_name']").val();
+        data["query_status"] = $("select[name='query_status']").val();
+        data["query_sub_status"] = $("select[name='query_sub_status']").val();
+
+        data["query_create_time_start"] = $("input[name='query_create_time_start']").val();
+        data["query_create_time_end"] = $("input[name='query_create_time_end']").val();
+
+        data["query_update_time_start"] = $("input[name='query_update_time_start']").val();
+        data["query_update_time_end"] = $("input[name='query_update_time_end']").val();
+
+        data["query_tradeNotificationType"] = "TradeCreate_COD";
+
+        console.log(data);
+
+        jTable.jtable('load',
+                {
+                    data:JSON.stringify(data)
+                }
+        );
+    }
+
+    /**
+     * 设置弹出层内容
+     */
+    function popContent(data){
+        popContent1(data);
+        popContent2(data);
+        popContent3(data);
+    }
+    function popContent1(data){
+
+        $(".task_send_content").html(data["send_content"]);
+        $("#textarea_sms_text").val(data["send_content"]);
+        insertSmsContentNew();
+        $(".T_Num").html($("#T_Num").html());
+        $(".Sms_Num").html($("#Sms_Num").html());
+    }
+    function popContent2(data){
+        //设置预览内容
+        $(".task_name").html(data["name"]);
+        $(".task_sub_status").html(sub_status_array[data["sub_status"]]);
+        if($(".task_sub_status").html() == '指定时段'){
+            $(".task_sub_status").html($(".task_sub_status").html() + "（" + data["sub_start_time"] + "~" + data["sub_end_time"] + "）")
+        }
+
+        var sendJson = data["send_json"];
+        if(typeof(sendJson) == "string"){
+            sendJson = JSON.parse(data["send_json"])
+        }
+        $(".task_reminder_type").html(reminder_type_array[sendJson["reminder_type"]]);
+        if($(".task_reminder_type").html() == '实时提醒'){
+            $(".task_reminder_type").html($(".task_reminder_type").html() + "（" + sendJson["send_time_start"] + "~" + sendJson["send_time_end"] + "）")
+            if(null != sendJson["limit_send_time_start"] && sendJson["limit_send_time_start"] != ''){
+                $(".task_reminder_type").html($(".task_reminder_type").html() + "；午休时间（" + sendJson["limit_send_time_start"] + "~" + sendJson["limit_send_time_end"] + "）");
+            }
+
+        }
+        $(".task_send_mobile").html(send_mobile_array[sendJson["send_mobile"]]);
+
+        debugger;
+        $("input[name='name']").val(data["name"]);
+
+        $("input[name='sub_status'][value='"+data["sub_status"]+"']").click();
+        $("input[name='sub_start_time']").val(data["sub_start_time"]);
+        $("input[name='sub_end_time']").val(data["sub_end_time"]);
+
+        $("input[name='reminder_type'][value='"+sendJson["reminder_type"]+"']").click();
+        if(sendJson["is_send_next_day"]){
+            $("input[name='is_send_next_day']").attr("checked", true);
+        }
+        if(null != sendJson["send_time_array"] && sendJson["send_time_array"].length > 0){
+            for(var p in sendJson["send_time_array"]){
+                $("input[name='send_time_array'][value='" + sendJson["send_time_array"][p] + "']").attr("checked", true);
+            }
+        }
+        $("input[name='send_time_start']").val(sendJson["send_time_start"]);
+        $("input[name='send_time_end']").val(sendJson["send_time_end"]);
+        $("input[name='limit_send_time_start']").val(sendJson["limit_send_time_start"]);
+        $("input[name='limit_send_time_end']").val(sendJson["limit_send_time_end"]);
+
+        $("input[name='send_mobile'][value='" + sendJson["send_mobile"] + "']").attr("checked", true);
+    }
+    function popContent3(data){
+        var tradeJson = data["trade_json"];
+        if(typeof(tradeJson) == "string"){
+            tradeJson = JSON.parse(data["trade_json"])
+        }
+
+        if(tradeJson["payment_start"] == '' && tradeJson["payment_end"] == ''){
+            $(".task_payment").html("不限");
+        }else if(tradeJson["payment_start"] != '' && tradeJson["payment_end"] != ''){
+            $(".task_payment").html(tradeJson["payment_start"] + "-" + tradeJson["payment_end"] + "元");
+        }else if(tradeJson["payment_start"] == ''){
+            $(".task_payment").html("小于" + tradeJson["payment_end"] + "元");
+        }else{
+            $(".task_payment").html("大于" + tradeJson["payment_start"] + "元");
+        }
+        var tradeFromFilter = "不限";
+        if(null != tradeJson["trade_from"] && tradeJson["trade_from"].length > 0){
+            tradeFromFilter = "";
+            for(var p in tradeJson["trade_from"]){
+                if(tradeFromFilter != ''){
+                    tradeFromFilter += ",";
+                }
+                tradeFromFilter += trade_from_array[tradeJson["trade_from"][p]];
+            }
+        }
+        $(".task_trade_from").html(tradeFromFilter);
+
+        if(tradeJson["item_count_start"] == '' && tradeJson["item_count_end"] == ''){
+            $(".task_item_count").html("不限");
+        }else if(tradeJson["item_count_start"] != '' && tradeJson["item_count_end"] != ''){
+            $(".task_item_count").html(tradeJson["item_count_start"] + "-" + tradeJson["item_count_end"] + "件");
+        }else if(tradeJson["item_count_start"] == ''){
+            $(".task_item_count").html("小于" + tradeJson["item_count_end"] + "件");
+        }else{
+            $(".task_item_count").html("大于" + tradeJson["item_count_start"] + "件");
+        }
+
+        var buyerGradeFilter = "不限";
+        if(null != tradeJson["buyer_grade"] && tradeJson["buyer_grade"].length > 0){
+            var tmp = new Array();;
+            for(var p in tradeJson["buyer_grade"]){
+                tmp.push(buyer_grade_array[tradeJson["buyer_grade"][p]]);
+            }
+            buyerGradeFilter = tmp.join(",");
+        }
+        $(".task_buyer_grade").html(buyerGradeFilter);
+
+        var buyerAreaFilter = "不限";
+        if(tradeJson["buyer_area"] == '-1'){
+            buyerAreaFilter = "";
+            for(var p in tradeJson["buyer_area_details"]){
+                if(buyerAreaFilter != ''){
+                    buyerAreaFilter += ",";
+                }
+                buyerAreaFilter += tradeJson["buyer_area_details"][p];
+            }
+        }
+        $(".task_buyer_area").html(buyerAreaFilter);
+
+        var sellerFlagFilter = "不限";
+        if(null != tradeJson["seller_flag"] && tradeJson["seller_flag"].length > 0){
+            sellerFlagFilter = "";
+            for(var p in tradeJson["seller_flag"]){
+                sellerFlagFilter += "<img src=\"/images/cq/op_memo_" + tradeJson["seller_flag"][p] + ".png\" width=\"11\" /> ";
+            }
+        }
+        $(".task_seller_flag").html(sellerFlagFilter);
+
+        if(null != tradeJson["trade_type"] && tradeJson["trade_type"] != ''){
+            $(".task_trade_type").html(trade_type_array[tradeJson["trade_type"]]);
+        }else{
+            $(".task_trade_type").html("不限");
+        }
+
+        $("input[name='payment_start']").val(tradeJson["payment_start"]);
+        $("input[name='payment_end']").val(tradeJson["payment_end"]);
+        $("input[name='item_count_start']").val(tradeJson["item_count_start"]);
+        $("input[name='item_count_end']").val(tradeJson["item_count_end"]);
+
+        if(tradeJson["buyer_area"] == '-1'){
+            $("input[name='buyer_area'][value='-1']").attr("checked", true);
+            for(var p in tradeJson["buyer_area_details"]){
+                $("input[name='buyer_area_details'][value='"+tradeJson["buyer_area_details"][p]+"']").attr("checked", true);
+            }
+        }else{
+            $("input[name='buyer_area'][value='']").attr("checked", true);
+        }
+
+        if(null != tradeJson["trade_from"] && tradeJson["trade_from"].length > 0){
+            for(var p in tradeJson["trade_from"]){
+                $("input[name='trade_from'][value='"+tradeJson["trade_from"][p]+"']").attr("checked", true);
+            }
+        }
+
+        $("input[name='trade_type'][value='"+tradeJson["trade_type"]+"']").attr("checked", true);
+
+        if(null != tradeJson["buyer_grade"] && tradeJson["buyer_grade"].length > 0){
+            for(var p in tradeJson["buyer_grade"]){
+                $("input[name='buyer_grade'][value='"+tradeJson["buyer_grade"][p]+"']").attr("checked", true);
+            }
+        }
+        if(null != tradeJson["seller_flag"] && tradeJson["seller_flag"].length > 0){
+            for(var p in tradeJson["seller_flag"]){
+                $("input[name='seller_flag'][value='"+tradeJson["seller_flag"][p]+"']").attr("checked", true);
+            }
+        }
+
+        showPopItems(tradeJson);
+
+    }
+
+    $(document).ready(function(){
+
+        /**
+         * 修改任务状态
+         */
+        $(document).on("click", ".onoff_btn", function(){
+
+            var id = $(this).attr("data-value");
+            var message = "";
+            var status = "";
+
+
+            if($(this).hasClass('off')){//当前为关闭状态
+                message = "确认要开启任务吗？";
+                status = "OPEN";
+            }else{
+                message = "确认要关闭任务吗？";
+                status = "CLOSE";
+            }
+
+            var p = new PopConfirm('提示',message,function(){
+
+                updateTaskStatus(id,status)
+            },'id');
+            p;
+        })
+        function updateTaskStatus(id,status){
+            var data = {};
+            data["status"] = status;
+            $.ajax({
+                url: '/trade-notification/updateTaskStatus',
+                type: 'POST',
+                data:{
+                    tradeNotificationTaskId:id,
+                    data:JSON.stringify(data)
+                },
+                dataType: 'json',
+                success: function(msg){
+                    if(msg){
+                        load();
+                    }else{
+                        var p = new PopAlert('提示','修改失败，请重试',null,'id');
+                        p;
+                    }
+                }
+            });
+        }
+
+        /**
+         * 修改任务优先级
+         */
+        $(document).on("click", ".edit_level", function(){
+            debugger;
+            var id = $(this).attr("data-value");
+            var level = parseInt($("#id_" + id).val());
+            var oldLevel =  parseInt($("#id_" + id).attr("data-old-value"));
+            if(isNaN(level)){
+                var p = new PopAlert('提示','请输入数字',null,'id');
+                p;
+                return ;
+            }
+            var data = {};
+            data["level"] = level;
+
+            if(level == oldLevel){
+                var p = new PopAlert('提示','修改成功',null,'id');
+                p;
+                return;
+            }
+
+            $.ajax({
+                url: '/trade-notification/updateTaskLevel',
+                type: 'POST',
+                data:{
+                    tradeNotificationTaskId:id,
+                    data:JSON.stringify(data)
+                },
+                dataType: 'json',
+                success: function(msg){
+                    if(msg){
+                        var p = new PopAlert('提示','修改成功',null,'id');
+                        p;
+                        load();
+                    }else{
+                        var p = new PopAlert('提示','修改失败，请重试',null,'id');
+                        p;
+                    }
+                }
+            });
+        })
+
+
+
+        /**
+         * 立即查询
+         */
+        $("#query_btn").click(function(){
+            load();
+        })
+    })
+
+    var reminder_type_array = {
+        "Timing" : "定时提醒",
+        "Constantly" : "实时提醒"
+    };
+    var send_mobile_array = {
+        "buyer_mobile" : "收件人手机号",
+        "alipay_mobile" : "支付宝手机号",
+        "priority_buyer_mobile" : "优先收件人手机号",
+        "priority_alipay_mobile" : "优先支付宝手机号"
+    };
+    var buyer_grade_array = {
+        "0" : "其他客户",
+        "1" : "普通会员",
+        "2" : "高级会员",
+        "3" : "VIP会员",
+        "4" : "至尊VIP会员"
+    };
+    var trade_type_array = {
+        "1" : "预售",
+        "2" : "非预售"
+    };
+    var trade_from_array = {
+        "TAOBAO" : "PC端",
+        "WAP" : "移动端",
+        "JHS" : "聚划算"
+    };
+    var sub_status_array = {
+        "Interval" : "指定时段",
+        "Open" : "持续开启"
+    };
+
+    function showPopItems(tradeJson){
+
+        $("#item_choose_div dl").remove();
+        $("#wxd li").remove();
+
+        addNewItemBlock();
+
+
+        var itemIds=tradeJson["items"];
+        if(typeof(itemIds)=='undefined' || itemIds.length==0){
+            $(".newChangeTwo").html("未添加商品");
+        }
+        if(itemIds!= undefined && itemIds.length>0){
+            $("input[name='chooseIds']").val(tradeJson["items"]);
+            var ids=itemIds.split(",");
+            var i=0;
+            var lenght=ids.length;
+            /*if(ids.length>=5){
+             lenght = 5;
+             $("#newChange").html("更多商品请点击修改查看");
+             }else{
+             lenght = ids.length;
+             }*/
+            for(;i<lenght;i++){
+                if(ids[i] != ''){
+
+                    var item=getItemFromItemId(ids[i]);
+                    showChoosedItem(item,$(".choosedItem")) ;
+                    myCheck(ids[i]);
+                    showItem(item,$(".new_add_item_ul"));
+                    showItem(item,$(".new_add_item_ul"),"item_choose_dl_0");
+                }
+            }
+        }
+    }
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  var jTableSMSTemplate ;
+  var categoryId;
+  var selfType;
+  var txtId = 'textarea_sms_text';
+  var selfCategoryId ;
+  $(document).ready(function (){
+    jTableSMSTemplate = $('.template_table_tablebox').jtable({
+      title: '短信模板',
+      paging: true, //Enable paging
+      pageSize: 10, //Set page size (default: 10)
+      selecting: false, //Enable selecting
+      actions: {
+        listAction: '/communication/getSmsTemplateBySourceAndCategory'
+      },
+      fields: {
+        template_id: {
+          key: true,
+          create: false,
+          edit: false,
+          list: false
+        },
+        template_title: {
+          title: '标题',
+          width: '15%',
+          display: function(data){
+            if(data.record.template_title.length > 12){
+              return "<span title=\""+data.record.template_title+"\">"+data.record.template_title.substring(0,9) +"...</span>";
+            }else{
+              return data.record.template_title ;
+            }
+          }
+        },
+        template_content: {
+          title: '内容',
+          width: '70%',
+          display: function(data){
+            if(data.record.template_content.length > 36){
+              return "<span class=\"copy\" title=\""+data.record.template_content+"\">"+data.record.template_content.substring(0,33) +"...</span>";
+            }else{
+              return data.record.template_content ;
+            }
+          }
+        },operation:{
+          title:'操作',
+          width: '15%',
+        }
+      },recordsLoaded: function(event,data){
+        $('.copy').click(function(e){
+          if($(this).attr('id') == undefined){
+            $(this).attr('id',$(this).html());
+            $(this).html($(this).attr('title'));
+          }else{
+            $(this).html($(this).attr('id'));
+            $(this).removeAttr('id');
+          }
+        });
+      }
+    });
+
+    //获取类别信息
+    getCategory();
+    //获取变量
+    getVariable('25');
+  });
+  function getCategory(){
+    $.ajax({
+      url: '/communication/getCategoryByType',
+      type: 'POST',
+      data:{
+        "categoryType":'autosms'
+      },
+      dataType: 'json',
+      success: function(resp){
+        var tab_category = $("#tab_category");
+        $(tab_category).empty();
+        for(var i=0,l=resp.length;i<l;i++){
+          if (resp[i]['self_type']!=null && resp[i]['self_type']!='' && typeof resp[i]['self_type'] !='undefined'){
+            selfCategoryId = resp[i]['category_id'];
+          }
+          $(tab_category).append('<span class="detail_tab" selfType="'+resp[i]['self_type']+'" cid="'+resp[i]['category_id']+'" onclick="fetchCategory('+resp[i]['category_id']+',\''+resp[i]['self_type']+'\')">'+resp[i]['category_desc']+'</span>');
+        }
+        $("#tab_category >span").first().click();
+      }});
+  }
+
+
+  function getVariable(pushSource) {
+    $.ajax({
+      url: '/communication/getVariableByPushSource',
+      type: 'POST',
+      data:{
+        "pushSource":pushSource
+      },
+      dataType: 'json',
+      success: function(resp){
+        console.log(resp);
+        var template_variables = $(".template_variables");
+        $(template_variables).empty();
+        for(var i=0,l=resp.length;i<l;i++){
+          $(template_variables).append('<a class="options" href="javascript:void(0)" onclick="useVariables(1,\''+resp[i]['variable_value']+'\')">'+resp[i]['variable_name']+'</a>');
+          if(i%4==0 && i>0){
+            $(template_variables).append("<br/>");
+          }
+        }
+        var template_variables2 = $(".template_variables2");
+        $(template_variables2).empty();
+        for(var i=0,l=resp.length;i<l;i++){
+          $(template_variables2).append('<a class="options" href="javascript:void(0)" onclick="useVariables(2,\''+resp[i]['variable_value']+'\')">'+resp[i]['variable_name']+'</a>');
+          if(i%4==0&& i>0){
+            $(template_variables2).append("<br/>");
+          }
+        }
+        var template_variables3 = $(".template_variables3");
+        $(template_variables3).empty();
+        for(var i=0,l=resp.length;i<l;i++){
+          $(template_variables3).append('<a class="options" href="javascript:void(0)" onclick="useVariables(3,\''+resp[i]['variable_value']+'\')">'+resp[i]['variable_name']+'</a>');
+          if(i%4==0&& i>0){
+            $(template_variables3).append("<br/>");
+          }
+        }
+        var template_variables4 = $(".template_variables4");
+        $(template_variables4).empty();
+        for(var i=0,l=resp.length;i<l;i++){
+          $(template_variables4).append('<a class="options" href="javascript:void(0)" onclick="useVariables(4,\''+resp[i]['variable_value']+'\')">'+resp[i]['variable_name']+'</a>');
+          if(i%4==0&& i>0){
+            $(template_variables4).append("<br/>");
+          }
+        }
+      }});
+  }
+  function fetchCategory(categoryId,selfType){
+    $("#tab_category >span").each(function () {
+      if ($(this).attr("cid")==categoryId){
+        $(this).addClass("active");
+      }else{
+        $(this).removeClass("active");
+      }
+    });
+
+    jTableSMSTemplate.jtable('load',{
+      pushSource:'25',
+      categoryId:categoryId,
+      selfType:selfType
+    });
+  }
+
+  function useTemplate(content) {
+    $("#"+txtId).val(content);
+    console.log(txtId);
+    if (txtId=='textarea_sms_text2'){
+      insertSmsContentNew2();
+    }else{
+      //为文本框绑定事件
+      insertSmsContentNew();
+    }
+    CloseRemind('add_moban_chose');
+  }
+
+  function useVariables(id,content) {
+    if (id==2){
+      insertAtCursor(document.getElementById('textarea_sms_text2'),content)
+    }else if(id==3){
+      insertAtCursor(document.getElementById('templateContent'),content)
+    }else if(id==4){
+      insertAtCursor(document.getElementById('templateContentEdit'),content)
+    }
+    else{
+      //为文本框绑定事件
+      insertAtCursor(document.getElementById('textarea_sms_text'),content)
+    }
+  }
+
+  function saveTemplateNew() {
+    var pushSource = '25';
+    var subject = $('#templateNameNew').val();
+    var content = $('#textarea_sms_text').val();
+    if (subject==null || subject=='' || typeof subject =='undefined'){
+       //alert("请输入短信模板名称");
+       var  popAlert = new PopAlert('提示',"请输入短信模板名称",null,"id");
+       popAlert;
+       return;
+    }
+    if (content==null || content=='' || typeof content =='undefined'){
+      //alert("请输入短信模板内容");
+      var  popAlert = new PopAlert('提示',"请输入短信模板内容",null,"id");
+      popAlert;
+      return;
+    }
+    $("#add_template_btn").attr("disabled","true");
+    $.ajax({
+      url: '/communication/checkContainKeys',
+      type: 'POST',
+      data:{
+        push_content:content
+      },
+      dataType: 'json',
+      success: function(resp){
+        //包含关键词
+        if(resp.isContainKeys == true){
+          var tips="模板包含非法字符："+resp.containKeys+"；请重新编辑模板内容！";
+          $("#add_template_btn").removeAttr("disabled");
+          //alert(tips);
+          var  popAlert = new PopAlert('提示',tips,null,"id");
+          popAlert;
+        }else{//不包含关键词
+          $.ajax({
+            url: '/communication/addTemplateWithCategory',
+            type: 'POST',
+            data : {
+              "pushSource" : pushSource,
+              "categoryId":selfCategoryId,
+              "pushSubject":subject,
+              "pushContent": content
+            },
+            dataType: 'json',
+            success: function(resp){
+              $("#add_template_btn").removeAttr("disabled");
+              ClosePopbox('add_template_new');
+              if(resp.result){
+                //alert("模板添加成功！");
+                var  popAlert = new PopAlert('提示',"模板添加成功！",null,"id");
+                popAlert;
+              }else{
+                //alert(resp.desc);
+                var  popAlert = new PopAlert('提示',resp.desc,null,"id");
+                popAlert;
+              }
+
+            }
+          });
+        }
+      }
+    });
+  }
+
+</script>
+
+<div class="popbox_core  rem" id="add_moban_chose">
+  <div class="popbox_head">
+    <span class="title">模板选择</span>
+    <div class="popbox_head_right"><a class="popbox_close" onClick="CloseRemind('add_moban_chose')"></a></div>
+  </div>
+  <div class="soft_workspace" style="position:relative; padding-bottom:20px;">
+    <div class="tab_box" id="tab_category" style="overflow:auto; height:56px;display: block">
+      <span class="detail_tab active">系统模板</span>
+      <span class="detail_tab">高ROI模板</span>
+      <span class="detail_tab">自定义模板</span>
+    </div>
+
+    <div id="add_custom" style="position:absolute; z-index:99; left:430px; top:27px; display:none;">
+      <input type="button" value="新建短信模板" />
+    </div>
+    <!--表格组件调用start-->
+    <div class="template_table_tablebox"><!--高度值请根据实际情况修改-->
+      
+    </div>
+    <!--表格组件调用end-->
+  </div>
+</div>
+</div>
+
+<script language="javascript" type="text/javascript">
+	var theTab1_box = new Array('add_sms_setup','add_email_setup','add_xg_setup','add_auto_evaluate');
+	var theTab1 = new AlexTab2('tab01',theTab1_box);
+	theTab1;
+</script>
+
+<div class="popbox_core rem" id="add_template_new" style="width: 500px;">
+  <div class="popbox_workspace" style="width:450px;">
+    <div style="text-align:center; margin:30px 0px;">请为保存的模板命名：<input type="text" style=" width: 180px;" id="templateNameNew" name="templateNameNew" maxlength="20" placeholder="请输入模板名称，最大长度20"></div>
+    <div class="submitbox">
+      <input class="submit" value="保存" type="submit" onClick="saveTemplateNew()">
+      <input class="submit" value="取消" type="submit" style="margin-left:50px;" onClick="ClosePopbox('add_template_new')">
+    </div>
+  </div>
+</div>
+</body>
+</html>

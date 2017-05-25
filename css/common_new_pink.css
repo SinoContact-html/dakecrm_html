@@ -94,7 +94,7 @@ strong.bigtitle {font-size:24px; font-weight:normal;}
 	vertical-align:top; white-space:nowrap; margin-right:4px; font-family:"黑体"; text-decoration:none; font-size:13px;
 }
 .soft_top a.fastintobox {color:#FFF; text-decoration:none; text-align:center; display:inline-block; border-left:#b7488c 1px solid; margin-left:-4px;}
-.soft_top a.fastintobox .fib {padding:0px 20px; height:60px; border-left:#e665b7 1px solid; line-height:60px; font-size:16px;}
+.soft_top a.fastintobox .fib {padding:0px 20px; height:60px; border-left:#e665b7 1px solid; font-size:16px; padding-top:8px;}
 .soft_top a.fastintobox.last {border-right:#e665b7 1px solid;}
 .soft_top a.fastintobox.last .fib {border-right:#b7488c 1px solid;}
 .soft_top a.fastintobox .fib img {margin-top:15px; margin-bottom:5px;}
@@ -1115,13 +1115,13 @@ background: linear-gradient(#4a7dcd, #1e5ab0);}
 .soft_workspace .table_workspace .ulListBox ul.liststyle_1 li a {font-size:14px;}
 .soft_workspace .table_workspace .ulListBox ul.liststyle_1 li span {display:block; color:#999; padding-top:5px;}
 
-.soft_workspace .table_workspace .ulListBox ul.liststyle_1 li em {width:22px; height:22px; line-height:22px; text-align:center; color:#fff; -webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: #ccc 0px 2px 2px;-moz-box-shadow: #ccc 0px 2px 2px;box-shadow: #ccc 0px 2px 2px; text-shadow:0 1px 0 rgba(87,87,87,0.5); cursor:pointer; background: #4a95cd;
-background: -webkit-gradient(linear, 0 0, 0 bottom, from(#4a95cd), to(#1f75b0));
-background: -webkit-linear-gradient(#4a95cd, #1f75b0);
-background: -moz-linear-gradient(#4a95cd, #1f75b0);
-background: -ms-linear-gradient(#4a95cd, #1f75b0);
-background: -o-linear-gradient(#4a95cd, #1f75b0);
-background: linear-gradient(#4a95cd, #1f75b0);}
+.soft_workspace .table_workspace .ulListBox ul.liststyle_1 li em {width:22px; height:22px; line-height:22px; text-align:center; color:#fff; -webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: #ccc 0px 2px 2px;-moz-box-shadow: #ccc 0px 2px 2px;box-shadow: #ccc 0px 2px 2px; text-shadow:0 1px 0 rgba(87,87,87,0.5); cursor:pointer; background: #e248a8;
+background: -webkit-gradient(linear, 0 0, 0 bottom, from(#e248a8), to(#e665b7));
+background: -webkit-linear-gradient(#e248a8, #e665b7);
+background: -moz-linear-gradient(#e248a8, #e665b7);
+background: -ms-linear-gradient(#e248a8, #e665b7);
+background: -o-linear-gradient(#e248a8, #e665b7);
+background: linear-gradient(#e248a8, #e665b7);}
 
 .soft_workspace .table_workspace .ulListBox .ulListContent {padding:20px;}
 .soft_workspace .table_workspace .ulListBox .ulListContent h4 {font-size:16px; text-align:center;}
@@ -1499,7 +1499,7 @@ soft_top a.infoShowBox.special {color:#fff !important;}
 .soft_workspace .tab_box_buts {padding-left:20px; margin-bottom:20px; position:relative;}
 .soft_workspace .tab_box_buts a.menu {display:inline-block; padding:0 10px; height:30px; line-height:30px; background:#d7d7d7; color:#333; font-size:14px; margin-right:8px; margin-top:0px;}
 .soft_workspace .tab_box_buts a.menu:hover {background-position:0 -140px; text-decoration:none;}
-.soft_workspace .tab_box_buts a.daochu_btn {background:url(../images/daochu_btn.png) no-repeat; text-align:center; width:86px; height:25px; line-height:25px; padding-left:30px; margin-top:3px; text-decoration:none; color:#FFF; display:inline-block; position:absolute; right:0;}
+.soft_workspace .tab_box_buts a.daochu_btn {background:url(../images/daochu_btn_pink.png) no-repeat; text-align:center; width:86px; height:25px; line-height:25px; padding-left:30px; margin-top:3px; text-decoration:none; color:#FFF; display:inline-block; position:absolute; right:0;}
 .soft_workspace .tab_box_buts a.onthis {font-weight:bold; color:#fff; background:#e248a8;}
 .soft_workspace .tab_box_buts .widgetField input {display:block; float:left; height:29px; line-height:29px; width:156px; padding-left:10px; border:1px solid #a3a5a5; border-right:none;border-radius:4px 0px 0px 4px; background:#fff; outline:0; resize:none;}
 .soft_workspace .tab_box_buts .widgetField {height:31px; line-height:31px; float:left;}
@@ -1722,10 +1722,9 @@ soft_top a.infoShowBox.special {color:#fff !important;}
 .soft_workspace .banner .icon_next {width:40px; height:130px; background:url(../images/icon_next.png) center center no-repeat; position:absolute; right:10px; top:0; cursor:pointer;}
 
 .soft_workspace .mumber_box {width:70%; height:115px; background:#f1f1f1; float:left; color:#506470; margin-top:20px;}
-.soft_workspace .mumber_box .mumber_number {border-left:#e248a8 3px solid; height:115px; float:left; padding:0px 10px; background:#ebebeb;}
+.soft_workspace .mumber_box .mumber_number {border-left:#e248a8 3px solid; float:left; background:#ebebeb url(../images/mumber_pink.png) 21px 38px no-repeat;}
 .soft_workspace .mumber_box .mumber_number .mumber_img {height:60px; line-height:60px;}
-.soft_workspace .mumber_box .mumber_number .mumber_img em {vertical-align:middle; margin:0 20px; display:inline-block; width:36px; height:37px; background:url(../images/mumber_pink.png) no-repeat;}
-.soft_workspace .mumber_box .mumber_number .mumber_text {text-align:center;}
+.soft_workspace .mumber_box .mumber_number .mumber_img em {vertical-align:middle; margin:0 20px; display:inline-block; width:36px; height:37px; no-repeat;}
 .soft_workspace .mumber_box .mumber_number .mumber_text strong {font-size:38px; font-family:"微软雅黑";}
 .soft_workspace .mumber_box .mumber_btns {float:left; padding:15px; padding-left:20px; border-left:#FFF 1px solid;}
 .soft_workspace .mumber_box .mumber_btns a.btn_box {display:block; height:35px; line-height:35px; color:#506470; text-decoration:none; margin-bottom:10px;}
@@ -1854,3 +1853,58 @@ a.button:hover {background:#e665b7;}
 .soft_workspace .common_funs .common_funs_con .common_funs_item em.index_icon.zd {background-image:url(../images/icon_common_zdhm.png); background-repeat:no-repeat; background-position:center center;}
 .soft_workspace .common_funs .common_funs_con .common_funs_item em.index_icon.qs {background-image:url(../images/icon_common_qs.png); background-repeat:no-repeat; background-position:22px center;}
 .soft_workspace .common_funs .common_funs_con .common_funs_item em.index_icon.ll {background-image:url(../images/icon_common_ll.png); background-repeat:no-repeat; background-position:center center;}
+
+
+
+/*********** 2016/08/25 ***********/
+.soft_workspace .table_workspace .customer_cont {float:left;}
+.soft_workspace .table_workspace .customer_cont.im {float:none; width:100%; text-align:center;}
+.soft_workspace .table_workspace .customer_cont.lf50 {float:left; width:50%; text-align:center;}
+.soft_workspace .table_workspace .customer_cont.lf25 {float:left; width:25%; text-align:center;}
+.soft_workspace .table_workspace .customer_cont .customer_box {width:180px; border:#333 1px solid; margin-bottom:10px;}
+.soft_workspace .table_workspace .customer_cont.im .customer_box {display:inline-block;}
+.soft_workspace .table_workspace .customer_cont .customer_box.activity {width:230px;}
+.soft_workspace .table_workspace .customer_cont .customer_box.cup {cursor:pointer;}
+.soft_workspace .table_workspace .customer_cont .customer_box span.right {float:right;}
+.soft_workspace .table_workspace .customer_cont .customer_box .customer_title {padding:10px; background:#e248a8; color:#FFF; border-bottom:#333 1px solid; text-align:left;}
+.soft_workspace .table_workspace .customer_cont .customer_box .customer_title.im {text-align:center;}
+.soft_workspace .table_workspace .customer_cont .customer_box.first {margin-top:330px;}
+.soft_workspace .table_workspace .customer_cont .customer_box.activity.first {margin-top:150px;}
+.soft_workspace .table_workspace .customer_cont .customer_box.two_h1 {margin-top:207px;}
+.soft_workspace .table_workspace .customer_cont .customer_box.two_h2 {margin-top:175px;}
+.soft_workspace .table_workspace .customer_cont .customer_box.first .customer_title {background:#F90;}
+.soft_workspace .table_workspace .customer_cont .customer_box .customer_number {padding:10px; background:#FFF;}
+.soft_workspace .table_workspace .last_two_col {display:none;}
+.soft_workspace .table_workspace .customer_cont .customer_box .customer_number h1 {font-size:16px; margin-bottom:10px;}
+.soft_workspace .table_workspace .customer_cont .customer_box .customer_number dl {width:100%; padding:5px 0px; height:18px;}
+.soft_workspace .table_workspace .customer_cont .customer_box .customer_number dl dt {display:inline-block; text-align:right; width:50%; margin-right:5%;}
+.soft_workspace .table_workspace .customer_cont .customer_box .customer_number dl dd {display:inline-block; width:45%; text-align:left;}
+.soft_workspace .table_workspace .customer_cont .customer_box .customer_number dl dd img {margin-top:-3px; margin-left:5px;}
+.soft_workspace .table_workspace .customer_cont .line {border-bottom:#74b5e5 1px solid; margin-top:80px; width:110%; margin-left:-20px;}
+.soft_workspace .table_workspace .data_table {border:#dce7ed 1px solid; margin-top:20px;}
+.soft_workspace .table_workspace .data_table tr td {border:#dce7ed 1px solid; text-align:center; padding:10px 5px;}
+
+.soft_workspace .table_workspace .trade_title {text-align:center; color:#F90; font-size:16px; font-weight:bold;}
+.soft_workspace .table_workspace .trade_analysis_cont .trade_analysis_box {width:50%; display:inline-block; font-size:14px; margin:20px 0px 0px 0px; height:140px;}
+.soft_workspace .table_workspace .trade_analysis_cont .trade_analysis_box:first-child {border-right:#CCC 1px solid; margin-right:-4px;}
+.soft_workspace .table_workspace .trade_analysis_cont .trade_analysis_box table {margin-top:-20px;}
+.soft_workspace .table_workspace .trade_analysis_cont .trade_analysis_box table tr td {text-align:center; font-size:14px;}
+.soft_workspace .table_workspace .trade_analysis_cont .trade_analysis_box table tr td p {margin-bottom:20px;}
+.soft_workspace .table_workspace .trade_analysis_cont .trade_analysis_box table tr td .trade_ana_tit {color:#F90;}
+.soft_workspace .table_workspace .trade_analysis_cont .trade_analysis_box table tr td.trade_ana_name img {margin:10px 0;}
+
+
+.soft_workspace .table_workspace .table_workspace_iphone_sms .popbox_frombox .iphone_sms_frombox .new_table_dl.new { margin-bottom:0px; min-height:320px;}
+
+.table_tit_text strong {font-size:16px; color:#F90; margin-right:20px;}
+
+.nobord_table tr td {text-align:center; line-height:35px;}
+.nobord_table tr td a {color:#00F; margin-left:10px;}
+
+.wait_box {width:100%; height:170px; position:absolute; top:0; left:0; font-size:18px; padding-top:80px;}
+
+
+.soft_left_side .soft_left_side_submenu ul.nav_first_list li a span.zxyx,
+.soft_workspace_title h3 span.zxyx {background:url(../images/zxyx.gif)  no-repeat;}
+.soft_left_side .soft_left_side_submenu ul.nav_first_list li a span.sgsrhmfs,
+.soft_workspace_title h3 span.sgsrhmfs {background:url(../images/sgsrhmfs.gif)  no-repeat;}

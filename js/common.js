@@ -77,7 +77,7 @@ jQuery(document).ready(function($) {
     var info_box_status = false;
     $('span#info2').click(function(){//消息框
         if (info_box_status == false){
-			$('.soft_top .info_box_text').css("left",$(this).offset().left-200);
+			$('.soft_top .info_box_text').css("left",$(this).offset().left-150);
             $('.soft_top_left span#info2').addClass('active');
             $('.soft_top .info_box_text').fadeIn(100);
             info_box_status = true;

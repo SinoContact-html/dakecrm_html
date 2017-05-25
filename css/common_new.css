@@ -22,7 +22,7 @@ input[type="submit"] {width:130px; height:40px; line-height:40px; border-radius:
 input[type="submit"]:hover {background-color:#00adff!important; text-decoration:none;}
 input[type="submit"].can {background-color:#d44501;}
 input[type="submit"].can:hover {background-color:#ff5200!important;}
-select {background: #fff; border-radius:4px; border:1px solid #a3a5a5;-webkit-box-shadow:0 1px 0 0 rgba(255,255,255,0.3), inset 0 2px 2px -1px rgba(180,188,191,0.7);	box-shadow:0 1px 0 0 rgba(255,255,255,0.3), inset 0 2px 2px -1px rgba(180,188,191,0.7);	height:31px; margin:0; vertical-align:middle; padding:5px;}
+select {background: #fff; border-radius:4px; border:1px solid #a3a5a5;-webkit-box-shadow:0 1px 0 0 rgba(255,255,255,0.3), inset 0 2px 2px -1px rgba(180,188,191,0.7);	box-shadow:0 1px 0 0 rgba(255,255,255,0.3), inset 0 2px 2px -1px rgba(180,188,191,0.7);	height:21px; margin:0; vertical-align:middle;}
 
 a.onlymenu {display:block; float:left; padding:0 10px; height:29px; line-height:29px; border-radius:4px 4px 4px 4px; background:url(../images/bg_soft_right_top.gif) 0 -100px repeat-x; border:1px solid #8d9a9e; color:#3f4b54; font-size:13px; text-shadow:0 1px 0 rgba(255,255,255,0.5);}
 a.amenu {width:80px; height:30px; line-height:28px; text-align:center;
@@ -96,7 +96,8 @@ strong.bigtitle {font-size:24px; font-weight:normal;}
 	vertical-align:top; white-space:nowrap; margin-right:4px; font-family:"黑体"; text-decoration:none; font-size:13px;
 }
 .soft_top a.fastintobox {color:#FFF; text-decoration:none; text-align:center; display:inline-block; border-left:#087ec4 1px solid; margin-left:-4px;}
-.soft_top a.fastintobox .fib {padding:0px 20px; height:60px; border-left:#2ca4d9 1px solid; line-height:60px; font-size:16px;}
+.soft_top a.fastintobox .fib {padding:0px 20px; height:60px; border-left:#2ca4d9 1px solid; font-size:16px; box-sizing:border-box; padding-top:8px;}
+.soft_top a.fastintobox .fib:before {display:block; margin-bottom:5px;}
 .soft_top a.fastintobox.last {border-right:#2ca4d9 1px solid;}
 .soft_top a.fastintobox.last .fib {border-right:#087ec4 1px solid;}
 .soft_top a.fastintobox .fib img {margin-top:15px; margin-bottom:5px;}
@@ -114,7 +115,7 @@ strong.bigtitle {font-size:24px; font-weight:normal;}
 	vertical-align:top; white-space:nowrap; margin-right:4px; font-family:"黑体"; font-size:13px;
 }
 .soft_top span.infoShowBox span span {color:#ff9900;}
-.soft_top span.infoShowBox span.num {color:#fff; display:inline-block; padding:0px 6px; height:19px; line-height:19px; border-radius:3px; background:#2c2f30; margin-top:-3px;}
+.soft_top span.infoShowBox span.num {color:#fff; display:inline-block; padding:0px 6px; height:19px; line-height:19px; border-radius:3px; background:#d80706; margin-top:-3px;}
 .soft_top span.infoShowBox em.color {width:14px; height:14px; display:inline-block; background:#e248a8; border:#FFF 3px solid; border-radius:3px;}
 .soft_top span.infoShowBox.info * {vertical-align:middle;}
 .soft_top a.infoShowBox:hover,
@@ -583,6 +584,7 @@ strong.bigtitle {font-size:24px; font-weight:normal;}
 .soft_left_side .soft_left_side_submenu ul.nav_first_list li {display:block; line-height:39px; position:relative;}
 .soft_left_side .soft_left_side_submenu ul.nav_first_list li * {vertical-align:middle;}
 .soft_left_side .soft_left_side_submenu ul.nav_first_list li a {display:block; height:39px; line-height:39px; padding-left:30px; border-left:1px solid #b1b5ba;}
+.soft_left_side .soft_left_side_submenu ul.nav_first_list li a:before {position:absolute; left:0; width:30px; text-align:center;}
 .soft_left_side .soft_left_side_submenu ul.nav_first_list li a:hover {text-decoration:none; background:#eaeaea; border-left:1px solid #b1b5ba;}
 .soft_left_side .soft_left_side_submenu ul.nav_first_list li a.onthis {text-decoration:none; background:#47b51d; border-left:1px solid #b1b5ba; color:#fff;}
 .soft_left_side .soft_left_side_submenu ul.nav_first_list li em {display:block; width:20px; height:20px; background:url(../images/icon.gif) 7px -93px no-repeat; position:absolute; left:12px; top:9px;}
@@ -789,7 +791,7 @@ strong.bigtitle {font-size:24px; font-weight:normal;}
 
 .soft_workspace .table_top .table_left #widgetCalendar{position: absolute; top: 30px; left:227px; height: 0px; overflow: hidden; width: 0px; height:0px; z-index:99;}
 
-.soft_workspace .table_top .table_left input.search_text {float:left; border:1px solid #a3a5a5; border-width:1px 0; height:29px; line-height:29px; width:120px;-moz-box-shadow:0px 3px 3px #d8dedf inset; -webkit-box-shadow:0px 3px 3px #d8dedf inset; box-shadow:0px 3px 3px #d8dedf inset; padding-left:5px;border-radius:0; margin:0px 10px;}
+.soft_workspace .table_top .table_left input.search_text {float:left; border:1px solid #a3a5a5; border-width:1px 0; height:29px; line-height:29px; width:120px;-moz-box-shadow:0px 3px 3px #d8dedf inset; -webkit-box-shadow:0px 3px 3px #d8dedf inset; box-shadow:0px 3px 3px #d8dedf inset; padding-left:5px;border-radius:0;}
 .soft_workspace .table_top .table_left select {background: #fff;border-radius:4px;border:1px solid #a3a5a5;-webkit-box-shadow:0 1px 0 0 rgba(255,255,255,0.3), inset 0 2px 2px -1px rgba(180,188,191,0.7);	box-shadow:0 1px 0 0 rgba(255,255,255,0.3), inset 0 2px 2px -1px rgba(180,188,191,0.7);	font-size:12px;	height:31px; margin:0;	vertical-align:middle;	padding:5px; float:left;}
 .soft_workspace .table_top .table_left select.search {border-radius:4px 0 0 4px;}
 
@@ -843,7 +845,7 @@ background-image: -webkit-linear-gradient(bottom, #093, #16c14f);
 
 .soft_workspace .table_workspace .table_dataBox_RFM table {}
 .soft_workspace .table_workspace .table_dataBox_RFM table thead tr td {line-height:20px; background-size:10px; padding:5px 0;}
-.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td {line-height:160%; padding:0; border:1px solid #FFF;}
+.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td {line-height:100%; padding:0; border:1px solid #FFF;}
 .soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td strong {display:block; font-size:18px;}
 .soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.total {background:#c5d8d8;}
 .soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_1 {background:#f8696b;}
@@ -857,15 +859,21 @@ background-image: -webkit-linear-gradient(bottom, #093, #16c14f);
 .soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_9 {background:#fde17f;}
 .soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_10 {background:#ffeb84;}
 .soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_11 {background:#e5e483;}
-.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_12 {background:#d8e082;}
-.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_13 {background:#b1d580;}
-.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_14 {background:#8aca7e;}
-.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_15 {background:#71c27c;}
+.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_12 {background:#448f4f;}
+.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_13 {background:#4a9855;}
+.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_14 {background:#51a15c;}
+.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_15 {background:#57a762;}
 .soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_16 {background:#65b570;}
-.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_17 {background:#57a762;}
-.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_18 {background:#51a15c;}
-.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_19 {background:#4a9855;}
-.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_20 {background:#448f4f;}
+.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_17 {background:#76bd83;}
+.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_18 {background:#89d8a9;}
+.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_19 {background:#93e2c5;}
+.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_20 {background:#adeed6;}
+
+.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_21 {background:#c4f8e5;}
+.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_22 {background:#d7fff0;}
+.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_23 {background:#e9fff7;}
+.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_24 {background:#e9fffb;}
+.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td.bg_25 {background:#f5ffff;}
 
 .soft_workspace .table_workspace .dlbox {padding:20px;}
 .soft_workspace .table_workspace .dlbox dl {position:relative; line-height:36px; margin-bottom:10px;}
@@ -1302,7 +1310,7 @@ background: linear-gradient(#ffffff, #e6edf0);}
 
 .soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td div.m_Box {padding:8px 0; position:relative;}
 .soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td div.m_Box .menuBox {position:absolute; width:100%; height:100%; background:url(../images/bg_pop.png); top:0; display:none;}
-.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td div.m_Box .menuBox a {display:block; width:80px; margin:9px auto; padding:0 10px; height:29px; line-height:29px; border-radius:4px 4px 4px 4px; background:url(../images/bg_soft_right_top.gif) 0 -100px repeat-x; border:1px solid #8d9a9e; color:#3f4b54; font-size:13px; text-shadow:0 1px 0 rgba(255,255,255,0.5);}
+.soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td div.m_Box .menuBox a {display:block; width:80px; margin:6px auto; padding:0 10px; height:20px; line-height:20px; border-radius:4px 4px 4px 4px; background:url(../images/bg_soft_right_top.gif) 0 -100px repeat-x; border:1px solid #8d9a9e; color:#3f4b54; font-size:13px; text-shadow:0 1px 0 rgba(255,255,255,0.5);}
 .soft_workspace .table_workspace .table_dataBox_RFM table tbody tr td div.m_Box .menuBox a:hover {text-decoration:none; background:#fff;}
 
 
@@ -1731,11 +1739,11 @@ soft_top a.infoShowBox.special {color:#fff !important;}
 .soft_workspace .banner .icon_next {width:40px; height:130px; background:url(../images/icon_next.png) center center no-repeat; position:absolute; right:10px; top:0; cursor:pointer;}
 
 .soft_workspace .mumber_box {width:70%; height:115px; background:#f1f1f1; float:left; color:#506470; margin-top:20px;}
-.soft_workspace .mumber_box .mumber_number {border-left:#0190d4 3px solid; height:115px; float:left; padding:0px 10px; background:#ebebeb;}
+.soft_workspace .mumber_box .mumber_number {border-left:#0190d4 3px solid; height:94px; float:left; padding:21px 30px 0 87px; background:#ebebeb; background:url(../images/mumber.png) 21px 38px no-repeat; line-height:30px;}
 .soft_workspace .mumber_box .mumber_number .mumber_img {height:60px; line-height:60px;}
-.soft_workspace .mumber_box .mumber_number .mumber_img em {vertical-align:middle; margin:0 20px; display:inline-block; width:36px; height:37px; background:url(../images/mumber.png) no-repeat;}
-.soft_workspace .mumber_box .mumber_number .mumber_text {text-align:center;}
-.soft_workspace .mumber_box .mumber_number .mumber_text strong {font-size:38px; font-family:"微软雅黑";}
+.soft_workspace .mumber_box .mumber_number .mumber_img em {vertical-align:middle; margin:0 20px; display:inline-block; width:36px; height:37px;}
+.soft_workspace .mumber_box .mumber_number .mumber_text p {font-size:13px;}
+.soft_workspace .mumber_box .mumber_number .mumber_text strong {font-size:40px;}
 .soft_workspace .mumber_box .mumber_btns {float:left; padding:15px; padding-left:20px; border-left:#FFF 1px solid;}
 .soft_workspace .mumber_box .mumber_btns a.btn_box {display:block; height:35px; line-height:35px; color:#506470; text-decoration:none; margin-bottom:10px;}
 .soft_workspace .mumber_box .mumber_btns a.btn_box img {margin-right:10px;}
@@ -1848,7 +1856,7 @@ a.button:hover {background:#00a4f2;}
 .soft_left_side .soft_left_side_submenu ul.nav_first_list li a span.hpdxhd,
 .soft_workspace_title h3 span.hpdxhd {background:url(../images/hpdxhd.gif) no-repeat;}
 
-.soft_workspace_title.new {height:50px; margin-bottom:10px; border-bottom:#d7d7d7 1px solid; background:#efefef;}
+.soft_workspace_title.new {height:50px; margin-bottom:10px; border-bottom:#d7d7d7 1px solid;}
 
 
 .soft_workspace .mumber_box .mumber_btns a.btn_box .dr_icon {display:inline-block; width:176px; height:35px; background:#0190d4; border-radius:3px; position:relative;}
